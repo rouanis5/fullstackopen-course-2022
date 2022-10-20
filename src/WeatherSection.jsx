@@ -18,7 +18,7 @@ const WeatherSection = ({cityname, lat, lon}) => {
         <div>
           <h3>weather in {cityname}</h3>
           {/* temperture is in Kelvin */}
-          <p>temperture { data.main.temp} Celius</p>
+          <p>temperture { (data.main.temp - 273.15).toFixed(2)} Celius</p>
           <img src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} alt={data.weather.data}/>
           <p>wind {data.wind.speed} m/s</p>
         </div>
