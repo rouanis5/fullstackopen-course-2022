@@ -1,13 +1,21 @@
 import {useEffect, useState} from 'react'
 import UseFetch from './fetchHook';
+import WeatherSection from './WeatherSection';
 
-const API_URL = 'https://restcountries.com/v3.1/all';
+export const APIs = {
+  countries: 'https://restcountries.com/v3.1/all',
+  weather: {
+    url: 'https://api.openweathermap.org/data/2.5/weather',
+    key: import.meta.env.VITE_WEATHER_API_KEY
+  }
+}
 
 function App() {
-  const {data: countriesData, loading: countriesLoading, error: countriesError} = UseFetch(API_URL)
+  const {data: countriesData, loading: countriesLoading, error: countriesError} = UseFetch(APIs.countries)
 
   const [country, setCountry] = useState('')
   const [countries, setCountries] = useState([])
+
   
   useEffect(()=>{
     if (countriesData) {
@@ -29,7 +37,7 @@ function App() {
       }
       {countries && countries.length < 10 ?
         <>
-          {countries.map(({name: {common: name}, capital, area, languages, flags : {svg : flag}, displayed})=> 
+          {countries.map(({name: {common: name}, capital, area, languages, flags : {svg : flag}, displayed, latlng })=> 
             <div key={name}>
                   
               {!displayed ? 
@@ -57,6 +65,7 @@ function App() {
                     {Object.values(languages).map((lan) => <li key={lan}>{lan}</li>)}
                   </ul>
                   <img src={flag} alt={`the flag of ${name}`} width={100} />
+                  <WeatherSection cityname={capital} lat={latlng[0]} lon={latlng[1]} />
                 </>
               }
             </div>
