@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm'
 import Persons from './Components/Persons'
-import { getAll, create, deleteById } from './services'
+import { getAll, create, deleteById, update } from './services'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -17,10 +17,16 @@ const App = () => {
       setPersons(data)
     })
     .catch(err => {
-      console.log('something went wrong');
+      alert('something went wrong');
     })
   },[])
 
+
+  function resetFields(){
+    setNewFilter('')
+    setNewName('')
+    setNewNumber('')
+  }
   function submitNewPerson(event){
     //prevent default action
     event.preventDefault()
@@ -36,11 +42,29 @@ const App = () => {
     }
     
     // prevent submitting an existed name
-    const doesExist = persons.find(el=> el.name === newName)
-    if (doesExist) {
-      alert(`${newName} is already added to phonebook`)
-      setNewName('')
-      return;
+    const existedPerson = persons.find(el=> el.name === newName)
+    if (existedPerson) {
+      const confirmation = confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+      if (!confirmation) {
+        resetFields()
+        return;
+      }
+
+      update(existedPerson.id, {
+        ...existedPerson,
+        number: newNumber
+      })
+      .then(returnedObj => {
+        const res = persons.map(person => person.id === returnedObj.id ? returnedObj : person)
+        setPersons(res)
+      })
+      .catch(err => {
+        alert('something went wrong');
+      })
+
+      resetFields()
+      return
+
     }
 
     const newId = persons[persons.length - 1].id + 1
@@ -53,20 +77,24 @@ const App = () => {
     create(newObj)
     .then(returnedObj => {
       setPersons([...persons, returnedObj])
-      setNewFilter('')
-      setNewName('')
-      setNewNumber('')
+      resetFields()
+    })
+    .catch(err => {
+      alert('something went wrong');
     })
   }
 
-  function deletePerson(id){
+  function deletePerson({id, name}){
+    const confirmation = confirm(`Delete ${name} ?`)
+    if (!confirmation) return
+
     deleteById(id)
     .then(returnedObj =>{
       const res = persons.filter(el => el.id !== id)
       setPersons(res)
     })
     .catch(err => {
-      console.log('something went wrong');
+      alert('something went wrong');
     })
   }
 

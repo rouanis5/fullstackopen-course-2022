@@ -10,7 +10,7 @@ const Persons = ({personsList, filter, onDelete}) => {
       {filteredPersons.map(({name, number, id}) =>
         <li key={id}>
           {name} {number}
-          <button onClick={()=>{onDelete(id)}}>delete</button>
+          <button onClick={()=>{onDelete({id, name})}}>delete</button>
         </li>
       )}
     </div>
