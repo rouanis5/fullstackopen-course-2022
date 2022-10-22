@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm'
 import Persons from './Components/Persons'
+import Notification from './Components/Notification'
 import { getAll, create, deleteById, update } from './services'
 
 const App = () => {
@@ -10,6 +11,9 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
 
   const [newFilter, setNewFilter] = useState('')
+
+  const [notification, setNotification] = useState('')
+  const [notificationType, setNotificationType] = useState('success')
 
   useEffect(()=>{
     getAll()
@@ -21,12 +25,20 @@ const App = () => {
     })
   },[])
 
+  function notify(message, type = 'success', time = 2000){
+    setNotificationType(type)
+    setNotification(message)
+    return setTimeout(() => {
+      setNotification('')
+    }, 5000)
+  }
 
   function resetFields(){
     setNewFilter('')
     setNewName('')
     setNewNumber('')
   }
+
   function submitNewPerson(event){
     //prevent default action
     event.preventDefault()
@@ -77,6 +89,8 @@ const App = () => {
     create(newObj)
     .then(returnedObj => {
       setPersons([...persons, returnedObj])
+
+      notify(`Added ${newName}`)
       resetFields()
     })
     .catch(err => {
@@ -94,13 +108,18 @@ const App = () => {
       setPersons(res)
     })
     .catch(err => {
-      alert('something went wrong');
+      // if the deleted item wasnt exist currently on the server
+      notify(`information of ${name} has already been removed from server`, 'error')
+      const res = persons.filter(el => el.id !== id)
+      setPersons(res)
     })
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
+      {notification && <Notification message={notification} type={notificationType} />}
+
       <Filter value={newFilter} onFilter={(e)=>{setNewFilter(e.target.value)}} />
 
       <h3>Add a new</h3>
