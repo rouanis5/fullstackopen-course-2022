@@ -1,8 +1,8 @@
-import axios from 'axios'
 import { useState, useEffect } from 'react'
 import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm'
 import Persons from './Components/Persons'
+import { getAll, create, deleteById } from './services'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -12,14 +12,16 @@ const App = () => {
   const [newFilter, setNewFilter] = useState('')
 
   useEffect(()=>{
-    axios.get("http://localhost:3001/persons")
-    .then(res => res.data)
+    getAll()
     .then(data => {
       setPersons(data)
     })
+    .catch(err => {
+      console.log('something went wrong');
+    })
   },[])
 
-  function SubmitNewPerson(event){
+  function submitNewPerson(event){
     //prevent default action
     event.preventDefault()
 
@@ -42,12 +44,30 @@ const App = () => {
     }
 
     const newId = persons[persons.length - 1].id + 1
-    setPersons((prevPersons)=>
-       [...prevPersons, {name: newName, number: newNumber, id: newId}]
-    )
-    setNewFilter('')
-    setNewName('')
-    setNewNumber('')
+    const newObj = {
+      name: newName,
+      number: newNumber,
+      id: newId
+    }
+
+    create(newObj)
+    .then(returnedObj => {
+      setPersons([...persons, returnedObj])
+      setNewFilter('')
+      setNewName('')
+      setNewNumber('')
+    })
+  }
+
+  function deletePerson(id){
+    deleteById(id)
+    .then(returnedObj =>{
+      const res = persons.filter(el => el.id !== id)
+      setPersons(res)
+    })
+    .catch(err => {
+      console.log('something went wrong');
+    })
   }
 
   return (
@@ -61,11 +81,11 @@ const App = () => {
         number={newNumber}
         onName={(e)=>{setNewName(e.target.value)}}
         onNumber={(e)=>{setNewNumber(e.target.value)}}
-        onSubmit={(e)=>{SubmitNewPerson(e)}}
+        onSubmit={(e)=>{submitNewPerson(e)}}
       />
       
       <h2>Numbers</h2>
-      <Persons personsList={persons} filter={newFilter} />
+      <Persons personsList={persons} filter={newFilter} onDelete={deletePerson} />
     </div>
   )
 }
