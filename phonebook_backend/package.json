@@ -5,7 +5,11 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:ui": "rm -rf dist && cd ../../part2/the_phonebook/ && npm run build && cp -r dist ../../part3/phonebook_backend/",
+    "deploy": "flyctl deploy",
+    "deploy:full": "yarn build:ui && yarn deploy",    
+    "logs:prod": "flyctl logs"
   },
   "dependencies": {
     "express": "^4.18.2",
