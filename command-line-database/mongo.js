@@ -14,26 +14,20 @@ const personSchema = new mongoose.Schema({
 
 const Person = mongoose.model('Person', personSchema)
 
+mongoose.connect(url)
+
 if (pName && pNumber){
-  mongoose.connect(url)
-  .then(()=>{
-    const person = new Person({
-      name: pName,
-      number: pNumber
-    })
-    return person.save()
-  })
+  new Person({
+    name: pName,
+    number: pNumber
+  }).save()
   .then(()=>{
     console.log(`added ${pName} number ${pNumber} to phonebook`);
     return mongoose.connection.close()
   })
-  .catch((err) => console.log(err))
 }
-else{
-  mongoose.connect(url)
-  .then(()=>
-    Person.find({})
-  )
+else {
+  Person.find({})
   .then((res)=>{
     console.log('phonebook:');
     res.forEach(({name, number}) => {
@@ -41,5 +35,4 @@ else{
     })
     return mongoose.connection.close()
   })
-  .catch((err) => console.log(err))
 }
