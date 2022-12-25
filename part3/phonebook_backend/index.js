@@ -27,7 +27,7 @@ app.get("/api/info", (req, res)=>{
 
 })
 
-app.get("/api/persons/:id", (req, res)=>{
+app.get("/api/persons/:id", (req, res, next)=>{
   const {id} = req.params
   Person.findById(id)
     .then(person => {
@@ -37,13 +37,17 @@ app.get("/api/persons/:id", (req, res)=>{
         res.status(404).end()
       }
     })
+    .catch(error => next(error))
 })
 
-app.delete("/api/persons/:id", (req, res)=>{
+// i need to update this part !
+app.delete("/api/persons/:id", (req, res, next)=>{
   const {id} = req.params
-  data = data.filter(person => person.id !== parseInt(id))
-
-  res.status(204).end()
+  Person.findByIdAndDelete(id)
+    .then(result => {
+      res.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 
@@ -70,6 +74,24 @@ app.post("/api/persons", (req, res)=>{
       }
     })
 })
+
+// handler of requests with unknown endpoint
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: 'unknown endpoint' })
+}
+app.use(unknownEndpoint)
+
+// handler of requests with result to errors
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+app.use(errorHandler)
 
 const {PORT} = process.env
 app.listen(PORT, ()=>{
