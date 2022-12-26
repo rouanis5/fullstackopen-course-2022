@@ -79,11 +79,10 @@ const App = () => {
 
     }
 
-    const newId = persons[persons.length - 1].id + 1
+    // mongodb will add id automatically
     const newObj = {
       name: newName,
       number: newNumber,
-      id: newId
     }
 
     create(newObj)
