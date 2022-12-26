@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "build:ui": "rm -rf dist && cd ../../part2/the_phonebook/ && npm run build && cp -r dist ../../part3/phonebook_backend/",
+    "build:ui": "rm -rf dist && cd ../the_phonebook/ && npm run build && cp -r dist ../phonebook_backend/",
     "deploy": "flyctl deploy",
     "deploy:full": "yarn build:ui && yarn deploy",
     "logs:prod": "flyctl logs"

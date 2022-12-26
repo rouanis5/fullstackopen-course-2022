@@ -75,6 +75,23 @@ app.post("/api/persons", (req, res)=>{
     })
 })
 
+app.put("/api/persons/:id", (req, res, next) => {
+  const {id} = req.params
+  const {number} = req.body
+
+  if (!number){
+    return res.status(400).json({
+      error: "number is missing"
+    })
+  }
+
+  Person.findByIdAndUpdate(id, {number}, {new: true})
+    .then(updatedPerson => {
+      res.json(updatedPerson.toJSON())
+    })
+    .catch(error => next(error))
+})
+
 // handler of requests with unknown endpoint
 const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: 'unknown endpoint' })
@@ -87,7 +104,10 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  }
+  else{
+    return response.status(400).json({ error: `error: ${error.name}` })
+  }
 
   next(error)
 }
