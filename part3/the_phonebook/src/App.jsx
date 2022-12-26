@@ -21,16 +21,17 @@ const App = () => {
       setPersons(data)
     })
     .catch(err => {
-      alert('something went wrong');
+      const msg = err.response.data.error ?? 'something went wrong'
+      notify(msg, 'error')
     })
   },[])
 
   function notify(message, type = 'success', time = 2000){
     setNotificationType(type)
     setNotification(message)
-    return setTimeout(() => {
+    setTimeout(() => {
       setNotification('')
-    }, 5000)
+    }, time)
   }
 
   function resetFields(){
@@ -44,14 +45,14 @@ const App = () => {
     event.preventDefault()
 
     // prevent submitting empty name and number
-    if(!newName){
-      alert('empty name !')
-      return;
-    }
-    if(!newNumber){
-      alert('empty number !')
-      return;
-    }
+    // if(!newName){
+    //   alert('empty name !')
+    //   return;
+    // }
+    // if(!newNumber){
+    //   alert('empty number !')
+    //   return;
+    // }
     
     // prevent submitting an existed name
     const existedPerson = persons.find(el=> el.name === newName)
@@ -71,7 +72,8 @@ const App = () => {
         setPersons(res)
       })
       .catch(err => {
-        alert('something went wrong');
+        const msg = err.response.data.error ?? 'something went wrong'
+        notify(msg, 'error')
       })
 
       resetFields()
@@ -93,7 +95,8 @@ const App = () => {
       resetFields()
     })
     .catch(err => {
-      alert('something went wrong');
+      const msg = err.response.data.error ?? 'something went wrong'
+      notify(msg, 'error')
     })
   }
 
