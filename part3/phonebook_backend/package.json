@@ -9,7 +9,8 @@
     "build:ui": "rm -rf dist && cd ../the_phonebook/ && npm run build && cp -r dist ../phonebook_backend/",
     "deploy": "flyctl deploy",
     "deploy:full": "yarn build:ui && yarn deploy",
-    "logs:prod": "flyctl logs"
+    "logs:prod": "flyctl logs",
+    "lint": "eslint ."
   },
   "dependencies": {
     "dotenv": "^16.0.3",
@@ -18,6 +19,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.30.0",
     "nodemon": "^2.0.20"
   }
 }
