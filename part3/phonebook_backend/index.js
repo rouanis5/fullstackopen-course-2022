@@ -26,30 +26,43 @@ app.get("/api/info", (req, res)=>{
   })
 
 })
+app.route("/api/persons/:id")
+  .get((req, res, next)=>{
+    const {id} = req.params
+    Person.findById(id)
+      .then(person => {
+        if (person) {
+          res.json(person)
+        } else {
+          res.status(404).end()
+        }
+      })
+      .catch(error => next(error))
+  })
+  .delete((req, res, next)=>{
+    const {id} = req.params
+    Person.findByIdAndDelete(id)
+      .then(result => {
+        res.status(204).end()
+      })
+      .catch(error => next(error))
+  })
+  .put((req, res, next) => {
+    const {id} = req.params
+    const {number} = req.body
 
-app.get("/api/persons/:id", (req, res, next)=>{
-  const {id} = req.params
-  Person.findById(id)
-    .then(person => {
-      if (person) {
-        res.json(person)
-      } else {
-        res.status(404).end()
-      }
-    })
-    .catch(error => next(error))
-})
+    if (!number){
+      return res.status(400).json({
+        error: "number is missing"
+      })
+    }
 
-// i need to update this part !
-app.delete("/api/persons/:id", (req, res, next)=>{
-  const {id} = req.params
-  Person.findByIdAndDelete(id)
-    .then(result => {
-      res.status(204).end()
-    })
-    .catch(error => next(error))
-})
-
+    Person.findByIdAndUpdate(id, {number}, {new: true})
+      .then(updatedPerson => {
+        res.json(updatedPerson.toJSON())
+      })
+      .catch(error => next(error))
+  })
 
 app.post("/api/persons", (req, res)=>{
   const {name, number} = req.body
@@ -75,22 +88,6 @@ app.post("/api/persons", (req, res)=>{
     })
 })
 
-app.put("/api/persons/:id", (req, res, next) => {
-  const {id} = req.params
-  const {number} = req.body
-
-  if (!number){
-    return res.status(400).json({
-      error: "number is missing"
-    })
-  }
-
-  Person.findByIdAndUpdate(id, {number}, {new: true})
-    .then(updatedPerson => {
-      res.json(updatedPerson.toJSON())
-    })
-    .catch(error => next(error))
-})
 
 // handler of requests with unknown endpoint
 const unknownEndpoint = (req, res) => {
