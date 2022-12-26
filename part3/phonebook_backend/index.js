@@ -43,7 +43,11 @@ app.route("/api/persons/:id")
     const {id} = req.params
     Person.findByIdAndDelete(id)
       .then(result => {
-        res.status(204).end()
+        if (result) {
+          res.status(204).end()
+        } else {
+          res.status(404).end()
+        }
       })
       .catch(error => next(error))
   })
@@ -62,9 +66,10 @@ app.route("/api/persons/:id")
       .catch(error => next(error))
   })
 
-app.post("/api/persons", (req, res)=>{
+app.post("/api/persons", (req, res, next)=>{
   const {name, number} = req.body
 
+  // fisrt, we verify if the name is unique
   Person.find({name: name})
     .then((foundPerson)=>{
       if (foundPerson.length === 0){
@@ -72,12 +77,14 @@ app.post("/api/persons", (req, res)=>{
         person.save().then(savedPerson => {
           res.json(savedPerson)
         })
+        .catch(error => next(error))
       } else {
         res.status(400).json({
          error: "name must be unique"
        })
       }
     })
+    .catch(error => next(error))
 })
 
 
@@ -89,8 +96,6 @@ app.use(unknownEndpoint)
 
 // handler of requests with result to errors
 const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
-
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   }
