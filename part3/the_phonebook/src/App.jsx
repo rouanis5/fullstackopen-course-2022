@@ -26,7 +26,7 @@ const App = () => {
     })
   },[])
 
-  function notify(message, type = 'success', time = 2000){
+  function notify(message, type = 'success', time = 4000){
     setNotificationType(type)
     setNotification(message)
     setTimeout(() => {
@@ -92,12 +92,12 @@ const App = () => {
       setPersons([...persons, returnedObj])
 
       notify(`Added ${newName}`)
-      resetFields()
     })
     .catch(err => {
       const msg = err.response.data.error ?? 'something went wrong'
       notify(msg, 'error')
     })
+    resetFields()
   }
 
   function deletePerson({id, name}){
@@ -108,6 +108,7 @@ const App = () => {
     .then(returnedObj =>{
       const res = persons.filter(el => el.id !== id)
       setPersons(res)
+      notify(`${name} is deleted succesfully`)
     })
     .catch(err => {
       // if the deleted item wasnt exist currently on the server
