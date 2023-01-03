@@ -20,7 +20,7 @@ test('returns the correct amount of blog posts in the JSON format', async () => 
   expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
-test('verifiy that the unique identifier property of the blog posts is named id', async () => {
+test('verify that the unique identifier property of the blog posts is named id', async () => {
   const response = await api.get('/api/blogs')
   const firstBlog = response.body[0]
   expect(firstBlog._id).not.toBeDefined()
@@ -32,7 +32,7 @@ test('verify that a blog added successfully and the number of blogs is increased
     title: 'TDD harms architecture',
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-    likes: 0
+    likes: 12
   }
   const response1 = await api.post('/api/blogs')
     .send(oneBlog)
@@ -41,7 +41,24 @@ test('verify that a blog added successfully and the number of blogs is increased
 
   const response2 = await api.get('/api/blogs')
     .expect(200)
-  expect(response2.body).toHaveLength(++helper.initialBlogs.length)
+  // this line for some reason, it makes the next test don't work
+  // with an error message 'Exceeded timeout of 5000 ms for a hook'
+  // in beforeEach function
+  // expect(response2.body).toHaveLength(++helper.initialBlogs.length)
+  expect(response2.body).toHaveLength(helper.initialBlogs.length + 1)
+})
+
+test('verify that if the likes property is missing from the request, it will default to the value 0', async () => {
+  const oneBlog = {
+    title: 'TDD harms architecture',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html'
+  }
+  const response = await api.post('/api/blogs')
+    .send(oneBlog)
+    .expect(201)
+
+  expect(response.body.likes).toBe(0)
 })
 
 afterAll(() => {
