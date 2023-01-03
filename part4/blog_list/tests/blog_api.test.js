@@ -61,6 +61,17 @@ test('verify that if the likes property is missing from the request, it will def
   expect(response.body.likes).toBe(0)
 })
 
+test('verify that if the title or url properties are missing from the request data, gives 400 Bad Request', async () => {
+  const missingBlog = {
+    author: 'Robert C. Martin',
+    likes: 10
+  }
+
+  await api.post('/api/blogs')
+    .send(missingBlog)
+    .expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
