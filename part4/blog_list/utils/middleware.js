@@ -3,7 +3,11 @@ const morgan = require('morgan')
 
 morgan.token('body', (req) => JSON.stringify(req.body))
 
-const requestLogger = morgan(':method :url :status :res[content-length] - :response-time ms :body')
+const requestLogger = morgan(':method :url :status :res[content-length] - :response-time ms :body', {
+  stream: {
+    write: function (str) { logger.info(str.replace(/\n/g, '')) }
+  }
+})
 // const requestLogger = (request, response, next) => {
 //   logger.info('Method:', request.method)
 //   logger.info('Path:  ', request.path)
