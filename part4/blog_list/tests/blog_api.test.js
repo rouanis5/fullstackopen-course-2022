@@ -41,10 +41,6 @@ test('verify that a blog added successfully and the number of blogs is increased
 
   const response2 = await api.get('/api/blogs')
     .expect(200)
-  // this line for some reason, it makes the next test don't work
-  // with an error message 'Exceeded timeout of 5000 ms for a hook'
-  // in beforeEach function
-  // expect(response2.body).toHaveLength(++helper.initialBlogs.length)
   expect(response2.body).toHaveLength(helper.initialBlogs.length + 1)
 })
 
@@ -70,6 +66,90 @@ test('verify that if the title or url properties are missing from the request da
   await api.post('/api/blogs')
     .send(missingBlog)
     .expect(400)
+})
+
+describe('deleting a blog', () => {
+  test('deleting existed blog', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api.delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+
+    const titles = blogsAtEnd.map(blog => blog.title)
+    expect(titles).not.toContain(blogToDelete.title)
+  })
+})
+
+describe('updating blog', () => {
+  test('try to update a title of an existed blog', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogBeforeUpdate = blogsAtStart[0]
+
+    const blogAfterUpdate = await api.put(`/api/blogs/${blogBeforeUpdate.id}`)
+      .send({ title: 'this is a randoom title' })
+      .expect(200)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+
+    const titles = blogsAtEnd.map(blog => blog.title)
+    expect(titles).not.toContain(blogBeforeUpdate.title)
+    expect(blogAfterUpdate.body.title).toBe('this is a randoom title')
+    expect(titles).toContain(blogAfterUpdate.body.title)
+  })
+
+  test('try to increase likes of an existed blog', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogBeforeUpdate = blogsAtStart[0]
+
+    await api.put(`/api/blogs/${blogBeforeUpdate.id}`)
+      .send({ likes: blogBeforeUpdate.likes + 1 })
+      .expect(200)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+
+    const blogAfterUpdate = blogsAtEnd.find(blog => blog.id === blogBeforeUpdate.id)
+    expect(blogAfterUpdate).toEqual({ ...blogBeforeUpdate, likes: blogBeforeUpdate.likes + 1 })
+  })
+
+  test('try to update unexisted blog', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const { id } = blogsAtStart[0]
+    await Blog.findByIdAndDelete(id)
+
+    await api.put(`/api/blogs/${id}`)
+      .send({ likes: 1 })
+      .expect(404)
+  })
+
+  test('try to update blog with a malformated id', async () => {
+    await api.put('/api/blogs/1')
+      .send({ likes: 1 })
+      .expect(400)
+  })
+
+  test('try to update blog with unvalid params', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const { id } = blogsAtStart[0].id
+
+    // test negative number
+    await api.put(`/api/blogs/${id}`)
+      .send({ likes: -20 })
+      .expect(400)
+    // test decimal number
+    await api.put(`/api/blogs/${id}`)
+      .send({ likes: 12.12 })
+      .expect(400)
+    // test unvalid url
+    await api.put(`/api/blogs/${id}`)
+      .send({ url: 'i am a non valid url xD' })
+      .expect(400)
+  })
 })
 
 afterAll(() => {

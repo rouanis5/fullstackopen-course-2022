@@ -22,7 +22,11 @@ const blogSchema = new mongoose.Schema({
   likes: {
     type: Number,
     default: 0,
-    min: 0
+    min: 0,
+    validate: {
+      validator: (v) => Number.isInteger(v),
+      message: ({ v }) => `${v} is not an integer value`
+    }
   }
 })
 
