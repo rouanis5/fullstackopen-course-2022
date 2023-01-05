@@ -12,7 +12,7 @@ beforeEach(async () => {
   await Blog.insertMany(helper.initialBlogs)
 })
 
-test('returns the correct amount of blog posts in the JSON format', async () => {
+it('returns the correct amount of blog posts in the JSON format', async () => {
   const response = await api.get('/api/blogs')
     .expect(200)
     .expect('content-Type', /application\/json/)
@@ -20,14 +20,14 @@ test('returns the correct amount of blog posts in the JSON format', async () => 
   expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
-test('verify that the unique identifier property of the blog posts is named id', async () => {
+it('verify that the unique identifier property of the blog posts is named id', async () => {
   const response = await api.get('/api/blogs')
   const firstBlog = response.body[0]
   expect(firstBlog._id).not.toBeDefined()
   expect(firstBlog.id).toBeDefined()
 })
 
-test('verify that a blog added successfully and the number of blogs is increased by one', async () => {
+it('verify that a blog added successfully and the number of blogs is increased by one', async () => {
   const oneBlog = {
     title: 'TDD harms architecture',
     author: 'Robert C. Martin',
@@ -44,7 +44,7 @@ test('verify that a blog added successfully and the number of blogs is increased
   expect(response2.body).toHaveLength(helper.initialBlogs.length + 1)
 })
 
-test('verify that if the likes property is missing from the request, it will default to the value 0', async () => {
+it('verify that if the likes property is missing from the request, it will default to the value 0', async () => {
   const oneBlog = {
     title: 'TDD harms architecture',
     author: 'Robert C. Martin',
@@ -57,7 +57,7 @@ test('verify that if the likes property is missing from the request, it will def
   expect(response.body.likes).toBe(0)
 })
 
-test('verify that if the title or url properties are missing from the request data, gives 400 Bad Request', async () => {
+it('verify that if the title or url properties are missing from the request data, gives 400 Bad Request', async () => {
   const missingBlog = {
     author: 'Robert C. Martin',
     likes: 10
@@ -69,7 +69,7 @@ test('verify that if the title or url properties are missing from the request da
 })
 
 describe('deleting a blog', () => {
-  test('deleting existed blog', async () => {
+  it('deleting existed blog', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 
@@ -85,7 +85,7 @@ describe('deleting a blog', () => {
 })
 
 describe('updating blog', () => {
-  test('try to update a title of an existed blog', async () => {
+  it('try to update a title of an existed blog', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogBeforeUpdate = blogsAtStart[0]
 
@@ -102,7 +102,7 @@ describe('updating blog', () => {
     expect(titles).toContain(blogAfterUpdate.body.title)
   })
 
-  test('try to increase likes of an existed blog', async () => {
+  it('try to increase likes of an existed blog', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogBeforeUpdate = blogsAtStart[0]
 
@@ -117,7 +117,7 @@ describe('updating blog', () => {
     expect(blogAfterUpdate).toEqual({ ...blogBeforeUpdate, likes: blogBeforeUpdate.likes + 1 })
   })
 
-  test('try to update unexisted blog', async () => {
+  it('try to update unexisted blog', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const { id } = blogsAtStart[0]
     await Blog.findByIdAndDelete(id)
@@ -127,13 +127,13 @@ describe('updating blog', () => {
       .expect(404)
   })
 
-  test('try to update blog with a malformated id', async () => {
+  it('try to update blog with a malformated id', async () => {
     await api.put('/api/blogs/1')
       .send({ likes: 1 })
       .expect(400)
   })
 
-  test('try to update blog with unvalid params', async () => {
+  it('try to update blog with unvalid params', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const { id } = blogsAtStart[0].id
 
