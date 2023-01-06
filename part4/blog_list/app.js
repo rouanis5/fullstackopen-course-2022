@@ -8,7 +8,7 @@ const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 
-logger.info('connecting to', config.MONGO_URL)
+logger.info(`connecting to ${config.MONGO_URL}`)
 
 mongoose.set('strictQuery', true)
 mongoose.connect(config.MONGO_URL)
@@ -16,7 +16,7 @@ mongoose.connect(config.MONGO_URL)
     logger.info('connected to MongoDB')
   })
   .catch(error => {
-    logger.error('error connecting to mongoDB ', error.message)
+    logger.error(`error connecting to mongoDB ${error.message}`)
   })
 
 app.use(cors())
