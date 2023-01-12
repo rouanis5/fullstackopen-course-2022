@@ -27,6 +27,10 @@ const blogSchema = new mongoose.Schema({
       validator: (v) => Number.isInteger(v),
       message: ({ v }) => `${v} is not an integer value`
     }
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }
 })
 
