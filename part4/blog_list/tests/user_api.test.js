@@ -1,0 +1,115 @@
+const supertest = require('supertest')
+const app = require('../app')
+
+const api = supertest(app)
+
+const User = require('../models/User')
+const helper = require('./blog_test_helper')
+
+let initialUsers = null
+
+beforeEach(async () => {
+  if (!initialUsers) {
+    initialUsers = await helper.initialUsers()
+  }
+  await User.deleteMany({})
+  await User.insertMany(initialUsers)
+})
+
+describe('inserting new user', () => {
+  it('verifies that the user is created sucessfully', async () => {
+    const req = await api.post('/api/users')
+      .send({
+        username: 'ouanis',
+        name: 'user ouanis',
+        password: 'a very strong password'
+      })
+      .expect(201)
+      .expect('content-Type', /application\/json/)
+
+    const newUser = req.body
+    expect(newUser.username).toBe('ouanis')
+    expect(newUser._id).not.toBeDefined()
+    expect(newUser.passwordHash).not.toBeDefined()
+  })
+
+  it('verifies the password is hashed', async () => {
+    await api.post('/api/users')
+      .send({
+        username: 'ouanis',
+        name: 'user ouanis',
+        password: 'a very strong password'
+      })
+      .expect(201)
+
+    const userAfter = await User.findOne({ username: 'ouanis' })
+    expect(userAfter.password).not.toBeDefined()
+    expect(userAfter.passwordHash).not.toBe('a very strong password')
+  })
+
+  it('verifies that the username is unique', async () => {
+    const result = await api.post('/api/users')
+      .send({
+        username: 'user1',
+        name: 'user ouanis',
+        password: 'a very strong password'
+      })
+      .expect(400)
+      .expect('content-type', /application\/json/)
+
+    expect(result.body.error).toContain('username must be unique')
+  })
+
+  describe('tests if a property is missing from the request data, gives 400 Bad Request', () => {
+    it('verifies missing username', async () => {
+      await api.post('/api/blogs')
+        .send({
+          name: 'user ouanis',
+          password: 'a very strong password'
+        })
+        .expect(400)
+    })
+
+    it('verifies missing name', async () => {
+      await api.post('/api/blogs')
+        .send({
+          username: 'ouanis',
+          password: 'a very strong password'
+        })
+        .expect(400)
+    })
+
+    it('verifies missing password', async () => {
+      await api.post('/api/blogs')
+        .send({
+          username: 'ouanis',
+          name: 'user ouanis'
+        })
+        .expect(400)
+    })
+  })
+})
+
+describe('reading users', () => {
+  it('verifies the number of users', async () => {
+    const users = await api.get('/api/users')
+      .expect(200)
+      .expect('content-Type', /application\/json/)
+
+    expect(users.body).toHaveLength(initialUsers.length)
+  })
+
+  it('verify that the unique identifier property of the user is named id', async () => {
+    const users = await api.get('/api/users')
+
+    expect(users.body[0].id).toBeDefined()
+    expect(users.body[0]._id).not.toBeDefined()
+  })
+
+  it('verifies the password is hidden', async () => {
+    const users = await api.get('/api/users')
+
+    expect(users.body[0].password).not.toBeDefined()
+    expect(users.body[0].passwordHash).not.toBeDefined()
+  })
+})
