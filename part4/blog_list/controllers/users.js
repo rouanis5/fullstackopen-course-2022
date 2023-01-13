@@ -10,6 +10,12 @@ userRouter.route('/')
     if (existedUser) {
       res.status(400).json({ error: 'username must be unique' })
     }
+    if (!password) {
+      res.status(400).json({ error: 'password must be defined' })
+    }
+    if (password.length < 3) {
+      res.status(400).json({ error: 'password must be at least 3 characters long' })
+    }
 
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)

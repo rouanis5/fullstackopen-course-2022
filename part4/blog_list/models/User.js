@@ -4,11 +4,12 @@ const UserSchema = mongoose.Schema({
   username: {
     type: String,
     required: true,
+    minLendth: 3,
     unique: true
   },
   name: {
     type: String,
-    required: true
+    default: 'anonymous'
   },
   passwordHash: {
     type: String,

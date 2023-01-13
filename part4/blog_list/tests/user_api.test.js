@@ -1,3 +1,4 @@
+const mongoose = require('mongoose') 
 const supertest = require('supertest')
 const app = require('../app')
 
@@ -60,32 +61,53 @@ describe('inserting new user', () => {
     expect(result.body.error).toContain('username must be unique')
   })
 
-  describe('tests if a property is missing from the request data, gives 400 Bad Request', () => {
+  describe('tests if a property is missing or less than 3 characters long, gives 400 Bad Request', () => {
     it('verifies missing username', async () => {
-      await api.post('/api/blogs')
+      const result = await api.post('/api/blogs')
         .send({
           name: 'user ouanis',
           password: 'a very strong password'
         })
         .expect(400)
-    })
+        .expect('content-type', /application\/json/)
 
-    it('verifies missing name', async () => {
-      await api.post('/api/blogs')
-        .send({
-          username: 'ouanis',
-          password: 'a very strong password'
-        })
-        .expect(400)
+      expect(result.body.error).toBeDefined()
     })
 
     it('verifies missing password', async () => {
-      await api.post('/api/blogs')
+      const result = await api.post('/api/blogs')
         .send({
           username: 'ouanis',
           name: 'user ouanis'
         })
         .expect(400)
+        .expect('content-type', /application\/json/)
+
+      expect(result.body.error).toBeDefined()
+    })
+
+    it('verfies username length', async () => {
+      const result = await api.post('/api/blogs')
+        .send({
+          username: 'ou',
+          password: 'password'
+        })
+        .expect(400)
+        .expect('content-type', /application\/json/)
+
+      expect(result.body.error).toBeDefined()
+    })
+
+    it('verfies password length', async () => {
+      const result = await api.post('/api/blogs')
+        .send({
+          username: 'ouanis',
+          password: '12'
+        })
+        .expect(400)
+        .expect('content-type', /application\/json/)
+
+      expect(result.body.error).toBeDefined()
     })
   })
 })
@@ -112,4 +134,8 @@ describe('reading users', () => {
     expect(users.body[0].password).not.toBeDefined()
     expect(users.body[0].passwordHash).not.toBeDefined()
   })
+})
+
+afterAll(() => {
+  mongoose.connection.close()
 })
