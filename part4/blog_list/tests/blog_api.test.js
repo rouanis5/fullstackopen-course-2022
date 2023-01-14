@@ -63,9 +63,11 @@ it('verify that if the title or url properties are missing from the request data
     likes: 10
   }
 
-  await api.post('/api/blogs')
+  const result = await api.post('/api/blogs')
     .send(missingBlog)
     .expect(400)
+    .expect('content-type', /application\/json/)
+  expect(result.body.error).toBeDefined()
 })
 
 describe('deleting a blog', () => {
@@ -128,9 +130,11 @@ describe('updating blog', () => {
   })
 
   it('try to update blog with a malformated id', async () => {
-    await api.put('/api/blogs/1')
+    const result = await api.put('/api/blogs/1')
       .send({ likes: 1 })
       .expect(400)
+      .expect('content-type', /application\/json/)
+    expect(result.body.error).toBeDefined()
   })
 
   it('try to update blog with unvalid params', async () => {
@@ -138,17 +142,23 @@ describe('updating blog', () => {
     const { id } = blogsAtStart[0].id
 
     // test negative number
-    await api.put(`/api/blogs/${id}`)
+    const result1 = await api.put(`/api/blogs/${id}`)
       .send({ likes: -20 })
       .expect(400)
+      .expect('content-type', /application\/json/)
+    expect(result1.body.error).toBeDefined()
     // test decimal number
-    await api.put(`/api/blogs/${id}`)
+    const result2 = await api.put(`/api/blogs/${id}`)
       .send({ likes: 12.12 })
       .expect(400)
+      .expect('content-type', /application\/json/)
+    expect(result2.body.error).toBeDefined()
     // test unvalid url
-    await api.put(`/api/blogs/${id}`)
+    const result3 = await api.put(`/api/blogs/${id}`)
       .send({ url: 'i am a non valid url xD' })
       .expect(400)
+      .expect('content-type', /application\/json/)
+    expect(result3.body.error).toBeDefined()
   })
 })
 
