@@ -32,6 +32,10 @@ describe('inserting new user', () => {
     expect(newUser.username).toBe('ouanis')
     expect(newUser._id).not.toBeDefined()
     expect(newUser.passwordHash).not.toBeDefined()
+
+    const usersInDb = await helper.usersInDb()
+    const usernames = usersInDb.map(user => user.username)
+    expect(usernames).toHaveLength(initialUsers.length + 1)
   })
 
   it('verifies the password is hashed', async () => {
@@ -59,6 +63,10 @@ describe('inserting new user', () => {
       .expect('content-type', /application\/json/)
 
     expect(result.body.error).toContain('username must be unique')
+
+    // verifies on database if it is created or not
+    const usersInDb = await helper.usersInDb()
+    expect(usersInDb).toHaveLength(initialUsers.length)
   })
 
   describe('tests if a property is missing or less than 3 characters long, gives 400 Bad Request', () => {
@@ -72,6 +80,9 @@ describe('inserting new user', () => {
         .expect('content-type', /application\/json/)
 
       expect(result.body.error).toBeDefined()
+      // verifies on database if it is created or not
+      const usersInDb = await helper.usersInDb()
+      expect(usersInDb).toHaveLength(initialUsers.length)
     })
 
     it('verifies missing password', async () => {
@@ -84,6 +95,12 @@ describe('inserting new user', () => {
         .expect('content-type', /application\/json/)
 
       expect(result.body.error).toBeDefined()
+
+      // verifies on database if it is created or not
+      const usersInDb = await helper.usersInDb()
+      const usernames = usersInDb.map(user => user.username)
+      expect(usernames).not.toContain('ouanis')
+      expect(usernames).toHaveLength(2)
     })
 
     it('verfies username length', async () => {
@@ -96,6 +113,10 @@ describe('inserting new user', () => {
         .expect('content-type', /application\/json/)
 
       expect(result.body.error).toBeDefined()
+      // verifies on database if it is created or not
+      const usersInDb = await helper.usersInDb()
+      const usernames = usersInDb.map(user => user.username)
+      expect(usernames).toHaveLength(initialUsers.length)
     })
 
     it('verfies password length', async () => {
@@ -108,6 +129,11 @@ describe('inserting new user', () => {
         .expect('content-type', /application\/json/)
 
       expect(result.body.error).toBeDefined()
+      // verifies on database if it is created or not
+      const usersInDb = await helper.usersInDb()
+      const usernames = usersInDb.map(user => user.username)
+      expect(initialUsers).toHaveLength(2)
+      expect(usernames).toHaveLength(initialUsers.length)
     })
   })
 })
