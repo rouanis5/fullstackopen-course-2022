@@ -71,7 +71,7 @@ describe('inserting new user', () => {
 
   describe('tests if a property is missing or less than 3 characters long, gives 400 Bad Request', () => {
     it('verifies missing username', async () => {
-      const result = await api.post('/api/blogs')
+      const result = await api.post('/api/users')
         .send({
           name: 'user ouanis',
           password: 'a very strong password'
@@ -86,7 +86,7 @@ describe('inserting new user', () => {
     })
 
     it('verifies missing password', async () => {
-      const result = await api.post('/api/blogs')
+      const result = await api.post('/api/users')
         .send({
           username: 'ouanis',
           name: 'user ouanis'
@@ -104,7 +104,7 @@ describe('inserting new user', () => {
     })
 
     it('verfies username length', async () => {
-      const result = await api.post('/api/blogs')
+      const result = await api.post('/api/users')
         .send({
           username: 'ou',
           password: 'password'
@@ -116,11 +116,12 @@ describe('inserting new user', () => {
       // verifies on database if it is created or not
       const usersInDb = await helper.usersInDb()
       const usernames = usersInDb.map(user => user.username)
+      expect(usernames).not.toContain('ou')
       expect(usernames).toHaveLength(initialUsers.length)
     })
 
     it('verfies password length', async () => {
-      const result = await api.post('/api/blogs')
+      const result = await api.post('/api/users')
         .send({
           username: 'ouanis',
           password: '12'
@@ -132,8 +133,8 @@ describe('inserting new user', () => {
       // verifies on database if it is created or not
       const usersInDb = await helper.usersInDb()
       const usernames = usersInDb.map(user => user.username)
-      expect(initialUsers).toHaveLength(2)
       expect(usernames).toHaveLength(initialUsers.length)
+      expect(usernames).not.toContain('ouanis')
     })
   })
 })
