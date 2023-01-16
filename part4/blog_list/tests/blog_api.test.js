@@ -5,7 +5,17 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/Blog')
+const User = require('../models/User')
 const helper = require('./blog_test_helper')
+
+let users = null
+beforeAll(async () => {
+  // adding two users
+  const initUsers = await helper.initialUsers()
+  await User.insertMany(initUsers)
+  const result = await User.find({})
+  users = result.toJSON().map(user => user.id)
+})
 
 beforeEach(async () => {
   await Blog.deleteMany({})
@@ -32,7 +42,8 @@ it('verify that a blog added successfully and the number of blogs is increased b
     title: 'TDD harms architecture',
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-    likes: 12
+    likes: 12,
+    user: users[0]
   }
   const response1 = await api.post('/api/blogs')
     .send(oneBlog)
@@ -48,7 +59,8 @@ it('verify that if the likes property is missing from the request, it will defau
   const oneBlog = {
     title: 'TDD harms architecture',
     author: 'Robert C. Martin',
-    url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html'
+    url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
+    user: users[1]
   }
   const response = await api.post('/api/blogs')
     .send(oneBlog)
