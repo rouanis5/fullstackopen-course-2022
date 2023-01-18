@@ -8,18 +8,20 @@ const Blog = require('../models/Blog')
 const User = require('../models/User')
 const helper = require('./blog_test_helper')
 
-let users = null
+let usersId, initialBlogs
 beforeAll(async () => {
   // adding two users
   const initUsers = await helper.initialUsers()
+  await User.deleteMany({})
   await User.insertMany(initUsers)
   const result = await User.find({})
-  users = result.toJSON().map(user => user.id)
+  usersId = JSON.parse(JSON.stringify(result)).map(user => user.id)
+  initialBlogs = helper.initialBlogs(usersId[0], usersId[1])
 })
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-  await Blog.insertMany(helper.initialBlogs)
+  await Blog.insertMany(initialBlogs)
 })
 
 it('returns the correct amount of blog posts in the JSON format', async () => {
@@ -27,7 +29,7 @@ it('returns the correct amount of blog posts in the JSON format', async () => {
     .expect(200)
     .expect('content-Type', /application\/json/)
 
-  expect(response.body).toHaveLength(helper.initialBlogs.length)
+  expect(response.body).toHaveLength(initialBlogs.length)
 })
 
 it('verify that the unique identifier property of the blog posts is named id', async () => {
@@ -43,43 +45,85 @@ it('verify that a blog added successfully and the number of blogs is increased b
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
     likes: 12,
-    user: users[0]
+    userId: usersId[0]
   }
-  const response1 = await api.post('/api/blogs')
-    .send(oneBlog)
-    .expect(201)
-  expect(response1.body.url).toBe(oneBlog.url)
-
-  const response2 = await api.get('/api/blogs')
-    .expect(200)
-  expect(response2.body).toHaveLength(helper.initialBlogs.length + 1)
-})
-
-it('verify that if the likes property is missing from the request, it will default to the value 0', async () => {
-  const oneBlog = {
-    title: 'TDD harms architecture',
-    author: 'Robert C. Martin',
-    url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-    user: users[1]
-  }
-  const response = await api.post('/api/blogs')
-    .send(oneBlog)
-    .expect(201)
-
-  expect(response.body.likes).toBe(0)
-})
-
-it('verify that if the title or url properties are missing from the request data, gives 400 Bad Request', async () => {
-  const missingBlog = {
-    author: 'Robert C. Martin',
-    likes: 10
-  }
-
   const result = await api.post('/api/blogs')
-    .send(missingBlog)
-    .expect(400)
-    .expect('content-type', /application\/json/)
-  expect(result.body.error).toBeDefined()
+    .send(oneBlog)
+    .expect(201)
+  expect(result.body.url).toBe(oneBlog.url)
+
+  const blogsInDb = await helper.blogsInDb()
+  expect(blogsInDb).toHaveLength(initialBlogs.length + 1)
+})
+
+describe('verifying missing properties from the request', () => {
+  it('verify that if the user is is missing, gives 400 Bad Request', async () => {
+    const missingBlog = {
+      title: 'TDD harms architecture',
+      author: 'Robert C. Martin',
+      url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
+      likes: 10
+    }
+
+    const result = await api.post('/api/blogs')
+      .send(missingBlog)
+      .expect(400)
+      .expect('content-type', /application\/json/)
+
+    const errorMsg = result.body.error
+    expect(errorMsg).toBeDefined()
+    expect(errorMsg.toLowerCase()).toContain('id')
+  })
+
+  it('verify that if the title is is missing, gives 400 Bad Request', async () => {
+    const missingBlog = {
+      author: 'Robert C. Martin',
+      url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
+      likes: 10,
+      userId: usersId[0]
+    }
+
+    const result = await api.post('/api/blogs')
+      .send(missingBlog)
+      .expect(400)
+      .expect('content-type', /application\/json/)
+
+    const errorMsg = result.body.error
+    expect(errorMsg).toBeDefined()
+    expect(errorMsg.toLowerCase()).toContain('title')
+  })
+
+  it('verify that if the URL is is missing, gives 400 Bad Request', async () => {
+    const missingBlog = {
+      title: 'TDD harms architecture',
+      author: 'Robert C. Martin',
+      likes: 10,
+      userId: usersId[0]
+    }
+
+    const result = await api.post('/api/blogs')
+      .send(missingBlog)
+      .expect(400)
+      .expect('content-type', /application\/json/)
+
+    const errorMsg = result.body.error
+    expect(errorMsg).toBeDefined()
+    expect(errorMsg.toLowerCase()).toContain('url')
+  })
+
+  it('verify likes property is missing, it will default to the value 0', async () => {
+    const oneBlog = {
+      title: 'TDD harms architecture',
+      author: 'Robert C. Martin',
+      url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
+      userId: usersId[0]
+    }
+    const response = await api.post('/api/blogs')
+      .send(oneBlog)
+      .expect(201)
+
+    expect(response.body.likes).toBe(0)
+  })
 })
 
 describe('deleting a blog', () => {
@@ -91,7 +135,7 @@ describe('deleting a blog', () => {
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDb()
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+    expect(blogsAtEnd).toHaveLength(initialBlogs.length - 1)
 
     const titles = blogsAtEnd.map(blog => blog.title)
     expect(titles).not.toContain(blogToDelete.title)
@@ -108,7 +152,7 @@ describe('updating blog', () => {
       .expect(200)
 
     const blogsAtEnd = await helper.blogsInDb()
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+    expect(blogsAtEnd).toHaveLength(initialBlogs.length)
 
     const titles = blogsAtEnd.map(blog => blog.title)
     expect(titles).not.toContain(blogBeforeUpdate.title)
@@ -125,7 +169,7 @@ describe('updating blog', () => {
       .expect(200)
 
     const blogsAtEnd = await helper.blogsInDb()
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+    expect(blogsAtEnd).toHaveLength(initialBlogs.length)
 
     const blogAfterUpdate = blogsAtEnd.find(blog => blog.id === blogBeforeUpdate.id)
     expect(blogAfterUpdate).toEqual({ ...blogBeforeUpdate, likes: blogBeforeUpdate.likes + 1 })
