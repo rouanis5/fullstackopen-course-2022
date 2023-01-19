@@ -6,15 +6,16 @@ userRouter.route('/')
   .post(async (req, res) => {
     const { username, name, password } = req.body
 
-    const existedUser = await User.findOne({ username })
-    if (existedUser) {
-      return res.status(400).json({ error: 'username must be unique' })
-    }
-    if (!password) {
-      return res.status(400).json({ error: 'password must be defined' })
+    if (!username || !password) {
+      return res.status(400).json({ error: 'invalid username or password' })
     }
     if (password.length < 3) {
       return res.status(400).json({ error: 'password must be at least 3 characters long' })
+    }
+
+    const existedUser = await User.findOne({ username })
+    if (existedUser) {
+      return res.status(400).json({ error: 'username must be unique' })
     }
 
     const saltRounds = 10
