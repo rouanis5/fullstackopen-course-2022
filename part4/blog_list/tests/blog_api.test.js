@@ -21,7 +21,13 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-  await Blog.insertMany(initialBlogs)
+  const blogs = await Blog.insertMany(initialBlogs)
+  // save each blog in the its user blogs array
+  for (const blog of blogs) {
+    const user = await User.findById(blog.user)
+    user.blogs = user.blogs.concat(blog._id)
+    await user.save()
+  }
 })
 
 it('returns the correct amount of blog posts in the JSON format', async () => {
@@ -37,6 +43,21 @@ it('verify that the unique identifier property of the blog posts is named id', a
   const firstBlog = response.body[0]
   expect(firstBlog._id).not.toBeDefined()
   expect(firstBlog.id).toBeDefined()
+})
+
+it('verifies if the blog populates user information without showing password', async () => {
+  const response = await api.get('/api/blogs')
+  const owner = response.body[0].user
+  expect(owner.username).toBe('user1')
+  expect(owner.passwordHash).not.toBeDefined()
+})
+
+it('verifies if user populates blogs', async () => {
+  const response = await api.get('/api/users')
+    .expect(200)
+  const { blogs } = response.body[1]
+  expect(blogs).toHaveLength(2)
+  expect(blogs[0].title).toBeDefined()
 })
 
 it('verify that a blog added successfully and the number of blogs is increased by one', async () => {
@@ -129,7 +150,7 @@ describe('verifying missing properties from the request', () => {
 describe('deleting a blog', () => {
   it('deleting existed blog', async () => {
     const blogsAtStart = await helper.blogsInDb()
-    const blogToDelete = blogsAtStart[0]
+    const blogToDelete = blogsAtStart[1]
 
     await api.delete(`/api/blogs/${blogToDelete.id}`)
       .expect(204)

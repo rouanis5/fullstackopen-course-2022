@@ -27,11 +27,11 @@ blogsRouter.route('/')
       user: user._id
     })
 
-    const result = await blog.save()
+    const savedBlog = await blog.save()
     // save the blog id on the user blogs
-    user.blogs = user.blogs.concat(blog._id)
+    user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
-    res.status(201).json(result)
+    res.status(201).json(savedBlog)
   })
 
 blogsRouter.route('/:id')
