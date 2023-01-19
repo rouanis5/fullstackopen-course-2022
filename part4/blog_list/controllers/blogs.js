@@ -60,16 +60,27 @@ blogsRouter.route('/:id')
   })
   .put(async (req, res) => {
     const { title, likes, url, author } = req.body
-    const updatedPerson = await Blog.findByIdAndUpdate(
-      req.params.id,
+    const { id } = req.params
+
+    const userId = req.user
+    if (!userId) {
+      return res.status(401).json({ error: 'token missing or invalid' })
+    }
+
+    const blog = await Blog.findById(id)
+    if (!blog) {
+      return res.status(404).end()
+    }
+    if (blog.user.toString() !== userId) {
+      return res.status(401).json({ error: 'its not your blog' })
+    }
+
+    const result = await Blog.findByIdAndUpdate(
+      id,
       { title, likes, url, author },
       { new: true, runValidators: true, context: 'query' }
     )
-    if (updatedPerson) {
-      res.json(updatedPerson.toJSON())
-    } else {
-      res.status(404).end()
-    }
+    res.json(result.toJSON())
   })
 
 module.exports = blogsRouter
