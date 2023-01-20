@@ -3,7 +3,7 @@ import loginService from '../services/login'
 import blogService from '../services/blogs'
 import constants from '../config/constants'
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = ({ onLogin, onNotify }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -17,10 +17,12 @@ const LoginForm = ({ onLogin }) => {
       onLogin(user)
       blogService.setToken(user.token)
       window.localStorage.setItem(constants.userLocalStorage, JSON.stringify(user))
+      onNotify(`${user.name} login`)
 
       setUsername('')
       setPassword('')
     } catch (exception) {
+      onNotify(exception.response.data.error, 'error')
       console.error(exception.response.data.error)
     }
   }
