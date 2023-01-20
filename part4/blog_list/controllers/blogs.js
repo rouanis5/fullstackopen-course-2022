@@ -1,14 +1,14 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/Blog')
 const User = require('../models/User')
+const { userExtractor } = require('../utils/middleware')
 
 blogsRouter.route('/')
   .get(async (req, res) => {
     const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
     res.json(blogs)
   })
-
-  .post(async (req, res) => {
+  .post(userExtractor, async (req, res) => {
     const { title, likes, url, author } = req.body
 
     const userId = req.user
@@ -39,7 +39,7 @@ blogsRouter.route('/')
   })
 
 blogsRouter.route('/:id')
-  .delete(async (req, res) => {
+  .delete(userExtractor, async (req, res) => {
     const { id } = req.params
 
     const userId = req.user
@@ -52,13 +52,13 @@ blogsRouter.route('/:id')
       return res.status(404).end()
     }
     if (blog.user.toString() !== userId) {
-      return res.status(401).json({ error: 'its not your blog' })
+      return res.status(401).json({ error: 'the user requesting does not match the blog owner' })
     }
 
     await blog.delete()
     res.status(204).end()
   })
-  .put(async (req, res) => {
+  .put(userExtractor, async (req, res) => {
     const { title, likes, url, author } = req.body
     const { id } = req.params
 
@@ -72,7 +72,7 @@ blogsRouter.route('/:id')
       return res.status(404).end()
     }
     if (blog.user.toString() !== userId) {
-      return res.status(401).json({ error: 'its not your blog' })
+      return res.status(401).json({ error: 'the user requesting does not match the blog owner' })
     }
 
     const result = await Blog.findByIdAndUpdate(
