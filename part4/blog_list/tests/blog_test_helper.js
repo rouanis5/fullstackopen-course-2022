@@ -38,18 +38,28 @@ const usersInDb = async () => {
   return users.map(user => user.toJSON())
 }
 
+const users = {
+  one: {
+    username: 'user1',
+    password: '852654Suuuu!'
+  },
+  two: {
+    username: 'user2',
+    password: '159753#ahaAa!'
+  }
+}
 const initialUsers = async () => {
-  const p1 = await bcrypt.hash('852654Suuuu!', saltRounds)
-  const p2 = await bcrypt.hash('159753#ahaAa', saltRounds)
+  const p1 = await bcrypt.hash(users.one.password, saltRounds)
+  const p2 = await bcrypt.hash(users.two.password, saltRounds)
 
   return [
     {
-      username: 'user1',
+      username: users.one.username,
       name: 'user one',
       passwordHash: p1
     },
     {
-      username: 'user2',
+      username: users.two.username,
       name: 'user two',
       passwordHash: p2
     }
@@ -60,5 +70,6 @@ module.exports = {
   initialBlogs,
   blogsInDb,
   initialUsers,
-  usersInDb
+  usersInDb,
+  testingUsers: users
 }
