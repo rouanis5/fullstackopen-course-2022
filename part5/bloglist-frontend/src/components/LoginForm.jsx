@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import loginService from '../services/login'
+import blogService from '../services/blogs'
 import constants from '../config/constants'
 
-export const LoginForm = ({ onLogin }) => {
+const LoginForm = ({ onLogin }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -14,7 +15,9 @@ export const LoginForm = ({ onLogin }) => {
         password
       })
       onLogin(user)
+      blogService.setToken(user.token)
       window.localStorage.setItem(constants.userLocalStorage, JSON.stringify(user))
+
       setUsername('')
       setPassword('')
     } catch (exception) {
@@ -35,8 +38,10 @@ export const LoginForm = ({ onLogin }) => {
           password
           <input type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
         </label>
-        <button type="submit">submit</button>
+        <button type="submit">login</button>
       </form>
     </div>
   )
 }
+
+export default LoginForm

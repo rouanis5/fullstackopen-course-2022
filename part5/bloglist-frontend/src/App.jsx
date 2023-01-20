@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import { LoginForm } from './components/LoginForm'
+import LoginForm from './components/LoginForm'
+import AddBlogForm from './components/AddBlogForm'
 import constants from './config/constants'
 
 const App = () => {
@@ -17,7 +18,8 @@ const App = () => {
   useEffect(() => {
     const localStorage = window.localStorage.getItem(constants.userLocalStorage)
     if (localStorage) {
-      setUser(JSON.parse(localStorage))
+      const userData = JSON.parse(localStorage)
+      setUser(userData)
     }
   }, [])
 
@@ -25,6 +27,7 @@ const App = () => {
     e.preventDefault()
     setUser(null)
     window.localStorage.removeItem(constants.userLocalStorage)
+    blogService.setToken(null)
   }
 
   return (
@@ -32,6 +35,7 @@ const App = () => {
     { user === null
       ? <LoginForm onLogin={setUser} />
       : <div>
+        <AddBlogForm onSuccess={setBlogs} />
           <h2>blogs</h2>
           <div>
             {user.name} logged in
