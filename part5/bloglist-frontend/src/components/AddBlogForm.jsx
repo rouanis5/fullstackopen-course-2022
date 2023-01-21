@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
+import Togglable from './Togglable'
 
 const AddBlogForm = ({ onSuccess, onNotify }) => {
   const [title, setTitle] = useState('')
@@ -21,26 +22,28 @@ const AddBlogForm = ({ onSuccess, onNotify }) => {
     }
   }
   return (
-    <div>
+    <Togglable buttonLabel="add blog">
       <h2>Create new</h2>
       <form onSubmit={(e) => { addBlog(e) }}>
-        <label>
-          Title
-          <input type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} />
-        </label>
-        <br />
-        <label>
-          Author
-          <input type="text" value={author} onChange={(e) => { setAuthor(e.target.value) }} />
-        </label>
-        <br />
-        <label>
-          url
-          <input type="text" value={url} onChange={(e) => { setUrl(e.target.value) }} />
-        </label>
+        <div>
+          <label>
+            Title:
+            <input type="text" value={title} onChange={(e) => { setTitle(e.target.value) }} />
+          </label>
+          <br />
+          <label>
+            Author:
+            <input type="text" value={author} onChange={(e) => { setAuthor(e.target.value) }} />
+          </label>
+          <br />
+          <label>
+            url:
+            <input type="text" value={url} onChange={(e) => { setUrl(e.target.value) }} />
+          </label>
+        </div>
         <button type="submit">create</button>
       </form>
-    </div>
+    </Togglable>
   )
 }
 

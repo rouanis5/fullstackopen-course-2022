@@ -29,7 +29,7 @@ const LoginForm = ({ onLogin, onNotify }) => {
 
   return (
     <div>
-      <h2>Log in to application</h2>
+      <h3>Log in to application</h3>
       <form onSubmit={(e) => { loginUser(e) }}>
         <label>
           username

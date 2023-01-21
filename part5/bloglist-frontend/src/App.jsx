@@ -14,7 +14,9 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+      setBlogs((prev) => {
+        return blogs.sort((a, b) => b.likes - a.likes)
+      })
     )
   }, [])
 
@@ -23,6 +25,7 @@ const App = () => {
     if (localStorage) {
       const userData = JSON.parse(localStorage)
       setUser(userData)
+      blogService.setToken(userData.token)
     }
   }, [])
 
@@ -43,20 +46,41 @@ const App = () => {
     notify(`${name} logout successfully !`)
   }
 
+  const deleteBlog = (blogToDelete) => {
+    setBlogs(prevBlogs => prevBlogs.filter(blog => blog.id !== blogToDelete.id))
+    notify(`${blogToDelete.title} is deleted !`)
+  }
+
+  const updateBlog = (oldBlog, newBlog) => {
+    setBlogs((prev) =>
+      prev.map(blog => blog.id === oldBlog.id
+        ? newBlog
+        : blog
+      ).sort((a, b) => b.likes - a.likes)
+    )
+  }
+
   return (
     <>
+    <h1>blogs</h1>
     { message && <Notification msg={message} type={messageType} />}
     { user === null
       ? <LoginForm onLogin={setUser} onNotify={notify} />
       : <div>
-        <AddBlogForm onSuccess={setBlogs} onNotify={notify} />
-          <h2>blogs</h2>
           <div>
             {user.name} logged in
             <button onClick={(e) => { logout(e) }}>logout</button>
           </div>
+          <AddBlogForm onSuccess={setBlogs} onNotify={notify} />
+          <br />
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog
+              key={blog.id}
+              blog={blog}
+              onNotify={notify}
+              onDelete={() => { deleteBlog(blog) }}
+              onUpdate={(newBlog) => { updateBlog(blog, newBlog) }}
+            />
           )}
         </div>
     }
