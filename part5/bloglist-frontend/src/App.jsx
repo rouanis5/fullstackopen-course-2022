@@ -14,7 +14,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs((prev) => {
+      setBlogs(() => {
         return blogs.sort((a, b) => b.likes - a.likes)
       })
     )
@@ -62,11 +62,11 @@ const App = () => {
 
   return (
     <>
-    <h1>blogs</h1>
-    { message && <Notification msg={message} type={messageType} />}
-    { user === null
-      ? <LoginForm onLogin={setUser} onNotify={notify} />
-      : <div>
+      <h1>blogs</h1>
+      { message && <Notification msg={message} type={messageType} />}
+      { user === null
+        ? <LoginForm onLogin={setUser} onNotify={notify} />
+        : <div>
           <div>
             {user.name} logged in
             <button onClick={(e) => { logout(e) }}>logout</button>
@@ -82,8 +82,7 @@ const App = () => {
               onUpdate={(newBlog) => { updateBlog(blog, newBlog) }}
             />
           )}
-        </div>
-    }
+        </div>}
     </>
   )
 }
