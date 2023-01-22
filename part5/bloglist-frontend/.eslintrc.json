@@ -2,11 +2,12 @@
     "env": {
         "browser": true,
         "es2021": true,
-        "jest/globals": true 
+        "vitest-globals/env": true
     },
     "extends": [
         "plugin:react/recommended",
-        "eslint:recommended"
+        "eslint:recommended",
+        "plugin:vitest-globals/recommended"
     ],
     "overrides": [
     ],
@@ -19,7 +20,7 @@
     },
     "plugins": [
         "react",
-        "jest"
+        "vitest"
     ],
     "rules": {
         "indent": [
