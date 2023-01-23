@@ -1,66 +1,54 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
-const Blog = ({ blog, onNotify, onDelete, onUpdate }) => {
+const Blog = ({ blog, onDelete, onLike }) => {
   const [visibile, setVisibile] = useState(false)
-  const [blogData, setBlogData] = useState(blog)
   const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
+    padding: 12,
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
   }
-  const toggleVisibility = () => {
+  const toggleVisibility = (e) => {
+    e.preventDefault()
     setVisibile(!visibile)
   }
 
-  const increaseLike = async () => {
-    try {
-      const updatedBlog = await blogService.update(blogData.id, { likes: blogData.likes + 1 })
-      onNotify(`a like added to ${blogData.title} by ${blogData.author}`)
-      onUpdate(updatedBlog)
-      setBlogData(updatedBlog)
-    } catch (exception) {
-      onNotify(exception.response.data.error, 'error')
-      console.error(exception.response.data.error)
-    }
+  const increaseLike = (e) => {
+    e.preventDefault()
+    onLike()
   }
 
-  const deleteBlog = async () => {
-    const isAllowed = window.confirm(`deleting ${blogData.title} ?`)
-    if (!isAllowed) return
-
-    try {
-      await blogService.remove(blogData.id)
-      onDelete()
-    } catch (exception) {
-      onNotify(exception.response.data.error, 'error')
-      console.error(exception.response.data.error)
-    }
+  const deleteBlog = (e) => {
+    e.preventDefault()
+    onDelete()
   }
 
   return (
     <div style={blogStyle}>
-      {blogData.title}
+      {blog.title}
       {' '}
-      <button onClick={toggleVisibility}>{visibile ? 'hide' : 'view'}</button>
+      <button type='button' onClick={toggleVisibility}>{visibile ? 'hide' : 'view'}</button>
       {visibile && (
         <>
           <ul>
-            <li>{blogData.url}</li>
+            <li>{blog.url}</li>
             <li>
-              likes {blogData.likes}
+              likes {blog.likes}
               {' '}
-              <button onClick={increaseLike}>like</button>
+              <button type='button' onClick={increaseLike}>like</button>
             </li>
-            <li>{blogData.author}</li>
+            <li>{blog.author}</li>
           </ul>
-          <button onClick={deleteBlog}>delete</button>
+          <button type='button' onClick={deleteBlog}>delete</button>
         </>
       )}
     </div>
   )
+}
+
+Blog.prototype = {
+  onLike: PropTypes.func.isRequired
 }
 
 export default Blog

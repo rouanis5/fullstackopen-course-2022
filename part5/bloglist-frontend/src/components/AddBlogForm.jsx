@@ -1,25 +1,23 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 import Togglable from './Togglable'
 
-const AddBlogForm = ({ onSuccess, onNotify }) => {
+const AddBlogForm = ({ onAdd }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const addBlog = async (e) => {
+  const addBlog = (e) => {
     e.preventDefault()
-    try {
-      const result = await blogService.create({ title, author, url })
-      onSuccess((previousBlogs) => [...previousBlogs, result])
-      onNotify(`a new blog ${title} by ${author} added`)
-      setAuthor('')
-      setTitle('')
-      setUrl('')
-    } catch (exception) {
-      onNotify(exception.response.data.error, 'error')
-      console.error(exception.response.data.error)
-    }
+
+    onAdd({
+      title,
+      author,
+      url
+    })
+
+    setAuthor('')
+    setTitle('')
+    setUrl('')
   }
   return (
     <Togglable buttonLabel="add blog">

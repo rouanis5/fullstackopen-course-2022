@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
+import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import AddBlogForm from './components/AddBlogForm'
 import constants from './config/constants'
@@ -12,11 +13,13 @@ const App = () => {
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState('success')
 
+  const sortByLikes = (arr) => {
+    return arr.sort((a, b) => b.likes - a.likes)
+  }
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs(() => {
-        return blogs.sort((a, b) => b.likes - a.likes)
-      })
+      setBlogs(() => sortByLikes(blogs))
     )
   }, [])
 
@@ -46,18 +49,58 @@ const App = () => {
     notify(`${name} logout successfully !`)
   }
 
-  const deleteBlog = (blogToDelete) => {
-    setBlogs(prevBlogs => prevBlogs.filter(blog => blog.id !== blogToDelete.id))
-    notify(`${blogToDelete.title} is deleted !`)
+  const login = async (userObj) => {
+    try {
+      const user = await loginService.login(userObj)
+      setUser(user)
+      blogService.setToken(user.token)
+      window.localStorage.setItem(constants.userLocalStorage, JSON.stringify(user))
+      notify(`${user.name} login`)
+    } catch (exception) {
+      notify(exception.response.data.error, 'error')
+      console.error(exception.response.data.error)
+    }
   }
 
-  const updateBlog = (oldBlog, newBlog) => {
-    setBlogs((prev) =>
-      prev.map(blog => blog.id === oldBlog.id
-        ? newBlog
-        : blog
-      ).sort((a, b) => b.likes - a.likes)
-    )
+  const addBlog = async (blogObj) => {
+    try {
+      const result = await blogService.create(blogObj)
+      setBlogs((previousBlogs) => [...previousBlogs, result])
+      notify(`a new blog ${result.title} by ${result.author} added`)
+    } catch (exception) {
+      notify(exception.response.data.error, 'error')
+      console.error(exception.response.data.error)
+    }
+  }
+
+  const deleteBlog = async (blogToDelete) => {
+    const isAllowed = window.confirm(`deleting ${blogToDelete.title} ?`)
+    if (!isAllowed) return
+
+    try {
+      await blogService.remove(blogToDelete.id)
+      setBlogs(prevBlogs => prevBlogs.filter(blog => blog.id !== blogToDelete.id))
+      notify(`${blogToDelete.title} is deleted !`)
+    } catch (exception) {
+      notify(exception.response.data.error, 'error')
+      console.error(exception.response.data.error)
+    }
+  }
+
+  const increaseBlogLikes = async (oldBlog) => {
+    try {
+      const newBlog = await blogService.update(oldBlog.id, { likes: oldBlog.likes + 1 })
+      notify(`a like added to ${oldBlog.title} by ${oldBlog.author}`)
+      setBlogs((prev) =>
+        sortByLikes(prev
+          .filter(blog => blog.id !== oldBlog.id)
+          .concat(newBlog))
+      )
+      return newBlog
+    } catch (exception) {
+      notify(exception.response.data.error, 'error')
+      console.error(exception.response.data.error)
+    }
   }
 
   return (
@@ -65,21 +108,20 @@ const App = () => {
       <h1>blogs</h1>
       { message && <Notification msg={message} type={messageType} />}
       { user === null
-        ? <LoginForm onLogin={setUser} onNotify={notify} />
+        ? <LoginForm onLogin={login} />
         : <div>
           <div>
             {user.name} logged in
             <button onClick={(e) => { logout(e) }}>logout</button>
           </div>
-          <AddBlogForm onSuccess={setBlogs} onNotify={notify} />
+          <AddBlogForm onAdd={addBlog} />
           <br />
           {blogs.map(blog =>
             <Blog
               key={blog.id}
               blog={blog}
-              onNotify={notify}
               onDelete={() => { deleteBlog(blog) }}
-              onUpdate={(newBlog) => { updateBlog(blog, newBlog) }}
+              onLike={() => { increaseBlogLikes(blog) }}
             />
           )}
         </div>}
