@@ -2,12 +2,14 @@
     "env": {
         "browser": true,
         "es2021": true,
-        "vitest-globals/env": true
+        "vitest-globals/env": true,
+        "cypress/globals": true
     },
     "extends": [
         "plugin:react/recommended",
         "eslint:recommended",
-        "plugin:vitest-globals/recommended"
+        "plugin:vitest-globals/recommended",
+        "plugin:cypress/recommended"
     ],
     "overrides": [
     ],
@@ -20,7 +22,8 @@
     },
     "plugins": [
         "react",
-        "vitest"
+        "vitest",
+        "cypress"
     ],
     "rules": {
         "indent": [
@@ -49,7 +52,13 @@
         ],
         "no-console": 0,
         "react/prop-types": 0,
-        "react/react-in-jsx-scope": "off"
+        "react/react-in-jsx-scope": "off",
+        "cypress/no-assigning-return-values": "error",
+        "cypress/no-unnecessary-waiting": "error",
+        "cypress/assertion-before-screenshot": "warn",
+        "cypress/no-force": "warn",
+        "cypress/no-async-tests": "error",
+        "cypress/no-pause": "error"
     },
     "settings": {
         "react": {
