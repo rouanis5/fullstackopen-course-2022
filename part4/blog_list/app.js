@@ -31,6 +31,16 @@ app.use('/api/blogs', blogRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
 
+// this part contains sensitive actions
+// please don't touch it if you don't what will happen
+// it can delete all your data, or give to others a way
+// to delete your blogs and users
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing')
+  app.use('/api/testing', testingRouter)
+}
+// --------------------
+
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
