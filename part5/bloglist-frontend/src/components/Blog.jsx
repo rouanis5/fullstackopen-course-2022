@@ -26,9 +26,13 @@ const Blog = ({ blog, onDelete, onLike }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title}
-      {' '}
-      <button type='button' onClick={toggleVisibility}>{visibile ? 'hide' : 'view'}</button>
+      <div>
+        <span data-test="blog:title" >
+          {blog.title}
+          {' '}
+        </span>
+        <button type='button' onClick={toggleVisibility}>{visibile ? 'hide' : 'view'}</button>
+      </div>
       {visibile && (
         <>
           <ul>
@@ -36,11 +40,11 @@ const Blog = ({ blog, onDelete, onLike }) => {
             <li>
               likes {blog.likes}
               {' '}
-              <button type='button' onClick={increaseLike}>like</button>
+              <button type='button' onClick={increaseLike} data-test="blog:like" >like</button>
             </li>
             <li>{blog.author}</li>
           </ul>
-          <button type='button' onClick={deleteBlog}>delete</button>
+          <button type='button' onClick={deleteBlog} data-test="blog:delete">delete</button>
         </>
       )}
     </div>

@@ -41,6 +41,19 @@ Cypress.Commands.add('addUser', ({ username, name, password }) => {
   })
 })
 
+Cypress.Commands.add('addBlog', ({ title, author, url }) => {
+  cy.request({
+    method: 'POST',
+    url: '/api/blogs',
+    body : { title, author, url },
+    headers: {
+      Authorization: `bearer ${JSON.parse(localStorage.getItem(constants.userLocalStorage)).token}`
+    }
+  }).then(() => {
+    cy.visit('/')
+  })
+})
+
 Cypress.Commands.add('getBySel', (selector, ...args) => {
   return cy.get(`[data-test="${selector}"]`, ...args)
 })
