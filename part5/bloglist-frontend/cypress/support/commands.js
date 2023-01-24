@@ -35,8 +35,16 @@ Cypress.Commands.add('login', ({ username, password }) => {
   })
 })
 
-Cypress.Commands.add('addUser', ({ username, password }) => {
+Cypress.Commands.add('addUser', ({ username, name, password }) => {
   cy.request('POST', '/api/users', {
-    username, password
+    username, name, password
   })
+})
+
+Cypress.Commands.add('getBySel', (selector, ...args) => {
+  return cy.get(`[data-test="${selector}"]`, ...args)
+})
+
+Cypress.Commands.add('getBySelLike', (selector, ...args) => {
+  return cy.get(`[data-test*="${selector}"]`, ...args)
 })
