@@ -116,9 +116,10 @@ const App = () => {
           </div>
           <AddBlogForm onAdd={addBlog} />
           <br />
-          {blogs.map(blog =>
+          {blogs.map((blog, index) =>
             <Blog
               key={blog.id}
+              index={index}
               blog={blog}
               onDelete={() => { deleteBlog(blog) }}
               onLike={() => { increaseBlogLikes(blog) }}

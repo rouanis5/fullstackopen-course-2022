@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, onDelete, onLike }) => {
+const Blog = ({ blog, index, onDelete, onLike }) => {
   const [visibile, setVisibile] = useState(false)
   const blogStyle = {
     padding: 12,
@@ -25,7 +25,7 @@ const Blog = ({ blog, onDelete, onLike }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} data-test="blog">
       <div>
         <span data-test="blog:title" >
           {blog.title}
@@ -35,6 +35,7 @@ const Blog = ({ blog, onDelete, onLike }) => {
       </div>
       {visibile && (
         <>
+          { (index === 0 || index === 1) && <b>The {index === 1 ? 'second ' : ''}most liked</b> }
           <ul>
             <li>{blog.url}</li>
             <li>
@@ -52,7 +53,10 @@ const Blog = ({ blog, onDelete, onLike }) => {
 }
 
 Blog.prototype = {
-  onLike: PropTypes.func.isRequired
+  onLike: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  blog: PropTypes.object,
+  index: PropTypes.number.isRequired,
 }
 
 export default Blog

@@ -26,12 +26,12 @@
 
 import constants from '../../src/config/constants'
 
-Cypress.Commands.add('login', ({ username, password }) => {
+Cypress.Commands.add('login', ({ username, password }, refresh = false) => {
   cy.request('POST', '/api/login', {
     username, password
   }).then(({ body }) => {
     localStorage.setItem(constants.userLocalStorage, JSON.stringify(body))
-    cy.visit('/')
+    if (refresh) cy.visit('/')
   })
 })
 
@@ -41,16 +41,16 @@ Cypress.Commands.add('addUser', ({ username, name, password }) => {
   })
 })
 
-Cypress.Commands.add('addBlog', ({ title, author, url }) => {
+Cypress.Commands.add('addBlog', ({ title, author, url, likes }, refresh = false) => {
   cy.request({
     method: 'POST',
     url: '/api/blogs',
-    body : { title, author, url },
+    body : { title, author, url, likes },
     headers: {
       Authorization: `bearer ${JSON.parse(localStorage.getItem(constants.userLocalStorage)).token}`
     }
   }).then(() => {
-    cy.visit('/')
+    if (refresh) cy.visit('/')
   })
 })
 

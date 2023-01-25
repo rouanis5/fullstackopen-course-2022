@@ -1,14 +1,17 @@
+// type definitions for Cypress object "cy"
+/// <reference types="Cypress" />
+/// <reference types="../support" />
+
 // NB: i checked from the documentation (jan 24, 2022)
 // that cypress supports arrow functions
 describe('Blog app', () => {
   beforeEach(() => {
     cy.request('POST', '/api/testing/reset')
-    cy.addUser({ username: 'user1', name: 'namedOne', password: '852654Suuuu!'
-    })
-    cy.visit('/')
+    cy.addUser({ username: 'user1', name: 'namedOne', password: '852654Suuuu!' })
   })
 
   it('Login form is shown', () => {
+    cy.visit('/')
     cy.getBySelLike('login:form')
     cy.getBySel('login:username_input')
     cy.getBySel('login:password_input')
@@ -16,6 +19,7 @@ describe('Blog app', () => {
 
   describe('Login', () => {
     beforeEach(() => {
+      cy.visit('/')
       cy.getBySel('login:form').as('form')
       cy.getBySel('login:username_input').as('user')
       cy.getBySel('login:password_input').as('pass')
@@ -60,6 +64,7 @@ describe('Blog app', () => {
     })
 
     it('A blog can be created', () => {
+      cy.visit('/')
       cy.contains('add blog').click()
 
       cy.getBySel('blogForm:title')
@@ -98,7 +103,7 @@ describe('Blog app', () => {
 
     describe('When the blog is created !', () => {
       beforeEach(() => {
-        cy.addBlog(blog)
+        cy.addBlog(blog, true)
 
         cy.getBySel('blog:title')
           .contains(blog.title)
@@ -130,14 +135,43 @@ describe('Blog app', () => {
           password: 'random'
         }
         cy.addUser(user)
-        cy.login(user)
+        cy.login(user, true)
 
         cy.get('@showBtn').click()
         cy.get('@blog').getBySel('blog:delete').click()
 
         cy.getBySel('notification-error').should('have.exist')
         cy.contains(blog.title).should('have.exist')
+      })
+    })
 
+    describe('When several blogs are created !', () => {
+      beforeEach(() => {
+        cy.addBlog({ title: 'blog 1', author: 'david', url: 'https://fullstackopen.com/', likes: 12 })
+        cy.addBlog({ title: 'blog 2', author: 'jim', url: 'https://fullstackopen.com/', likes: 10 })
+        cy.addBlog({ title: 'blog 3', author: 'adam', url: 'https://fullstackopen.com/', likes: 2 })
+        cy.addBlog({ title: 'blog 4', author: 'sam', url: 'https://fullstackopen.com/', likes: 15 }, true)
+      })
+
+      it('blogs are ordered according to likes by descending', () => {
+        cy.getBySel('blog').eq(0).as('blog1')
+          .find('button').click()
+
+        cy.getBySel('blog').eq(1).as('blog2')
+          .find('button').click()
+
+        cy.getBySel('blog').eq(2).as('blog3')
+          .find('button').click()
+
+        cy.get('@blog1')
+          .should('contain.text', 'blog 4')
+          .should('contain.text', 'The most liked')
+        cy.get('@blog2')
+          .should('contain.text', 'blog 1')
+          .should('contain.text', 'The second most liked')
+        cy.get('@blog3')
+          .should('contain.text', 'blog 2')
+          .should('not.contain.text', 'most likes')
       })
     })
   })
