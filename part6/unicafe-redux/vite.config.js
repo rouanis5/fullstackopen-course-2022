@@ -12,6 +12,6 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    watch: false
+    watch: false,
   },
 })
