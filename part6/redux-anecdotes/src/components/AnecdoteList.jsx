@@ -23,12 +23,21 @@ const Anecedote = ({ data: { id, content, votes } }) => {
 }
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector(state => sortByVotes(state.anecdotes))
+  const anecdotes = useSelector(state => {
+    const filter = state.filter.content
+    const anecdotes = sortByVotes(state.anecdotes)
+
+    if (! filter) return anecdotes
+    const regex = new RegExp(filter, 'i')
+    return anecdotes.filter(({ content }) =>  regex.test(content) )
+  })
 
   return (
     <div>
       {anecdotes.map((anecdote) =>
-        <Anecedote key={anecdote.id} data={anecdote} />
+        <div key={anecdote.id}>
+          <Anecedote data={anecdote} />
+        </div>
       )}
     </div>
   )
