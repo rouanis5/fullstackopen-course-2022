@@ -1,14 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { increaseVote, sortByVotes } from '../reducers/anecdoteReducer'
-import { showNotification } from '../reducers/notificationReducer'
-import anecdotesService from '../services/anecdotes'
+import { voteAnecdote, sortByVotes } from '../reducers/anecdoteReducer'
+import { notify } from '../reducers/notificationReducer'
 
-const Anecedote = ({ data: { id, content, votes } }) => {
+const Anecedote = ({ data }) => {
+  const { content, votes } = data
   const dispatch = useDispatch()
-  const vote = async () => {
-    await anecdotesService.update(id, { content, votes: votes + 1 })
-    dispatch(increaseVote(id))
-    dispatch(showNotification(`you voted '${content}'`))
+  const vote = () => {
+    dispatch(voteAnecdote(data))
+    dispatch(notify(`you voted '${content}'`, 3))
   }
 
   return (
