@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from "react-query"
 import anecdotesService from "../services/anecdotes"
+import { useNotify } from "../contexts/NotificationContex"
 
 const AnecdoteForm = () => {
   const queryClient = useQueryClient()
   const newAnecdoteMutation = useMutation(anecdotesService.createNew)
+  const notify = useNotify()
 
   const onCreate = (event) => {
     event.preventDefault()
@@ -14,6 +16,10 @@ const AnecdoteForm = () => {
       onSuccess: (newAnecdote) => {
         const anecdotes = queryClient.getQueryData('anecdotes')
         queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote))
+        notify(`The anecdote is added successfully`)
+      },
+      onError: (error) => {
+        notify(error.response.data.error)
       }
     })
   }

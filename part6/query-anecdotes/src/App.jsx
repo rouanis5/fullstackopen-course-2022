@@ -2,10 +2,12 @@ import { useQuery, useMutation, useQueryClient } from "react-query"
 import anecdotesService from "./services/anecdotes"
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
+import { useNotify } from "./contexts/NotificationContex"
 
 const App = () => {
   const queryClient = useQueryClient()
   const voteAnecdoteMutation = useMutation(anecdotesService.update)
+  const notify = useNotify()
 
   const handleVote = (anecdote) => {
     voteAnecdoteMutation.mutate(
@@ -17,6 +19,10 @@ const App = () => {
         onSuccess: (updatedAnec) => {
           const anecdotes = queryClient.getQueryData('anecdotes')
           queryClient.setQueryData('anecdotes', anecdotes.map(anec => anec.id === updatedAnec.id ? updatedAnec : anec))
+          notify(`The anecdote is updated successfully`)
+        },
+        onError: (error) => {
+          notify(error.response.data.error)
         }
       }
     )
