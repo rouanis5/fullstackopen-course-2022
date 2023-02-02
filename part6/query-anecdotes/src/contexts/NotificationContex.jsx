@@ -18,20 +18,11 @@ const notificationReducer = (state, {type, payload}) => {
 
 const NotificationContext = createContext()
 
-let timer
 export const NotificationContextProvider = ({ children }) => {
   const [notification, notificationDispatch] = useReducer(notificationReducer, '')
 
-  const notify = (content, delayInSeconds = 2) => {
-    notificationDispatch({type: NOTIFICATION_ACTION_TYPES.SHOW, payload: content})
-    clearInterval(timer)
-    timer = setTimeout(() => {
-      notificationDispatch({ type: NOTIFICATION_ACTION_TYPES.HIDE })
-    }, delayInSeconds * 1000);
-  }
-
   return (
-    <NotificationContext.Provider value={[notification, notificationDispatch, notify]}>
+    <NotificationContext.Provider value={[notification, notificationDispatch]}>
       {children}
     </NotificationContext.Provider>
   )
@@ -47,9 +38,16 @@ export const useNotificationDispatch = () => {
   return notificationAndDispatch[1]
 }
 
+let timer
 export const useNotify = () => {
-  const notificationAndDispatch = useContext(NotificationContext)
-  return notificationAndDispatch[2]
+  const dispatch = useNotificationDispatch()
+  return (content, delayInSeconds = 2) => {
+    dispatch({type: NOTIFICATION_ACTION_TYPES.SHOW, payload: content})
+    clearInterval(timer)
+    timer = setTimeout(() => {
+      dispatch({ type: NOTIFICATION_ACTION_TYPES.HIDE })
+    }, delayInSeconds * 1000);
+  }
 }
 
 export default NotificationContext
