@@ -25,7 +25,9 @@ const App = () => {
         <input {...content} />
         <button>create</button>
       </form>
-      {notes.map(n => <p key={n.id}>{n.content}</p>)}
+      {notes.error && <p>{notes.error}</p>}
+      {!notes.error && notes.data.map(n => <p key={n.id}>{n.content}</p>)}
+      {notes.loading && <p>loading notes...</p>}
 
       <h2>persons</h2>
       <form onSubmit={handlePersonSubmit}>
@@ -33,7 +35,11 @@ const App = () => {
         number <input {...number} />
         <button>create</button>
       </form>
-      {persons.map(n => <p key={n.id}>{n.name} {n.number}</p>)}
+      { persons.error 
+        ? <p>{persons.error}</p> 
+        : persons.data.map(n => <p key={n.id}>{n.name} {n.number}</p>)
+      }
+      {persons.loading && <p>loading persons...</p>}
     </div>
   )
 }

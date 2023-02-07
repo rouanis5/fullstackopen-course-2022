@@ -16,12 +16,48 @@ export const useField = (type) => {
 }
 
 export const useResource = (baseUrl) => {
-  const [resources, setResources] = useState([])
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const api = axios.create({
+    baseURL: baseUrl
+  })
 
-  // ...
+  useEffect(() => {
+    const getAll = async () => {
+      try {
+        const res = await api.get('/')
+        const data = await res.data
+        setData(data)
+      } catch (e) {
+        console.log(e)
+        setError('something went wrong')
+      }
+      setLoading(false)
+    }
+    getAll()
+  }, [])
 
   const create = (resource) => {
-    // ...
+    const run = async () => {
+      try {
+        setLoading(true)
+        const res = await api.post('/', resource)
+        const data = await res.data
+        setData(prev => prev.concat(data))
+      } catch (e) {
+        console.error(e)
+        setError('creating failed')
+      }
+      setLoading(false)
+    }
+    run()
+  }
+
+  const resources = {
+    data,
+    loading,
+    error
   }
 
   const service = {
