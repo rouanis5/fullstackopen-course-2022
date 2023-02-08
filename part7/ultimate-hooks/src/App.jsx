@@ -10,19 +10,22 @@ const App = () => {
 
   const handleNoteSubmit = (event) => {
     event.preventDefault()
-    noteService.create({ content: content.value })
+    noteService.create({ content: content.props.value })
+    content.clear()
   }
  
   const handlePersonSubmit = (event) => {
     event.preventDefault()
-    personService.create({ name: name.value, number: number.value})
+    personService.create({ name: name.props.value, number: number.props.value})
+    name.clear()
+    number.clear()
   }
 
   return (
     <div>
       <h2>notes</h2>
       <form onSubmit={handleNoteSubmit}>
-        <input {...content} />
+        <input {...content.props} />
         <button>create</button>
       </form>
       {notes.error && <p>{notes.error}</p>}
@@ -31,8 +34,8 @@ const App = () => {
 
       <h2>persons</h2>
       <form onSubmit={handlePersonSubmit}>
-        name <input {...name} /> <br/>
-        number <input {...number} />
+        name <input {...name.props} /> <br/>
+        number <input {...number.props} />
         <button>create</button>
       </form>
       { persons.error 
