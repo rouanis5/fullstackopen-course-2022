@@ -18,9 +18,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(() => sortByLikes(blogs))
-    )
+    blogService.getAll().then((blogs) => setBlogs(() => sortByLikes(blogs)))
   }, [])
 
   useEffect(() => {
@@ -54,7 +52,10 @@ const App = () => {
       const user = await loginService.login(userObj)
       setUser(user)
       blogService.setToken(user.token)
-      window.localStorage.setItem(constants.userLocalStorage, JSON.stringify(user))
+      window.localStorage.setItem(
+        constants.userLocalStorage,
+        JSON.stringify(user)
+      )
       notify(`${user.name} login`)
     } catch (exception) {
       notify(exception.response.data.error, 'error')
@@ -79,7 +80,9 @@ const App = () => {
 
     try {
       await blogService.remove(blogToDelete.id)
-      setBlogs(prevBlogs => prevBlogs.filter(blog => blog.id !== blogToDelete.id))
+      setBlogs((prevBlogs) =>
+        prevBlogs.filter((blog) => blog.id !== blogToDelete.id)
+      )
       notify(`${blogToDelete.title} is deleted !`)
     } catch (exception) {
       notify(exception.response.data.error, 'error')
@@ -89,12 +92,14 @@ const App = () => {
 
   const increaseBlogLikes = async (oldBlog) => {
     try {
-      const newBlog = await blogService.update(oldBlog.id, { likes: oldBlog.likes + 1 })
+      const newBlog = await blogService.update(oldBlog.id, {
+        likes: oldBlog.likes + 1
+      })
       notify(`a like added to ${oldBlog.title} by ${oldBlog.author}`)
       setBlogs((prev) =>
-        sortByLikes(prev
-          .filter(blog => blog.id !== oldBlog.id)
-          .concat(newBlog))
+        sortByLikes(
+          prev.filter((blog) => blog.id !== oldBlog.id).concat(newBlog)
+        )
       )
       return newBlog
     } catch (exception) {
@@ -106,26 +111,38 @@ const App = () => {
   return (
     <>
       <h1>blogs</h1>
-      { message && <Notification msg={message} type={messageType} />}
-      { user === null
-        ? <LoginForm onLogin={login} />
-        : <div>
+      {message && <Notification msg={message} type={messageType} />}
+      {user === null ? (
+        <LoginForm onLogin={login} />
+      ) : (
+        <div>
           <div>
             {user.name} logged in
-            <button onClick={(e) => { logout(e) }}>logout</button>
+            <button
+              onClick={(e) => {
+                logout(e)
+              }}
+            >
+              logout
+            </button>
           </div>
           <AddBlogForm onAdd={addBlog} />
           <br />
-          {blogs.map((blog, index) =>
+          {blogs.map((blog, index) => (
             <Blog
               key={blog.id}
               index={index}
               blog={blog}
-              onDelete={() => { deleteBlog(blog) }}
-              onLike={() => { increaseBlogLikes(blog) }}
+              onDelete={() => {
+                deleteBlog(blog)
+              }}
+              onLike={() => {
+                increaseBlogLikes(blog)
+              }}
             />
-          )}
-        </div>}
+          ))}
+        </div>
+      )}
     </>
   )
 }

@@ -22,7 +22,11 @@ const AddBlogForm = ({ onAdd }) => {
   return (
     <Togglable buttonLabel="add blog">
       <h2>Create new</h2>
-      <form onSubmit={(e) => { addBlog(e) }}>
+      <form
+        onSubmit={(e) => {
+          addBlog(e)
+        }}
+      >
         <div>
           <label>
             Title:
@@ -30,7 +34,10 @@ const AddBlogForm = ({ onAdd }) => {
               type="text"
               value={title}
               data-test="blogForm:title"
-              onChange={(e) => { setTitle(e.target.value) }} />
+              onChange={(e) => {
+                setTitle(e.target.value)
+              }}
+            />
           </label>
           <br />
           <label>
@@ -39,7 +46,10 @@ const AddBlogForm = ({ onAdd }) => {
               type="text"
               value={author}
               data-test="blogForm:author"
-              onChange={(e) => { setAuthor(e.target.value) }} />
+              onChange={(e) => {
+                setAuthor(e.target.value)
+              }}
+            />
           </label>
           <br />
           <label>
@@ -48,10 +58,15 @@ const AddBlogForm = ({ onAdd }) => {
               type="text"
               value={url}
               data-test="blogForm:url"
-              onChange={(e) => { setUrl(e.target.value) }} />
+              onChange={(e) => {
+                setUrl(e.target.value)
+              }}
+            />
           </label>
         </div>
-        <button type="submit" data-test="blogForm:submit">create</button>
+        <button type="submit" data-test="blogForm:submit">
+          create
+        </button>
       </form>
     </Togglable>
   )
