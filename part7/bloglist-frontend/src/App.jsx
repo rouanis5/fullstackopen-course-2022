@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { alert, notify } from './reducers/notificationReducer'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -8,10 +10,9 @@ import constants from './config/constants'
 import Notification from './components/Notification'
 
 const App = () => {
+  const dispatch = useDispatch()
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [message, setMessage] = useState('')
-  const [messageType, setMessageType] = useState('success')
 
   const sortByLikes = (arr) => {
     return arr.sort((a, b) => b.likes - a.likes)
@@ -30,21 +31,13 @@ const App = () => {
     }
   }, [])
 
-  const notify = (msg, type = 'success', time = 2000) => {
-    setMessage(msg)
-    setMessageType(type)
-    setTimeout(() => {
-      setMessage('')
-    }, time)
-  }
-
   const logout = (e) => {
     e.preventDefault()
     const { name } = user
     setUser(null)
     window.localStorage.removeItem(constants.userLocalStorage)
     blogService.setToken(null)
-    notify(`${name} logout successfully !`)
+    dispatch(notify(`${name} logout successfully !`))
   }
 
   const login = async (userObj) => {
@@ -56,9 +49,9 @@ const App = () => {
         constants.userLocalStorage,
         JSON.stringify(user)
       )
-      notify(`${user.name} login`)
+      dispatch(notify(`${user.name} login`))
     } catch (exception) {
-      notify(exception.response.data.error, 'error')
+      dispatch(alert(exception.response.data.error))
       console.error(exception.response.data.error)
     }
   }
@@ -67,9 +60,9 @@ const App = () => {
     try {
       const result = await blogService.create(blogObj)
       setBlogs((previousBlogs) => [...previousBlogs, result])
-      notify(`a new blog ${result.title} by ${result.author} added`)
+      dispatch(notify(`a new blog ${result.title} by ${result.author} added`))
     } catch (exception) {
-      notify(exception.response.data.error, 'error')
+      dispatch(alert(exception.response.data.error))
       console.error(exception.response.data.error)
     }
   }
@@ -83,9 +76,9 @@ const App = () => {
       setBlogs((prevBlogs) =>
         prevBlogs.filter((blog) => blog.id !== blogToDelete.id)
       )
-      notify(`${blogToDelete.title} is deleted !`)
+      dispatch(notify(`${blogToDelete.title} is deleted !`))
     } catch (exception) {
-      notify(exception.response.data.error, 'error')
+      dispatch(alert(exception.response.data.error))
       console.error(exception.response.data.error)
     }
   }
@@ -95,7 +88,7 @@ const App = () => {
       const newBlog = await blogService.update(oldBlog.id, {
         likes: oldBlog.likes + 1
       })
-      notify(`a like added to ${oldBlog.title} by ${oldBlog.author}`)
+      dispatch(notify(`a like added to ${oldBlog.title} by ${oldBlog.author}`))
       setBlogs((prev) =>
         sortByLikes(
           prev.filter((blog) => blog.id !== oldBlog.id).concat(newBlog)
@@ -103,7 +96,7 @@ const App = () => {
       )
       return newBlog
     } catch (exception) {
-      notify(exception.response.data.error, 'error')
+      dispatch(alert(exception.response.data.error))
       console.error(exception.response.data.error)
     }
   }
@@ -111,7 +104,7 @@ const App = () => {
   return (
     <>
       <h1>blogs</h1>
-      {message && <Notification msg={message} type={messageType} />}
+      <Notification />
       {user === null ? (
         <LoginForm onLogin={login} />
       ) : (

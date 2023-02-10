@@ -1,5 +1,11 @@
-const Notification = ({ msg, type }) => {
-  const color = type === 'success' ? 'green' : 'red'
+import { useSelector } from 'react-redux'
+import { notificationTypes } from '../reducers/notificationReducer'
+
+const Notification = () => {
+  const { content, type } = useSelector((state) => state.notification)
+  const color = type === notificationTypes.SUCCESS ? 'green' : 'red'
+
+  if (!content) return
   return (
     <div
       style={{
@@ -12,7 +18,7 @@ const Notification = ({ msg, type }) => {
       }}
       data-test={`notification-${type}`}
     >
-      {msg}
+      {content}
     </div>
   )
 }
