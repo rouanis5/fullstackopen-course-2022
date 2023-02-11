@@ -45,4 +45,15 @@ export const notify = (content, delayInSeconds = 2) =>
 export const alert = (content, delayInSeconds = 2) =>
   setNotification(content, notificationTypes.ERROR, delayInSeconds)
 
+export const errorHandler = (callback) => {
+  return async (dispatch) => {
+    try {
+      await callback(dispatch, notify)
+    } catch (error) {
+      console.error(error.response.data.error)
+      dispatch(alert(error.response.data.error))
+    }
+  }
+}
+
 export default notificationSlice.reducer
