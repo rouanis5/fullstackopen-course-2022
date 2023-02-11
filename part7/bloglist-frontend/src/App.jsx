@@ -55,40 +55,6 @@ const App = () => {
     }
   }
 
-  const deleteBlog = async (blogToDelete) => {
-    const isAllowed = window.confirm(`deleting ${blogToDelete.title} ?`)
-    if (!isAllowed) return
-
-    try {
-      await blogService.remove(blogToDelete.id)
-      // setBlogs((prevBlogs) =>
-      //   prevBlogs.filter((blog) => blog.id !== blogToDelete.id)
-      // )
-      dispatch(notify(`${blogToDelete.title} is deleted !`))
-    } catch (exception) {
-      dispatch(alert(exception.response.data.error))
-      console.error(exception.response.data.error)
-    }
-  }
-
-  const increaseBlogLikes = async (oldBlog) => {
-    try {
-      const newBlog = await blogService.update(oldBlog.id, {
-        likes: oldBlog.likes + 1
-      })
-      dispatch(notify(`a like added to ${oldBlog.title} by ${oldBlog.author}`))
-      // setBlogs((prev) =>
-      //   sortByLikes(
-      //     prev.filter((blog) => blog.id !== oldBlog.id).concat(newBlog)
-      //   )
-      // )
-      return newBlog
-    } catch (exception) {
-      dispatch(alert(exception.response.data.error))
-      console.error(exception.response.data.error)
-    }
-  }
-
   return (
     <>
       <h1>blogs</h1>
@@ -110,17 +76,7 @@ const App = () => {
           <AddBlogForm />
           <br />
           {blogs.map((blog, index) => (
-            <Blog
-              key={blog.id}
-              index={index}
-              blog={blog}
-              onDelete={() => {
-                deleteBlog(blog)
-              }}
-              onLike={() => {
-                increaseBlogLikes(blog)
-              }}
-            />
+            <Blog key={blog.id} index={index} blog={blog} />
           ))}
         </div>
       )}

@@ -1,14 +1,18 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { increaseBlogLikes, deleteBlog } from '../reducers/blogsReducer'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, index, onDelete, onLike }) => {
+const blogStyle = {
+  padding: 12,
+  border: 'solid',
+  borderWidth: 1,
+  marginBottom: 5
+}
+
+const Blog = ({ blog, index }) => {
   const [visibile, setVisibile] = useState(false)
-  const blogStyle = {
-    padding: 12,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
+  const dispatch = useDispatch()
 
   const toggleVisibility = (e) => {
     e.preventDefault()
@@ -17,12 +21,12 @@ const Blog = ({ blog, index, onDelete, onLike }) => {
 
   const increaseLike = (e) => {
     e.preventDefault()
-    onLike()
+    dispatch(increaseBlogLikes(blog))
   }
 
-  const deleteBlog = (e) => {
+  const remove = (e) => {
     e.preventDefault()
-    onDelete()
+    dispatch(deleteBlog(blog))
   }
 
   return (
@@ -52,7 +56,7 @@ const Blog = ({ blog, index, onDelete, onLike }) => {
             </li>
             <li>{blog.author}</li>
           </ul>
-          <button type="button" onClick={deleteBlog} data-test="blog:delete">
+          <button type="button" onClick={remove} data-test="blog:delete">
             delete
           </button>
         </>
@@ -62,8 +66,6 @@ const Blog = ({ blog, index, onDelete, onLike }) => {
 }
 
 Blog.prototype = {
-  onLike: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
   blog: PropTypes.object,
   index: PropTypes.number.isRequired
 }
