@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addBlog } from '../reducers/blogsReducer'
 import Togglable from './Togglable'
 
-const AddBlogForm = ({ onAdd }) => {
+const AddBlogForm = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const dispatch = useDispatch()
 
-  const addBlog = (e) => {
+  const add = (e) => {
     e.preventDefault()
 
-    onAdd({
-      title,
-      author,
-      url
-    })
+    dispatch(
+      addBlog({
+        title,
+        author,
+        url
+      })
+    )
 
     setAuthor('')
     setTitle('')
@@ -22,11 +27,7 @@ const AddBlogForm = ({ onAdd }) => {
   return (
     <Togglable buttonLabel="add blog">
       <h2>Create new</h2>
-      <form
-        onSubmit={(e) => {
-          addBlog(e)
-        }}
-      >
+      <form onSubmit={add}>
         <div>
           <label>
             Title:

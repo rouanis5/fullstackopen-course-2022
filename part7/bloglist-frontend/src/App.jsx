@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { alert, notify } from './reducers/notificationReducer'
+import { fetchBlogs } from './reducers/blogsReducer'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -11,16 +12,14 @@ import Notification from './components/Notification'
 
 const App = () => {
   const dispatch = useDispatch()
-  const [blogs, setBlogs] = useState([])
+  const blogs = useSelector((state) =>
+    Array.from(state.blogs).sort((a, b) => b.likes - a.likes)
+  )
   const [user, setUser] = useState(null)
 
-  const sortByLikes = (arr) => {
-    return arr.sort((a, b) => b.likes - a.likes)
-  }
-
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(() => sortByLikes(blogs)))
-  }, [])
+    dispatch(fetchBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const localStorage = window.localStorage.getItem(constants.userLocalStorage)
@@ -56,26 +55,15 @@ const App = () => {
     }
   }
 
-  const addBlog = async (blogObj) => {
-    try {
-      const result = await blogService.create(blogObj)
-      setBlogs((previousBlogs) => [...previousBlogs, result])
-      dispatch(notify(`a new blog ${result.title} by ${result.author} added`))
-    } catch (exception) {
-      dispatch(alert(exception.response.data.error))
-      console.error(exception.response.data.error)
-    }
-  }
-
   const deleteBlog = async (blogToDelete) => {
     const isAllowed = window.confirm(`deleting ${blogToDelete.title} ?`)
     if (!isAllowed) return
 
     try {
       await blogService.remove(blogToDelete.id)
-      setBlogs((prevBlogs) =>
-        prevBlogs.filter((blog) => blog.id !== blogToDelete.id)
-      )
+      // setBlogs((prevBlogs) =>
+      //   prevBlogs.filter((blog) => blog.id !== blogToDelete.id)
+      // )
       dispatch(notify(`${blogToDelete.title} is deleted !`))
     } catch (exception) {
       dispatch(alert(exception.response.data.error))
@@ -89,11 +77,11 @@ const App = () => {
         likes: oldBlog.likes + 1
       })
       dispatch(notify(`a like added to ${oldBlog.title} by ${oldBlog.author}`))
-      setBlogs((prev) =>
-        sortByLikes(
-          prev.filter((blog) => blog.id !== oldBlog.id).concat(newBlog)
-        )
-      )
+      // setBlogs((prev) =>
+      //   sortByLikes(
+      //     prev.filter((blog) => blog.id !== oldBlog.id).concat(newBlog)
+      //   )
+      // )
       return newBlog
     } catch (exception) {
       dispatch(alert(exception.response.data.error))
@@ -119,7 +107,7 @@ const App = () => {
               logout
             </button>
           </div>
-          <AddBlogForm onAdd={addBlog} />
+          <AddBlogForm />
           <br />
           {blogs.map((blog, index) => (
             <Blog
