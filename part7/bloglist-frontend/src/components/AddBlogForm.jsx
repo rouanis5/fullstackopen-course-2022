@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useField } from '../hooks'
 import { addBlog } from '../reducers/blogsReducer'
 import Togglable from './Togglable'
 
 const AddBlogForm = () => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const dispatch = useDispatch()
+  const [title, titleInput] = useField('text')
+  const [author, authorInput] = useField('text')
+  const [url, urlInput] = useField('text')
 
   const add = (e) => {
     e.preventDefault()
@@ -20,9 +20,7 @@ const AddBlogForm = () => {
       })
     )
 
-    setAuthor('')
-    setTitle('')
-    setUrl('')
+    Array.from([titleInput, authorInput, urlInput]).map((el) => el.clear())
   }
   return (
     <Togglable buttonLabel="add blog">
@@ -31,38 +29,17 @@ const AddBlogForm = () => {
         <div>
           <label>
             Title:
-            <input
-              type="text"
-              value={title}
-              data-test="blogForm:title"
-              onChange={(e) => {
-                setTitle(e.target.value)
-              }}
-            />
+            <input {...titleInput.props} data-test="blogForm:title" />
           </label>
           <br />
           <label>
             Author:
-            <input
-              type="text"
-              value={author}
-              data-test="blogForm:author"
-              onChange={(e) => {
-                setAuthor(e.target.value)
-              }}
-            />
+            <input {...authorInput.props} data-test="blogForm:author" />
           </label>
           <br />
           <label>
             url:
-            <input
-              type="text"
-              value={url}
-              data-test="blogForm:url"
-              onChange={(e) => {
-                setUrl(e.target.value)
-              }}
-            />
+            <input {...urlInput.props} data-test="blogForm:url" />
           </label>
         </div>
         <button type="submit" data-test="blogForm:submit">
