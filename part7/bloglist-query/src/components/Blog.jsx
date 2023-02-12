@@ -1,14 +1,32 @@
 import { useState } from 'react'
+import { useCustomMutation } from '../hooks'
+import blogService from '../services/blogs'
+import { useNotify } from '../contexts/notificationContext'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, index, onDelete, onLike }) => {
+const blogStyle = {
+  padding: 12,
+  border: 'solid',
+  borderWidth: 1,
+  marginBottom: 5
+}
+const Blog = ({ blog, index }) => {
   const [visibile, setVisibile] = useState(false)
-  const blogStyle = {
-    padding: 12,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
+  const notify = useNotify()
+
+  const like = useCustomMutation(blogService.update, (queryClient, newBlog) => {
+    notify(`a like added to ${blog.title} by ${blog.author}`)
+    queryClient.setQueryData(['blogs'], (blogs) =>
+      blogs.map((b) => (b.id === newBlog.id ? newBlog : b))
+    )
+  })
+
+  const remove = useCustomMutation(blogService.remove, (queryClient) => {
+    notify(`${blog.title} is deleted !`)
+    queryClient.setQueryData(['blogs'], (blogs) =>
+      blogs.filter((b) => b.id !== blog.id)
+    )
+  })
 
   const toggleVisibility = (e) => {
     e.preventDefault()
@@ -17,12 +35,14 @@ const Blog = ({ blog, index, onDelete, onLike }) => {
 
   const increaseLike = (e) => {
     e.preventDefault()
-    onLike()
+    like.mutate({ id: blog.id, newObject: { likes: blog.likes + 1 } })
   }
 
   const deleteBlog = (e) => {
     e.preventDefault()
-    onDelete()
+    const isAllowed = window.confirm(`deleting ${blog.title} ?`)
+    if (!isAllowed) return
+    remove.mutate(blog.id)
   }
 
   return (

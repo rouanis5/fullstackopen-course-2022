@@ -1,15 +1,27 @@
-import { useField } from '../hooks'
+import { useField, useCustomMutation } from '../hooks'
+import { useNotify } from '../contexts/notificationContext'
+import blogService from '../services/blogs'
 import Togglable from './Togglable'
 
-const AddBlogForm = ({ onAdd }) => {
+const AddBlogForm = () => {
   const [title, titleInput] = useField('text')
   const [author, authorInput] = useField('text')
   const [url, urlInput] = useField('text')
+  const notify = useNotify()
 
-  const addBlog = (e) => {
+  const addBlog = useCustomMutation(
+    blogService.create,
+    (queryClient, newBlog) => {
+      notify(`a new blog ${newBlog.title} by ${newBlog.author} added`)
+      // queryClient.invalidateQueries({ queryKey: ['blogs'] })
+      queryClient.setQueryData(['blogs'], (blogs) => blogs.concat(newBlog))
+    }
+  )
+
+  const add = (e) => {
     e.preventDefault()
 
-    onAdd({
+    addBlog.mutate({
       title,
       author,
       url
@@ -20,11 +32,7 @@ const AddBlogForm = ({ onAdd }) => {
   return (
     <Togglable buttonLabel="add blog">
       <h2>Create new</h2>
-      <form
-        onSubmit={(e) => {
-          addBlog(e)
-        }}
-      >
+      <form onSubmit={add}>
         <div>
           <label>
             Title:
