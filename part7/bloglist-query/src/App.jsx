@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useAlert, useNotify } from './contexts/notificationContext'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -10,8 +11,8 @@ import Notification from './components/Notification'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [message, setMessage] = useState('')
-  const [messageType, setMessageType] = useState('success')
+  const notify = useNotify()
+  const alert = useAlert()
 
   const sortByLikes = (arr) => {
     return arr.sort((a, b) => b.likes - a.likes)
@@ -29,14 +30,6 @@ const App = () => {
       blogService.setToken(userData.token)
     }
   }, [])
-
-  const notify = (msg, type = 'success', time = 2000) => {
-    setMessage(msg)
-    setMessageType(type)
-    setTimeout(() => {
-      setMessage('')
-    }, time)
-  }
 
   const logout = (e) => {
     e.preventDefault()
@@ -58,7 +51,7 @@ const App = () => {
       )
       notify(`${user.name} login`)
     } catch (exception) {
-      notify(exception.response.data.error, 'error')
+      alert(exception.response.data.error)
       console.error(exception.response.data.error)
     }
   }
@@ -69,7 +62,7 @@ const App = () => {
       setBlogs((previousBlogs) => [...previousBlogs, result])
       notify(`a new blog ${result.title} by ${result.author} added`)
     } catch (exception) {
-      notify(exception.response.data.error, 'error')
+      alert(exception.response.data.error)
       console.error(exception.response.data.error)
     }
   }
@@ -85,7 +78,7 @@ const App = () => {
       )
       notify(`${blogToDelete.title} is deleted !`)
     } catch (exception) {
-      notify(exception.response.data.error, 'error')
+      alert(exception.response.data.error)
       console.error(exception.response.data.error)
     }
   }
@@ -103,7 +96,7 @@ const App = () => {
       )
       return newBlog
     } catch (exception) {
-      notify(exception.response.data.error, 'error')
+      alert(exception.response.data.error)
       console.error(exception.response.data.error)
     }
   }
@@ -111,7 +104,7 @@ const App = () => {
   return (
     <>
       <h1>blogs</h1>
-      {message && <Notification msg={message} type={messageType} />}
+      <Notification />
       {user === null ? (
         <LoginForm onLogin={login} />
       ) : (

@@ -1,5 +1,12 @@
-const Notification = ({ msg, type }) => {
-  const color = type === 'success' ? 'green' : 'red'
+import {
+  useNotificationValue,
+  NOTIFICATION_TYPES as types
+} from '../contexts/notificationContext'
+const Notification = () => {
+  const { content, type } = useNotificationValue()
+  if (!content) return
+
+  const color = type === types.SUCCESS ? 'green' : 'red'
   return (
     <div
       style={{
@@ -12,7 +19,7 @@ const Notification = ({ msg, type }) => {
       }}
       data-test={`notification-${type}`}
     >
-      {msg}
+      {content}
     </div>
   )
 }
