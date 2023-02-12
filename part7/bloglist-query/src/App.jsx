@@ -1,54 +1,45 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useAlert, useNotify } from './contexts/notificationContext'
+import { useLogout, useUserValue, useLogin } from './contexts/UserContext'
 import { useQuery } from '@tanstack/react-query'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import AddBlogForm from './components/AddBlogForm'
-import constants from './config/constants'
 import Notification from './components/Notification'
 
 const App = () => {
   const query = useQuery({ queryKey: ['blogs'], queryFn: blogService.getAll })
   const blogs = query.data || []
 
-  const [user, setUser] = useState(null)
+  const user = useUserValue()
+  const userLogout = useLogout()
+  const userLogin = useLogin()
   const notify = useNotify()
   const alert = useAlert()
 
   useEffect(() => {
-    const localStorage = window.localStorage.getItem(constants.userLocalStorage)
-    if (localStorage) {
-      const userData = JSON.parse(localStorage)
-      setUser(userData)
-      blogService.setToken(userData.token)
-    }
-  }, [])
+    userLogin()
+  }, [userLogin])
 
   const logout = (e) => {
     e.preventDefault()
     const { name } = user
-    setUser(null)
-    window.localStorage.removeItem(constants.userLocalStorage)
-    blogService.setToken(null)
+    userLogout()
     notify(`${name} logout successfully !`)
   }
 
-  const login = async (userObj) => {
-    try {
-      const user = await loginService.login(userObj)
-      setUser(user)
-      blogService.setToken(user.token)
-      window.localStorage.setItem(
-        constants.userLocalStorage,
-        JSON.stringify(user)
-      )
-      notify(`${user.name} login`)
-    } catch (exception) {
-      alert(exception.response.data.error)
-      console.error(exception.response.data.error)
-    }
+  const login = (userObj) => {
+    userLogin(userObj, {
+      onSuccess: (user) => {
+        notify(`${user.name} login`)
+      },
+      onError: (exception) => {
+        const msg = exception.response.data.error || 'something went wrong'
+        alert(msg)
+        console.error(msg)
+      }
+    })
   }
 
   return (
