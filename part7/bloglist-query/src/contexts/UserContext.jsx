@@ -51,6 +51,10 @@ export const useLogin = () => {
         if (userObj) {
           // get user from server
           user = await loginService.login(userObj)
+          window.localStorage.setItem(
+            constants.userLocalStorage,
+            JSON.stringify(user)
+          )
         } else {
           // get user from localstorage
           const localStorage = window.localStorage.getItem(
@@ -62,10 +66,6 @@ export const useLogin = () => {
         }
         dispatch({ type: USER_ACTIONS.ADD, payload: user })
         blogService.setToken(user.token)
-        window.localStorage.setItem(
-          constants.userLocalStorage,
-          JSON.stringify(user)
-        )
         if (onSuccess) onSuccess(user)
       } catch (error) {
         if (onError) onError(error)
