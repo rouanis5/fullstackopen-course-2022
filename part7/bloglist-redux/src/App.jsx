@@ -1,23 +1,19 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchBlogs } from './reducers/blogsReducer'
+import { Routes, Route } from 'react-router-dom'
 import { userLogin, userLogout } from './reducers/userReducer'
-import Blog from './components/Blog'
-import LoginForm from './components/LoginForm'
-import AddBlogForm from './components/AddBlogForm'
-import Notification from './components/Notification'
 import { notify } from './reducers/notificationReducer'
+import LoginForm from './components/LoginForm'
+import Notification from './components/Notification'
+import Home from './components/Home'
+import Users from './components/Users'
 
 const App = () => {
   const dispatch = useDispatch()
-  const blogs = useSelector((state) =>
-    Array.from(state.blogs).sort((a, b) => b.likes - a.likes)
-  )
   const user = useSelector((state) => state.user)
 
   useEffect(() => {
     dispatch(userLogin())
-    dispatch(fetchBlogs())
   }, [dispatch])
 
   const logout = (e) => {
@@ -41,11 +37,14 @@ const App = () => {
             {user.name} logged in
             <button onClick={logout}>logout</button>
           </div>
-          <AddBlogForm />
-          <br />
-          {blogs.map((blog, index) => (
-            <Blog key={blog.id} index={index} blog={blog} />
-          ))}
+          <Routes>
+            <Route path="/">
+              <Route index element={<Home />} />
+              <Route path="users">
+                <Route index element={<Users />} />
+              </Route>
+            </Route>
+          </Routes>
         </div>
       )}
     </>
