@@ -7,6 +7,7 @@ import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import Home from './components/Home'
 import Users from './components/Users'
+import User from './components/User'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -42,6 +43,7 @@ const App = () => {
               <Route index element={<Home />} />
               <Route path="users">
                 <Route index element={<Users />} />
+                <Route path=":id" element={<User />} />
               </Route>
             </Route>
           </Routes>
