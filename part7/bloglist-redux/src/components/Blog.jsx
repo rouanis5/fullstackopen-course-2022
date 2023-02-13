@@ -1,24 +1,15 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { increaseBlogLikes, deleteBlog } from '../reducers/blogsReducer'
 import { notify } from '../reducers/notificationReducer'
 import PropTypes from 'prop-types'
 
-const blogStyle = {
-  padding: 12,
-  border: 'solid',
-  borderWidth: 1,
-  marginBottom: 5
-}
-
-const Blog = ({ blog, index }) => {
-  const [visibile, setVisibile] = useState(false)
+const Blog = () => {
+  const { id } = useParams()
   const dispatch = useDispatch()
-
-  const toggleVisibility = (e) => {
-    e.preventDefault()
-    setVisibile(!visibile)
-  }
+  const blog = useSelector((state) =>
+    state.blogs.find((blog) => blog.id === id)
+  )
 
   const increaseLike = (e) => {
     e.preventDefault()
@@ -40,38 +31,22 @@ const Blog = ({ blog, index }) => {
     )
   }
 
+  if (!blog) return
   return (
-    <div style={blogStyle} data-test="blog">
-      <div>
-        <span data-test="blog:title">{blog.title} </span>
-        <button type="button" onClick={toggleVisibility}>
-          {visibile ? 'hide' : 'view'}
-        </button>
-      </div>
-      {visibile && (
-        <>
-          {(index === 0 || index === 1) && (
-            <b>The {index === 1 ? 'second ' : ''}most liked</b>
-          )}
-          <ul>
-            <li>{blog.url}</li>
-            <li>
-              likes {blog.likes}{' '}
-              <button
-                type="button"
-                onClick={increaseLike}
-                data-test="blog:like"
-              >
-                like
-              </button>
-            </li>
-            <li>{blog.author}</li>
-          </ul>
-          <button type="button" onClick={remove} data-test="blog:delete">
-            delete
+    <div data-test="blog">
+      <ul>
+        <li>{blog.url}</li>
+        <li>
+          likes {blog.likes}{' '}
+          <button type="button" onClick={increaseLike} data-test="blog:like">
+            like
           </button>
-        </>
-      )}
+        </li>
+        <li>{blog.author}</li>
+      </ul>
+      <button type="button" onClick={remove} data-test="blog:delete">
+        delete
+      </button>
     </div>
   )
 }
