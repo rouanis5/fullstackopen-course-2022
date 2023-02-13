@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { increaseBlogLikes, deleteBlog } from '../reducers/blogsReducer'
 import { notify } from '../reducers/notificationReducer'
 import PropTypes from 'prop-types'
@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 const Blog = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const blog = useSelector((state) =>
     state.blogs.find((blog) => blog.id === id)
   )
@@ -15,9 +16,8 @@ const Blog = () => {
     e.preventDefault()
     dispatch(
       increaseBlogLikes(blog, {
-        onSuccess: dispatch(
-          notify(`a like added to ${blog.title} by ${blog.author}`)
-        )
+        onSuccess: () =>
+          dispatch(notify(`a like added to ${blog.title} by ${blog.author}`))
       })
     )
   }
@@ -26,7 +26,10 @@ const Blog = () => {
     e.preventDefault()
     dispatch(
       deleteBlog(blog, {
-        onSuccess: dispatch(notify(`${blog.title} is deleted !`))
+        onSuccess: () => {
+          dispatch(notify(`${blog.title} is deleted !`))
+          navigate('..')
+        }
       })
     )
   }

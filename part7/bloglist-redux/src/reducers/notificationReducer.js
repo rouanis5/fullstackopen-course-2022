@@ -50,7 +50,7 @@ export const errorHandler = (callback) => {
     try {
       await callback(dispatch)
     } catch (error) {
-      const msg = error.response.data.error || 'something went wrong'
+      const msg = error?.response?.data?.error || 'something went wrong'
       console.error(msg)
       dispatch(alert(msg))
     }
