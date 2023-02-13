@@ -20,8 +20,8 @@ const userSlice = createSlice({
 })
 
 const { setUser, resetUser } = userSlice.actions
-export const userLogin = (userObj = null, notifyOnSuccess = true) => {
-  return handler(async (dispatch, notify) => {
+export const userLogin = (userObj = null, { onSuccess } = {}) => {
+  return handler(async (dispatch) => {
     let user = null
     if (userObj) {
       // on first login
@@ -41,17 +41,16 @@ export const userLogin = (userObj = null, notifyOnSuccess = true) => {
 
     dispatch(setUser(user))
     blogService.setToken(user.token)
-    if (!notifyOnSuccess) return
-    dispatch(notify(`${user.name} login`))
+    if (onSuccess) onSuccess(user)
   })
 }
 
-export const userLogout = (name) => {
-  return handler(async (dispatch, notify) => {
+export const userLogout = ({ onSuccess } = {}) => {
+  return handler(async (dispatch) => {
     dispatch(resetUser())
     window.localStorage.removeItem(constants.userLocalStorage)
     blogService.setToken(null)
-    dispatch(notify(`${name || 'anonymous'} logout successfully !`))
+    if (onSuccess) onSuccess()
   })
 }
 

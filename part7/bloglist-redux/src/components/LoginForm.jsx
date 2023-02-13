@@ -1,6 +1,7 @@
 import { useField } from '../hooks'
 import { useDispatch } from 'react-redux'
 import { userLogin } from '../reducers/userReducer'
+import { notify } from '../reducers/notificationReducer'
 
 const LoginForm = () => {
   const [username, usernameInput] = useField('text')
@@ -9,11 +10,15 @@ const LoginForm = () => {
 
   async function login(e) {
     e.preventDefault()
-
+    const data = {
+      username,
+      password
+    }
     dispatch(
-      userLogin({
-        username,
-        password
+      userLogin(data, {
+        onSuccess: (user) => {
+          dispatch(notify(`${user.name} login`))
+        }
       })
     )
 

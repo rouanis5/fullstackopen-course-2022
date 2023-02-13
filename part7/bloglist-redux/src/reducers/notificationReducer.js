@@ -48,7 +48,7 @@ export const alert = (content, delayInSeconds = 2) =>
 export const errorHandler = (callback) => {
   return async (dispatch) => {
     try {
-      await callback(dispatch, notify)
+      await callback(dispatch)
     } catch (error) {
       const msg = error.response.data.error || 'something went wrong'
       console.error(msg)

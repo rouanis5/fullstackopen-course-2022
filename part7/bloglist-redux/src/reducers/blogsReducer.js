@@ -31,32 +31,32 @@ export const fetchBlogs = () => {
   })
 }
 
-export const addBlog = (blogObj) => {
-  return handler(async (dispatch, notify) => {
+export const addBlog = (blogObj, { onSuccess } = {}) => {
+  return handler(async (dispatch) => {
     const result = await blogService.create(blogObj)
     dispatch(blogsActions.add(result))
-    dispatch(notify(`a new blog ${result.title} by ${result.author} added`))
+    if (onSuccess) onSuccess(result)
   })
 }
 
-export const increaseBlogLikes = (oldBlog) => {
-  return handler(async (dispatch, notify) => {
+export const increaseBlogLikes = (oldBlog, { onSuccess } = {}) => {
+  return handler(async (dispatch) => {
     const newBlog = await blogService.update(oldBlog.id, {
       likes: oldBlog.likes + 1
     })
     dispatch(blogsActions.update(newBlog))
-    dispatch(notify(`a like added to ${oldBlog.title} by ${oldBlog.author}`))
+    if (onSuccess) onSuccess(newBlog)
   })
 }
 
-export const deleteBlog = (blogToDelete) => {
-  return handler(async (dispatch, notify) => {
+export const deleteBlog = (blogToDelete, { onSuccess } = {}) => {
+  return handler(async (dispatch) => {
     const isAllowed = window.confirm(`deleting ${blogToDelete.title} ?`)
     if (!isAllowed) return
 
     await blogService.remove(blogToDelete.id)
     dispatch(blogsActions.delete(blogToDelete.id))
-    dispatch(notify(`${blogToDelete.title} is deleted !`))
+    if (onSuccess) onSuccess(blogToDelete)
   })
 }
 

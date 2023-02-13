@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { increaseBlogLikes, deleteBlog } from '../reducers/blogsReducer'
+import { notify } from '../reducers/notificationReducer'
 import PropTypes from 'prop-types'
 
 const blogStyle = {
@@ -21,12 +22,22 @@ const Blog = ({ blog, index }) => {
 
   const increaseLike = (e) => {
     e.preventDefault()
-    dispatch(increaseBlogLikes(blog))
+    dispatch(
+      increaseBlogLikes(blog, {
+        onSuccess: dispatch(
+          notify(`a like added to ${blog.title} by ${blog.author}`)
+        )
+      })
+    )
   }
 
   const remove = (e) => {
     e.preventDefault()
-    dispatch(deleteBlog(blog))
+    dispatch(
+      deleteBlog(blog, {
+        onSuccess: dispatch(notify(`${blog.title} is deleted !`))
+      })
+    )
   }
 
   return (

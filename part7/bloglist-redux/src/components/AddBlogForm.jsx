@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { useField } from '../hooks'
+import { notify } from '../reducers/notificationReducer'
 import { addBlog } from '../reducers/blogsReducer'
 import Togglable from './Togglable'
 
@@ -11,12 +12,18 @@ const AddBlogForm = () => {
 
   const add = (e) => {
     e.preventDefault()
-
+    const data = {
+      title,
+      author,
+      url
+    }
     dispatch(
-      addBlog({
-        title,
-        author,
-        url
+      addBlog(data, {
+        onSuccess: (newBlog) => {
+          dispatch(
+            notify(`a new blog ${newBlog.title} by ${newBlog.author} added`)
+          )
+        }
       })
     )
 

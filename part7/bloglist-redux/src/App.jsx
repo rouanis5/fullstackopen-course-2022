@@ -6,6 +6,7 @@ import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import AddBlogForm from './components/AddBlogForm'
 import Notification from './components/Notification'
+import { notify } from './reducers/notificationReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -15,13 +16,17 @@ const App = () => {
   const user = useSelector((state) => state.user)
 
   useEffect(() => {
-    dispatch(userLogin(null, false))
+    dispatch(userLogin())
     dispatch(fetchBlogs())
   }, [dispatch])
 
   const logout = (e) => {
     e.preventDefault()
-    dispatch(userLogout(user.name))
+    dispatch(
+      userLogout({
+        onSuccess: dispatch(notify(`${user.name} logout successfully !`))
+      })
+    )
   }
 
   return (
