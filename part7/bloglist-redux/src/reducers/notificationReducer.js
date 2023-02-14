@@ -39,10 +39,10 @@ const setNotification = (content, type, delayInSeconds) => {
   }
 }
 
-export const notify = (content, delayInSeconds = 2) =>
+export const notify = (content, delayInSeconds = 4) =>
   setNotification(content, notificationTypes.SUCCESS, delayInSeconds)
 
-export const alert = (content, delayInSeconds = 2) =>
+export const alert = (content, delayInSeconds = 4) =>
   setNotification(content, notificationTypes.ERROR, delayInSeconds)
 
 export const errorHandler = (callback) => {

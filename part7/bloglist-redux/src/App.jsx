@@ -10,6 +10,7 @@ import Users from './components/Users'
 import User from './components/User'
 import Blog from './components/Blog'
 import Navigation from './components/Navigation'
+import Footer from './components/Footer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -23,7 +24,6 @@ const App = () => {
   return (
     <>
       <Navigation />
-      <h1 className="text-4xl">Blog App</h1>
       <Notification />
       {user === null ? (
         <LoginForm />
@@ -39,6 +39,7 @@ const App = () => {
           </Route>
         </Routes>
       )}
+      <Footer />
     </>
   )
 }
