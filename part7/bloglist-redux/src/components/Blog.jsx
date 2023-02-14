@@ -8,6 +8,7 @@ import {
 import { notify } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
 import PropTypes from 'prop-types'
+import Notfound from './Notfound'
 
 const Blog = () => {
   const { id } = useParams()
@@ -51,7 +52,7 @@ const Blog = () => {
     commentField.clear()
   }
 
-  if (!blog) return
+  if (!blog) return <Notfound />
   return (
     <div data-test="blog">
       <h2>

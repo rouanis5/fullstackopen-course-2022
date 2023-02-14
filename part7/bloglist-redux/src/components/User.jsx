@@ -1,12 +1,13 @@
 import { useParams, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import Notfound from './Notfound'
 
 const User = () => {
   const { id } = useParams()
   const user = useSelector((state) =>
     state.users.find((user) => user.id === id)
   )
-  if (!user) return
+  if (!user) <Notfound />
 
   return (
     <div>

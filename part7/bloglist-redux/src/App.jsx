@@ -11,6 +11,7 @@ import User from './components/User'
 import Blog from './components/Blog'
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
+import Notfound from './components/Notfound'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -36,6 +37,7 @@ const App = () => {
               <Route index element={<Users />} />
               <Route path=":id" element={<User />} />
             </Route>
+            <Route path="*" element={<Notfound />} />
           </Route>
         </Routes>
       )}
