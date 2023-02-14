@@ -83,4 +83,24 @@ blogsRouter.route('/:id')
     res.json(result.toJSON())
   })
 
+blogsRouter.put('/:id/comments', async (req, res) => {
+  const { id } = req.params
+  const { comment } = req.body
+
+  const blog = await Blog.findById(id)
+  if (!blog) {
+    return res.status(404).end()
+  }
+  if (!comment) {
+    return res.status(400).json({ error: 'missing comment parameter' })
+  }
+  if (comment.toString().trim() === '') {
+    return res.status(400).json({ error: 'empty comment !' })
+  }
+
+  blog.comments.push(comment)
+  await blog.save()
+  res.json(blog.toJSON())
+})
+
 module.exports = blogsRouter
