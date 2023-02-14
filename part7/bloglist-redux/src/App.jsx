@@ -23,7 +23,7 @@ const App = () => {
   return (
     <>
       <Navigation />
-      <h1>Blog App</h1>
+      <h1 className="text-4xl">Blog App</h1>
       <Notification />
       {user === null ? (
         <LoginForm />
