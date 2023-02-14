@@ -9,6 +9,7 @@ import Home from './components/Home'
 import Users from './components/Users'
 import User from './components/User'
 import Blog from './components/Blog'
+import Navigation from './components/Navigation'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -21,6 +22,7 @@ const App = () => {
 
   return (
     <>
+      <Navigation />
       <h1>Blog App</h1>
       <Notification />
       {user === null ? (

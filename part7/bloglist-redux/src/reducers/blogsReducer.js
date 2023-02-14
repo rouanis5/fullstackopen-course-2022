@@ -60,4 +60,12 @@ export const deleteBlog = (blogToDelete, { onSuccess } = {}) => {
   })
 }
 
+export const commentBlog = (id, comment, { onSuccess } = {}) => {
+  return handler(async (dispatch) => {
+    const updatedBlog = await blogService.comment(id, comment)
+    dispatch(blogsActions.update(updatedBlog))
+    if (onSuccess) onSuccess(updatedBlog)
+  })
+}
+
 export default blogsSlice.reducer

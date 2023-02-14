@@ -1,11 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
-import { increaseBlogLikes, deleteBlog } from '../reducers/blogsReducer'
+import {
+  increaseBlogLikes,
+  deleteBlog,
+  commentBlog
+} from '../reducers/blogsReducer'
 import { notify } from '../reducers/notificationReducer'
+import { useField } from '../hooks'
 import PropTypes from 'prop-types'
 
 const Blog = () => {
   const { id } = useParams()
+  const [comment, commentField] = useField('text')
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const blog = useSelector((state) =>
@@ -34,9 +40,26 @@ const Blog = () => {
     )
   }
 
+  const addComment = (e) => {
+    e.preventDefault()
+    console.log(comment)
+    dispatch(
+      commentBlog(blog.id, comment, {
+        onSuccess: () => dispatch(notify(`comment added !`))
+      })
+    )
+    commentField.clear()
+  }
+
   if (!blog) return
   return (
     <div data-test="blog">
+      <h2>
+        {blog.title}{' '}
+        <button type="button" onClick={remove} data-test="blog:delete">
+          delete
+        </button>
+      </h2>
       <ul>
         <li>{blog.url}</li>
         <li>
@@ -47,9 +70,18 @@ const Blog = () => {
         </li>
         <li>{blog.author}</li>
       </ul>
-      <button type="button" onClick={remove} data-test="blog:delete">
-        delete
-      </button>
+      <div>
+        <h3>comments</h3>
+        <form onSubmit={addComment}>
+          <input {...commentField.props} />
+          <button type="submit">add comment</button>
+        </form>
+        <ul>
+          {blog?.comments.map((comment, index) => (
+            <li key={`${comment} ${index}`}>{comment}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
