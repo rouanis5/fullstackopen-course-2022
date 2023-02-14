@@ -25,7 +25,7 @@ const Navigation = () => {
 
   const Logout = () => {
     return (
-      <div className="mt-4">
+      <div>
         {user !== null && (
           <div>
             <span className="mr-5 text-gray-500 dark:text-gray-200">
@@ -33,7 +33,7 @@ const Navigation = () => {
             </span>
             <button
               onClick={logout}
-              className="transform rounded-lg bg-blue-600 px-6 py-2 font-medium capitalize tracking-wide text-white transition-colors duration-300 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80"
+              className="transform rounded-lg bg-blue-600 px-4 py-1 capitalize text-white transition-colors duration-300 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80"
             >
               logout
             </button>
@@ -54,7 +54,7 @@ const Navigation = () => {
             key={i}
             to={to}
             onClick={() => setToggle(false)}
-            className="transform rounded-lg px-2.5 py-2 text-gray-700 transition-colors duration-300 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 md:mx-2"
+            className="transform rounded-lg px-2.5 py-0 text-gray-700 transition-colors duration-300 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 md:mx-2"
           >
             {content}
           </Link>
@@ -64,7 +64,7 @@ const Navigation = () => {
   }
 
   return (
-    <nav className="relative bg-white shadow dark:bg-gray-800">
+    <nav className="relative mb-6 bg-white shadow dark:bg-gray-800">
       <div className="container mx-auto px-6 py-3 md:flex">
         <div className="flex items-center justify-between">
           <Link
@@ -118,15 +118,15 @@ const Navigation = () => {
         </div>
 
         {/* <!-- Mobile Menu open: "block", Menu closed: "hidden" --> */}
-        <div className="absolute inset-x-0 z-20 hidden w-full translate-x-0 items-center justify-between bg-white p-0 px-6 py-4 opacity-100 transition-all duration-300 ease-in-out dark:bg-gray-800 md:relative md:top-0 md:mt-0 md:flex">
-          <div className="mx-10 flex flex-row px-2 py-0">
+        <div className="absolute inset-x-0 z-20 hidden w-full translate-x-0 items-center justify-between bg-white p-0 px-6 opacity-100 transition-all duration-300 ease-in-out dark:bg-gray-800 md:relative md:top-0 md:mt-0 md:flex">
+          <div className="mx-10 flex flex-row px-2">
             <Links />
           </div>
           <Logout />
         </div>
         {toggle && (
           <div className="absolute inset-x-0 z-20 w-full bg-white px-6 py-4 transition-all duration-300 ease-in-out dark:bg-gray-800 md:hidden">
-            <div className="-mx-4 flex flex-col px-2">
+            <div className="-mx-4 mb-2 flex flex-col px-2">
               <Links />
             </div>
             <Logout />
