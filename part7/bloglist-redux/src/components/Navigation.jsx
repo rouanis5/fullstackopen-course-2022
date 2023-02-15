@@ -3,11 +3,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { notify } from '../reducers/notificationReducer'
 import { userLogout } from '../reducers/userReducer'
 import { useState } from 'react'
+import { toggleTheme } from '../reducers/darkThemeReducer'
+import { DarkModeSwitch } from 'react-toggle-dark-mode'
 
 const Navigation = () => {
   const [toggle, setToggle] = useState(false)
-  const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
+  const isDarkTheme = useSelector((state) => state.darkTheme)
+  const dispatch = useDispatch()
+
   const logout = (e) => {
     e.preventDefault()
     const { name } = user
@@ -29,7 +33,7 @@ const Navigation = () => {
         {user !== null && (
           <div>
             <span className="mr-5 text-gray-500 dark:text-gray-200">
-              {user.name}
+              @{user.username}
             </span>
             <button
               onClick={logout}
@@ -41,6 +45,10 @@ const Navigation = () => {
         )}
       </div>
     )
+  }
+
+  const changeTheme = () => {
+    dispatch(toggleTheme())
   }
 
   const Links = () => {
@@ -75,7 +83,12 @@ const Navigation = () => {
           </Link>
 
           {/* <!-- Mobile menu button --> */}
-          <div className="flex md:hidden">
+          <div className="flex gap-x-2 md:hidden">
+            <DarkModeSwitch
+              size={25}
+              checked={isDarkTheme}
+              onChange={changeTheme}
+            />
             <button
               type="button"
               onClick={toggler}
@@ -122,7 +135,14 @@ const Navigation = () => {
           <div className="mx-10 flex flex-row px-2">
             <Links />
           </div>
-          <Logout />
+          <div className="flex items-center gap-x-3">
+            <Logout />
+            <DarkModeSwitch
+              size={25}
+              checked={isDarkTheme}
+              onChange={changeTheme}
+            />
+          </div>
         </div>
         {toggle && (
           <div className="absolute inset-x-0 z-20 w-full bg-white px-6 py-4 transition-all duration-300 ease-in-out dark:bg-gray-800 md:hidden">

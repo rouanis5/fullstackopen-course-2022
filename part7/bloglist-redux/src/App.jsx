@@ -13,12 +13,14 @@ import Blog from './components/Blog'
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
 import Notfound from './components/Notfound'
+import { getThemeFromLocalStorage } from './reducers/darkThemeReducer'
 
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
 
   useEffect(() => {
+    dispatch(getThemeFromLocalStorage())
     dispatch(
       userLogin(null, {
         onSuccess: () => {
