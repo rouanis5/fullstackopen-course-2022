@@ -74,12 +74,12 @@ const Blog = () => {
         </div>
 
         <div className="mt-6 flex flex-col items-center xl:mt-0 xl:w-1/2 xl:items-start">
-          <h2 className=" flex items-center gap-x-2 font-medium text-white">
-            <span className=" text-2xl font-semibold capitalize tracking-tight xl:text-3xl">
+          <h2 className="flex items-center gap-x-2 font-medium">
+            <span className="text-2xl font-semibold capitalize tracking-tight text-gray-800 dark:text-white xl:text-3xl">
               {blog.title}
             </span>
             <button
-              className="rounded-full bg-red-500 py-0.5 px-1.5 text-xs"
+              className="rounded-full bg-red-500 py-0.5 px-1.5 text-xs text-white"
               type="button"
               onClick={remove}
               data-test="blog:delete"
