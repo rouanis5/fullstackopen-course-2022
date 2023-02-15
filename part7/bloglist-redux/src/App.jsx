@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Routes, Route } from 'react-router-dom'
 import { userLogin } from './reducers/userReducer'
 import { fetchBlogs } from './reducers/blogsReducer'
+import { fetchUsers } from './reducers/usersReducer'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import Home from './components/Home'
@@ -18,8 +19,14 @@ const App = () => {
   const user = useSelector((state) => state.user)
 
   useEffect(() => {
-    dispatch(userLogin())
-    dispatch(fetchBlogs())
+    dispatch(
+      userLogin(null, {
+        onSuccess: () => {
+          dispatch(fetchBlogs())
+          dispatch(fetchUsers())
+        }
+      })
+    )
   }, [dispatch])
 
   return (

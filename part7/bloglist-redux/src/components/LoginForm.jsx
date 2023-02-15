@@ -2,6 +2,8 @@ import { useField } from '../hooks'
 import { useDispatch } from 'react-redux'
 import { userLogin } from '../reducers/userReducer'
 import { notify } from '../reducers/notificationReducer'
+import { fetchBlogs } from '../reducers/blogsReducer'
+import { fetchUsers } from '../reducers/usersReducer'
 
 const LoginForm = () => {
   const [username, usernameInput] = useField('text')
@@ -21,6 +23,8 @@ const LoginForm = () => {
       userLogin(data, {
         onSuccess: (user) => {
           dispatch(notify(`${user.name} login`))
+          dispatch(fetchBlogs())
+          dispatch(fetchUsers())
         }
       })
     )
