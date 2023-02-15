@@ -54,7 +54,7 @@ const Navigation = () => {
             key={i}
             to={to}
             onClick={() => setToggle(false)}
-            className="transform rounded-lg px-2.5 py-0 text-gray-700 transition-colors duration-300 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 md:mx-2"
+            className="transform rounded-lg px-2.5 py-1 text-gray-700 transition-colors duration-300 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 md:mx-2"
           >
             {content}
           </Link>

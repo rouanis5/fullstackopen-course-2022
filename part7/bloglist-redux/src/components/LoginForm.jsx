@@ -8,6 +8,9 @@ const LoginForm = () => {
   const [password, passwordInput] = useField('password')
   const dispatch = useDispatch()
 
+  const resetForm = () => {
+    Array.from([usernameInput, passwordInput]).map((el) => el.clear())
+  }
   const login = (e) => {
     e.preventDefault()
     const data = {
@@ -21,8 +24,7 @@ const LoginForm = () => {
         }
       })
     )
-
-    Array.from([usernameInput, passwordInput]).map((el) => el.clear())
+    resetForm()
   }
 
   return (
@@ -79,6 +81,7 @@ const LoginForm = () => {
           <div className="mx-auto mt-6 flex w-full shrink-0 items-center gap-x-3">
             <button
               type="reset"
+              onClick={resetForm}
               className="flex w-1/2 items-center justify-center gap-x-2 rounded-lg border bg-white px-5 py-2 text-sm text-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
             >
               <span>Clear</span>
