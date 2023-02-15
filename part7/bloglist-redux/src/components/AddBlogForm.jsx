@@ -35,7 +35,7 @@ const AddBlogForm = ({ toggleState }) => {
   return (
     <section className="my-8 max-w-2xl rounded-md bg-white p-6 shadow-md dark:bg-gray-800">
       <h2 className="text-lg font-semibold capitalize text-gray-700 dark:text-white">
-        Account settings
+        Add Blog
       </h2>
 
       <form onSubmit={add}>

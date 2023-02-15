@@ -19,8 +19,8 @@ const User = () => {
             src="https://i.pravatar.cc/150?img=0"
             alt=""
           />
-          <div>
-            <h2 className="text-2xl font-semibold capitalize text-gray-800 dark:text-white lg:text-3xl">
+          <div className="text-gray-800 dark:text-white">
+            <h2 className="text-2xl font-semibold capitalize lg:text-3xl">
               {user.name} blogs ({user?.blogs.length ?? 0})
             </h2>
             <span>@{user.username}</span>

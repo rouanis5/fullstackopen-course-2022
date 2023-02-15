@@ -25,10 +25,10 @@ const LoginForm = () => {
           dispatch(notify(`${user.name} login`))
           dispatch(fetchBlogs())
           dispatch(fetchUsers())
+          resetForm()
         }
       })
     )
-    resetForm()
   }
 
   return (
@@ -51,11 +51,10 @@ const LoginForm = () => {
           </svg>
         </p>
         <h1 className="mt-3 text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl">
-          Log in to application
+          Log in
         </h1>
-        <p className="mt-4 text-gray-500 dark:text-gray-400">
-          The page you are looking for does not exist. Here are some helpful
-          links:
+        <p className="mt-4 capitalize text-gray-500 dark:text-gray-400">
+          new to blogApp ? sign up to join our coumunity and having fun with us
         </p>
 
         <form onSubmit={login} className="mt-8 w-full" data-test="login:form">
