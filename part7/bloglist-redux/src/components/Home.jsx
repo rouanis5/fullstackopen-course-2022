@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import AddBlogForm from './AddBlogForm'
+import BlogCard from './BlogCard'
 
 const Home = () => {
   const [toggle, setToggle] = useState(false)
@@ -33,32 +33,8 @@ const Home = () => {
         <AddBlogForm toggleState={[toggle, toggler]} />
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
-          {blogs.map(({ id, title, author }, index) => (
-            <div key={id}>
-              <img
-                className="h-64 w-full rounded-lg object-cover object-center lg:h-80"
-                src={`https://picsum.photos/514/256?random=${index}`}
-                alt={title}
-              />
-              <div className="mt-8">
-                <span className="uppercase text-blue-500">category</span>
-
-                <h3 className="mt-4 text-xl font-semibold capitalize text-gray-800 dark:text-white">
-                  {title}
-                </h3>
-                <div className="mt-4 flex items-center justify-between">
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    by <span className="uppercase">{author}</span>
-                  </p>
-                  <Link
-                    to={`/blogs/${id}`}
-                    className="transform rounded-lg px-2.5 py-2 font-medium text-gray-700 transition-colors duration-300 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 md:mx-2"
-                  >
-                    Read more
-                  </Link>
-                </div>
-              </div>
-            </div>
+          {blogs.map((blog, index) => (
+            <BlogCard key={blog.id} blog={blog} id={index} />
           ))}
         </div>
       </div>
