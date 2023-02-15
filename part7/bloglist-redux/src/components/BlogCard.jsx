@@ -19,7 +19,7 @@ const BlogCard = ({ blog, id }) => {
             by <span className="uppercase">{blog.author}</span>
           </p>
           <Link
-            to={`/blogs/${id}`}
+            to={`/blogs/${blog.id}`}
             className="transform rounded-lg px-2.5 py-2 font-medium text-gray-700 transition-colors duration-300 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 md:mx-2"
           >
             Read more
