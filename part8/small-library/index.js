@@ -6,14 +6,50 @@ const { authors, books } = require('./data')
 */
 
 const typeDefs = `
+  type Author {
+    name: String!
+    born: Int!
+    id: ID!
+    bookCount: Int
+  }
+
+  type Book {
+    title: String!
+    published: Int!
+    author: String!
+    id: ID!
+    genres: [String!]!
+  }
+
   type Query {
-    dummy: Int
+    bookCount: Int!
+    authorCount: Int!
+    allBooks(author: String, genre: String): [Book!]!
+    allAuthors: [Author!]!
   }
 `
 
 const resolvers = {
   Query: {
-    dummy: () => 0
+    bookCount: () => books.length,
+    authorCount: () => authors.length,
+    allBooks: (root, { author, genre }) => {
+      let result = books
+
+      if (author) {
+        result = result.filter((book) => book.author === author)
+      }
+      if (genre) {
+        result = result.filter((book) => book.genres.includes(genre))
+      }
+      return result
+    },
+    allAuthors: () => authors
+  },
+  Author: {
+    bookCount: (root) => {
+      return books.filter((book) => book.author === root.name).length
+    }
   }
 }
 
