@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import Authors from './components/Authors'
 import Books from './components/Books'
@@ -14,6 +14,7 @@ const App = () => {
           <Route path="books" element={<Books />} />
           <Route path="add" element={<NewBook />} />
         </Route>
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   )
