@@ -1,11 +1,19 @@
 const { ApolloServer } = require('@apollo/server')
-const { v1: uuid } = require('uuid')
 const { startStandaloneServer } = require('@apollo/server/standalone')
-let { authors, books } = require('./data')
+const mongoose = require('mongoose')
+const config = require('./utils/config')
+const Author = require('./models/Author')
+const Book = require('./models/Book')
 
-/*
-  you can remove the placeholder query once your first own has been implemented
-*/
+mongoose.set('strictQuery', true)
+mongoose
+  .connect(config.MONGO_URL)
+  .then(() => {
+    console.log('connected to MongoDB')
+  })
+  .catch((error) => {
+    console.error(`error connecting to mongoDB ${error.message}`)
+  })
 
 const typeDefs = `
   type Author {
@@ -18,7 +26,7 @@ const typeDefs = `
   type Book {
     title: String!
     published: Int!
-    author: String!
+    author: Author!
     id: ID!
     genres: [String!]!
   }
@@ -46,50 +54,42 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    bookCount: () => books.length,
-    authorCount: () => authors.length,
-    allBooks: (root, { author, genre }) => {
-      let result = books
-
-      if (author) {
-        result = result.filter((book) => book.author === author)
-      }
-      if (genre) {
-        result = result.filter((book) => book.genres.includes(genre))
-      }
-      return result
+    bookCount: async () => await Book.collection.countDocuments(),
+    authorCount: async () => await Author.collection.countDocuments(),
+    allBooks: async (root, { author, genre }) => {
+      return await Book.find({ author, genres: [genre] })
     },
-    allAuthors: () => authors
+    allAuthors: async () => await Author.find({})
   },
   Author: {
-    bookCount: (root) => {
-      return books.filter((book) => book.author === root.name).length
+    bookCount: async (root) => {
+      return await Book.countDocuments({ author: root.name }).exec()
+      // return Book.find({ author: root.name }).countDocuments()
     }
   },
   Mutation: {
-    addBook: (root, args) => {
-      const book = { ...args, id: uuid() }
-      books = books.concat(book)
-
-      const authorInAuthors = authors
-        .map((author) => author.name)
-        .includes(args.author)
-
-      if (!authorInAuthors) {
-        authors = authors.concat({
-          name: args.author,
-          id: uuid()
-        })
+    addBook: async (root, args) => {
+      // {title, published, author, genres}
+      try {
+        let author = await Author.findOne({ name: args.author })
+        if (!author) {
+          author = await Author.create({ name: args.author })
+        }
+        return await Book.create({ ...args, author: author._id })
+      } catch (error) {
+        console.log(error.message)
       }
-
-      return book
     },
-    editAuthor: (root, { name, setBornTo }) => {
-      const author = authors.find((author) => author.name === name)
-      if (!author) return
-
-      author.born = setBornTo
-      return author
+    editAuthor: async (root, { name, setBornTo }) => {
+      try {
+        return await Author.findOneAndUpdate(
+          { name },
+          { born: setBornTo },
+          { new: true, runValidators: true, context: 'query' }
+        )
+      } catch (error) {
+        console.log(error.message)
+      }
     }
   }
 }
@@ -100,7 +100,7 @@ const server = new ApolloServer({
 })
 
 startStandaloneServer(server, {
-  listen: { port: 4000 }
+  listen: { port: config.PORT }
 }).then(({ url }) => {
   console.log(`Server ready at ${url}`)
 })
