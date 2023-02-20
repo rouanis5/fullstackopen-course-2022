@@ -1,5 +1,6 @@
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
+const { GraphQLError } = require('graphql')
 const mongoose = require('mongoose')
 const config = require('./utils/config')
 const Author = require('./models/Author')
@@ -91,7 +92,13 @@ const resolvers = {
         }
         return await Book.create({ ...args, author: author._id })
       } catch (error) {
-        console.log(error.message)
+        throw new GraphQLError('Saving book failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.title,
+            error
+          }
+        })
       }
     },
     editAuthor: async (root, { name, setBornTo }) => {
@@ -102,7 +109,12 @@ const resolvers = {
           { new: true, runValidators: true, context: 'query' }
         )
       } catch (error) {
-        console.log(error.message)
+        throw new GraphQLError('author update failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            error
+          }
+        })
       }
     }
   }
