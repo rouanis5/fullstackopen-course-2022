@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../querries/user'
 
-const Login = ({ setUser }) => {
+const Login = ({ setToken }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -13,12 +13,18 @@ const Login = ({ setUser }) => {
     await login({
       variables: { username, password },
       onCompleted: (data) => {
-        setUser(data.login.value)
+        const token = data.login.value
+        setToken(token)
+        localStorage.setItem('library-user-token', token)
+      },
+      onError: (error) => {
+        console.log(error.graphQLErrors[0].message)
       }
     })
     setUsername('')
     setPassword('')
   }
+
   return (
     <div>
       <h2>Login form</h2>

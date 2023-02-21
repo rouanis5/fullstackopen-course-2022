@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const Navigation = ({ user }) => {
+const Navigation = ({ token, logout }) => {
   return (
     <div>
       <Link to="/">
@@ -9,14 +9,12 @@ const Navigation = ({ user }) => {
       <Link to="/books">
         <button>books</button>
       </Link>
-      {user ? (
+      {token ? (
         <>
           <Link to="/add">
             <button>add book</button>
           </Link>
-          <Link to="/aha">
-            <button>logout</button>
-          </Link>
+          <button onClick={logout}>logout</button>
         </>
       ) : (
         <Link to="/login">
