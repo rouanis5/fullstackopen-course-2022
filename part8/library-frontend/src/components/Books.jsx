@@ -1,64 +1,44 @@
 import { useEffect, useState } from 'react'
-import { useQuery } from '@apollo/client'
-import { ALL_BOOKS } from '../querries/book'
+import BooksTable from './BooksTable'
 
-const Books = () => {
-  const { data, error, loading } = useQuery(ALL_BOOKS)
+const Books = ({ data }) => {
   const [genres, setGenres] = useState([])
   const [genre, setGenre] = useState(null)
   const [books, setBooks] = useState([])
 
   useEffect(() => {
-    if (loading || error) return
-
-    const result = data.allBooks.reduce(
-      (init, book) => book.genres.concat(init),
-      []
-    )
-    setBooks(data.allBooks)
+    const result = data.reduce((init, book) => book.genres.concat(init), [])
     setGenres([...new Set(result)])
-  }, [data, loading, error])
+  }, [data])
 
   useEffect(() => {
-    // genre will never change if allBooks doesn't exit !
-    const books = data.allBooks
     setBooks(
-      genre ? books?.filter((book) => [...book.genres].includes(genre)) : books
+      genre ? data?.filter((book) => [...book.genres].includes(genre)) : data
     )
   }, [genre, data])
 
   return (
     <div>
-      <h2>books</h2>
+      <h2>books {genre && `(${genre})`}</h2>
       <div>
-        {genres.map((genre, i) => (
+        {genres.map((type, i) => (
           <button
             key={i}
+            disabled={type === genre}
             onClick={() => {
-              setGenre(genre)
+              setGenre(type)
             }}
           >
-            {genre}
+            {type}
           </button>
         ))}
-        {genres && <button onClick={() => setGenre(null)}>all genres</button>}
+        {genres && (
+          <button disabled={!genre} onClick={() => setGenre(null)}>
+            all genres
+          </button>
+        )}
+        <BooksTable books={books} />
       </div>
-      <table>
-        <tbody>
-          <tr>
-            <th></th>
-            <th>author</th>
-            <th>published</th>
-          </tr>
-          {books.map((a) => (
-            <tr key={a.id}>
-              <td>{a.title}</td>
-              <td>{a.author.name}</td>
-              <td>{a.published}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../querries/user'
+import { localStorageKey } from '../helpers/consants'
 
 const Login = ({ setToken }) => {
   const [username, setUsername] = useState('')
@@ -15,7 +16,7 @@ const Login = ({ setToken }) => {
       onCompleted: (data) => {
         const token = data.login.value
         setToken(token)
-        localStorage.setItem('library-user-token', token)
+        localStorage.setItem(localStorageKey, token)
       },
       onError: (error) => {
         console.log(error.graphQLErrors[0].message)

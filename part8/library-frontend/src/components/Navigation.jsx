@@ -11,6 +11,9 @@ const Navigation = ({ token, logout }) => {
       </Link>
       {token ? (
         <>
+          <Link to="/recommand">
+            <button>recommand</button>
+          </Link>
           <Link to="/add">
             <button>add book</button>
           </Link>
