@@ -1,34 +1,37 @@
-import BooksTable from './BooksTable'
-import { useQuery } from '@apollo/client'
+import { useEffect } from 'react'
+import { useQuery, useLazyQuery } from '@apollo/client'
+import { ALL_BOOKS } from '../querries/book'
 import { ME } from '../querries/user'
-import { useEffect, useState } from 'react'
+import BooksTable from './BooksTable'
 
-export const Recommand = ({ data: fetchedData }) => {
-  const { data, loading, error } = useQuery(ME)
-  const [books, setBooks] = useState([])
+export const Recommand = () => {
+  const result = useQuery(ME)
+  const [fetchBooks, { called, data, loading, error }] = useLazyQuery(ALL_BOOKS)
 
   useEffect(() => {
-    if (loading || error) return
-    setBooks(
-      fetchedData.filter((book) =>
-        [...book.genres].includes(data.me.favouriteGenre)
-      )
-    )
-  }, [fetchedData, data, loading, error])
+    if (result.loading || result.error) return
+    const { favouriteGenre } = result.data.me
+    fetchBooks({
+      variables: { genre: favouriteGenre }
+    })
+  }, [fetchBooks, result])
 
   return (
     <div>
       <h2>Recommandations</h2>
-      {loading ? (
+      {result.loading ? (
         <p>loading...</p>
-      ) : error ? (
+      ) : result.error ? (
         <p>something went wrong</p>
       ) : (
-        <p>
-          books in your favourite genre <b>{data.me?.favouriteGenre}</b>
-        </p>
+        <>
+          <p>
+            books in your favourite genre <b>{result.data.me.favouriteGenre}</b>
+          </p>
+          {called && loading && <p>loading...</p>}
+          {called && !loading && !error && <BooksTable books={data.allBooks} />}
+        </>
       )}
-      <BooksTable books={books} />
     </div>
   )
 }
