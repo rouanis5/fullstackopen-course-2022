@@ -1,6 +1,5 @@
 const { GraphQLError } = require('graphql')
 const Author = require('../../models/Author')
-const Book = require('../../models/Book')
 
 const resolvers = {
   Query: {
@@ -8,8 +7,9 @@ const resolvers = {
     allAuthors: async () => await Author.find({})
   },
   Author: {
-    bookCount: async (root) => {
-      return await Book.countDocuments({ author: root.id })
+    bookCount: async (root, args, { loaders }) => {
+      // return await Book.countDocuments({ author: root.id })
+      return await loaders.bookCount.load(root.id)
     }
   },
   Mutation: {

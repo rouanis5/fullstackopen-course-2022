@@ -5,7 +5,7 @@ const typeDef = gql`
     name: String!
     born: Int
     id: ID!
-    bookCount: Int
+    bookCount: Int!
   }
 
   type Query {
