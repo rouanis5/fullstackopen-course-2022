@@ -1,6 +1,12 @@
+const { PubSub } = require('graphql-subscriptions')
 const { GraphQLError } = require('graphql')
 const Author = require('../../models/Author')
 const Book = require('../../models/Book')
+
+const pubsub = new PubSub()
+const triggers = {
+  BOOK_ADDED: 'BOOK_ADDED'
+}
 
 const resolvers = {
   Query: {
@@ -39,7 +45,9 @@ const resolvers = {
         if (!author) {
           author = await Author.create({ name: args.author })
         }
-        return await Book.create({ ...args, author: author._id })
+        const book = await Book.create({ ...args, author: author._id })
+        pubsub.publish(triggers.BOOK_ADDED, { bookAdded: book })
+        return book
       } catch (error) {
         throw new GraphQLError('Saving book failed', {
           extensions: {
@@ -49,6 +57,11 @@ const resolvers = {
           }
         })
       }
+    }
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator(triggers.BOOK_ADDED)
     }
   }
 }
