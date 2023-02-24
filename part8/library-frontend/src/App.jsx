@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useApolloClient, useQuery } from '@apollo/client'
-import { ALL_BOOKS } from './querries/book'
+import { useApolloClient, useQuery, useSubscription } from '@apollo/client'
+import { ALL_BOOKS, BOOK_ADDED, updateBooksCache } from './querries/book'
 import { Route, Routes, Navigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import Navigation from './components/Navigation'
 import Authors from './components/Authors'
 import Books from './components/Books'
@@ -12,9 +13,24 @@ import { Recommand } from './components/Recommand'
 const App = () => {
   const [token, setToken] = useState(null)
   const [books, setBooks] = useState([])
+  const client = useApolloClient()
+
   const { data, error, loading } = useQuery(ALL_BOOKS)
 
-  const client = useApolloClient()
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data: res }) => {
+      const book = res.data.bookAdded
+
+      Swal.fire({
+        icon: 'success',
+        title: `${book.title} is added!`,
+        showConfirmButton: false,
+        timer: 1500
+      })
+
+      updateBooksCache(client.cache, { query: ALL_BOOKS }, book)
+    }
+  })
 
   const logout = () => {
     setToken(null)
