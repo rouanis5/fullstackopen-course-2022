@@ -50,7 +50,8 @@ const resolvers = {
         if (!author) {
           author = await Author.create({ name: args.author })
         }
-        const book = await Book.create({ ...args, author: author._id })
+        const result = await Book.create({ ...args, author: author._id })
+        const book = result.populate('author')
         pubsub.publish(triggers.BOOK_ADDED, { bookAdded: book })
         return book
       } catch (error) {
