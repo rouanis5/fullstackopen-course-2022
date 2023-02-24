@@ -9,7 +9,7 @@ const resolvers = {
   Author: {
     bookCount: async (root, args, { loaders }) => {
       // return await Book.countDocuments({ author: root.id })
-      return await loaders.bookCount.load(root.id)
+      return await loaders.author.bookCount.load(root.id)
     }
   },
   Mutation: {

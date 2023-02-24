@@ -1,14 +1,14 @@
 const DataLoader = require('dataloader')
-const Book = require('../models/Book')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
+const Book = require('../models/Book')
 const config = require('../utils/config')
 
 /**
  * reference:
  * https://www.robinwieruch.de/graphql-apollo-server-tutorial/#batching-and-caching-in-graphql-with-data-loader
  */
-const batchBookCount = async (authorsId) => {
+const batchAuthorBooksCount = async (authorsId) => {
   /**
    * here, it gets all the books that their
    * author's id included in the keys
@@ -28,6 +28,20 @@ const batchBookCount = async (authorsId) => {
   )
   return result
 }
+/**
+ * this works 100%, but you can just use the populate function
+ */
+// const batchBookAuthor = async (authorsId) => {
+//   const authors = await Author.find({
+//     id: {
+//       $in: authorsId
+//     }
+//   })
+//   const result = authorsId.map((id) =>
+//     authors.find((author) => author.id.toString() === id.toString())
+//   )
+//   return result
+// }
 
 const getMe = async (req) => {
   const auth = req ? req.headers.authorization : null
@@ -43,7 +57,14 @@ const context = async ({ req, res }) => {
   return {
     currentUser,
     loaders: {
-      bookCount: new DataLoader((authorsId) => batchBookCount(authorsId))
+      author: {
+        bookCount: new DataLoader((authorsId) =>
+          batchAuthorBooksCount(authorsId)
+        )
+      }
+      // book: {
+      //   author: new DataLoader((authorsId) => batchBookAuthor(authorsId))
+      // }
     }
   }
 }
