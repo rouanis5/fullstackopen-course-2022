@@ -1,25 +1,27 @@
-const typeDef = `
-type Book {
-  title: String!
-  published: Int!
-  author: Author!
-  id: ID!
-  genres: [String!]!
-}
+const { gql } = require('graphql-tag')
 
-type Query {
-  bookCount: Int!
-  allBooks(author: String, genre: String): [Book!]!
-}
-
-type Mutation {
-  addBook(
+const typeDef = gql`
+  type Book {
     title: String!
     published: Int!
-    author: String!
+    author: Author!
+    id: ID!
     genres: [String!]!
-  ): Book
-}
+  }
+
+  type Query {
+    bookCount: Int!
+    allBooks(author: String, genre: String): [Book!]!
+  }
+
+  type Mutation {
+    addBook(
+      title: String!
+      published: Int!
+      author: String!
+      genres: [String!]!
+    ): Book
+  }
 `
 
 module.exports = typeDef

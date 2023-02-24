@@ -1,4 +1,6 @@
-const typeDef = `
+const { gql } = require('graphql-tag')
+
+const typeDef = gql`
   type User {
     username: String!
     favouriteGenre: String!
@@ -8,20 +10,14 @@ const typeDef = `
   type Token {
     value: String!
   }
-  
+
   type Query {
     me: User
   }
 
   type Mutation {
-    createUser(
-      username: String!
-      favouriteGenre: String!
-    ): User
-    login(
-      username: String!
-      password: String!
-    ): Token
+    createUser(username: String!, favouriteGenre: String!): User
+    login(username: String!, password: String!): Token
   }
 `
 
