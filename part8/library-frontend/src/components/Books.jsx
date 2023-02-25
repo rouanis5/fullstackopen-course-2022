@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import BooksTable from './BooksTable'
-import { useLazyQuery } from '@apollo/client'
-import { ALL_BOOKS } from '../querries/book'
+import { useLazyQuery, useQuery } from '@apollo/client'
+import { ALL_BOOKS, ALL_BOOKS_BY_GENRE } from '../querries/book'
 
 const Books = () => {
   const [genres, setGenres] = useState([])
   const [genre, setGenre] = useState(null)
-  const [fetchBooks, { called, data, error, loading }] = useLazyQuery(ALL_BOOKS)
+  const [books, setBooks] = useState([])
+  const result = useQuery(ALL_BOOKS)
+  const [fetchBooks, { called, loading }] = useLazyQuery(ALL_BOOKS_BY_GENRE)
 
   // const [books, setBooks] = useState([])
   // useEffect(() => {
@@ -25,20 +27,35 @@ const Books = () => {
   //   )
   // }, [genre, data])
 
-  useEffect(() => {
+  const setBooksByGenre = (selectedGenre = null) => {
+    if (result.error || result.loading) return
+    if (!selectedGenre) {
+      setBooks(result.data.allBooks)
+      setGenre(selectedGenre)
+      return
+    }
+    if (genres.length === 0) return
     fetchBooks({
-      variables: { genre },
+      variables: { genre: selectedGenre },
       onCompleted: (data) => {
-        if (genres.length !== 0) return
-
-        const genresArray = data.allBooks.reduce(
-          (init, book) => book.genres.concat(init),
-          []
-        )
-        setGenres([...new Set(genresArray)])
+        setBooks(data.allBooks)
+        setGenre(selectedGenre)
       }
     })
-  }, [fetchBooks, genre, genres.length])
+  }
+
+  useEffect(() => {
+    if (result.error || result.loading) return
+    const books = result.data.allBooks
+    setBooksByGenre()
+
+    const genresArray = books.reduce(
+      (init, book) => book.genres.concat(init),
+      []
+    )
+    setGenres([...new Set(genresArray)])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result])
 
   return (
     <div>
@@ -49,19 +66,19 @@ const Books = () => {
             key={i}
             disabled={type === genre}
             onClick={() => {
-              setGenre(type)
+              setBooksByGenre(type)
             }}
           >
             {type}
           </button>
         ))}
         {genres && (
-          <button disabled={!genre} onClick={() => setGenre(null)}>
+          <button disabled={!genre} onClick={() => setBooksByGenre()}>
             all genres
           </button>
         )}
-        {called && loading && <p>loading...</p>}
-        {called && !loading && !error && <BooksTable books={data?.allBooks} />}
+        {((called && loading) || result.loading) && <p>loading...</p>}
+        <BooksTable books={books} />
       </div>
     </div>
   )

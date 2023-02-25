@@ -12,6 +12,11 @@ const NewBook = () => {
 
   const [addBook] = useMutation(ADD_BOOK, {
     update: (cache, response) => {
+      setTitle('')
+      setPublished('')
+      setAuthor('')
+      setGenres([])
+      setGenre('')
       updateBooksCache(cache, { query: ALL_BOOKS }, response.data.addBook)
     }
   })
@@ -23,12 +28,6 @@ const NewBook = () => {
       variables: { title, author, published: parseInt(published), genres }
       // refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }]
     })
-
-    setTitle('')
-    setPublished('')
-    setAuthor('')
-    setGenres([])
-    setGenre('')
   }
 
   const addGenre = () => {

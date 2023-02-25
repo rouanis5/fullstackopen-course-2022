@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { useQuery, useLazyQuery } from '@apollo/client'
-import { ALL_BOOKS } from '../querries/book'
+import { ALL_BOOKS_BY_GENRE } from '../querries/book'
 import { ME } from '../querries/user'
 import BooksTable from './BooksTable'
 
 export const Recommand = () => {
   const result = useQuery(ME)
-  const [fetchBooks, { called, data, loading, error }] = useLazyQuery(ALL_BOOKS)
+  const [fetchBooks, { called, data, loading, error }] =
+    useLazyQuery(ALL_BOOKS_BY_GENRE)
 
   useEffect(() => {
     if (result.loading || result.error) return

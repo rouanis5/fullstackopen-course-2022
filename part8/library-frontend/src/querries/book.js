@@ -12,6 +12,15 @@ const BOOK_DETAILS = gql`
   }
 `
 export const ALL_BOOKS = gql`
+  query {
+    allBooks {
+      ...BookDetails
+    }
+  }
+  ${BOOK_DETAILS}
+`
+
+export const ALL_BOOKS_BY_GENRE = gql`
   query ($genre: String) {
     allBooks(genre: $genre) {
       ...BookDetails
