@@ -1,4 +1,6 @@
-interface lakaka {
+import { isNotNumber, errorHandler } from "./utils"
+
+interface exercisesReport {
   periodLength: number,
   trainingDays: number,
   success: boolean,
@@ -26,7 +28,7 @@ const describeRating = (rating: rateInterface):string => {
   }
 }
 
-function calculateExercises(hoursPerDay: number[], target: number): lakaka {
+function calculateExercises(hoursPerDay: number[], target: number): exercisesReport {
   const periodLength = hoursPerDay.length
   const trainingDays = hoursPerDay.filter(day => day !== 0 ).length
   const totalHours = hoursPerDay.reduce((a,b) => a + b , 0)
@@ -46,4 +48,21 @@ function calculateExercises(hoursPerDay: number[], target: number): lakaka {
   }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+function parseArguments(args: string[]) {
+  if (args.length < 4) throw new Error('Not enough arguments')
+  const [,,firstParam,...restParams] = process.argv
+
+  if(!isNotNumber(firstParam) && !restParams.find(param => isNotNumber(param))) {
+    return {
+      target: Number(firstParam),
+      hoursPerDay: restParams.map(param => Number(param))
+    }
+  } else {
+    throw new Error('Provided values were not numbers!');
+  }
+}
+
+errorHandler(() => {
+  const { target, hoursPerDay } = parseArguments(process.argv)
+  console.log(calculateExercises(hoursPerDay, target));
+})
