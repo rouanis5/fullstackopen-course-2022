@@ -1,14 +1,14 @@
-export const isNotNumber = (argument: any): boolean =>
-  isNaN(Number(argument))
+export const isNotNumber = (argument: unknown): boolean =>
+  isNaN(Number(argument));
 
 export const errorHandler = (callback: () => void) => {
   try {
-    callback()
+    callback();
   } catch (error: unknown) {
-    let msg = 'something went wrong'
+    let msg = 'something went wrong';
     if (error instanceof Error) {
-      msg += ` Error: ${error.message}`
+      msg += ` Error: ${error.message}`;
     }
     console.error(msg);
   }
-}
+};
