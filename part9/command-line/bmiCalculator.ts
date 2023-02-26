@@ -6,7 +6,7 @@ import { isNotNumber, errorHandler } from "./utils"
  * and then returns a message that suits the results.
  *  */
 
-function calculateBmi(height: number, weight: number) {
+export default function calculateBmi(height: number, weight: number) {
   if (height === 0) throw new Error('Provided height is 0!')
   const bmi: any = weight / (height / 100) ** 2
   if (bmi >= 30) return 'Obese'
