@@ -1,5 +1,6 @@
 import express from 'express';
 import calculateBmi from './bmiCalculator';
+import calculateExercises from './exerciseCalculator';
 import { isNotNumber } from './utils';
 
 const app = express();
@@ -27,6 +28,23 @@ app.get('/bmi', (req, res) => {
       error: error instanceof Error ? error.message : 'Something went wrong'
     });
   }
+});
+
+app.post('/exercices', (req, res) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { daily_exercises, target: t } = req.body;
+  const exercices = daily_exercises as number[];
+  const target = t as number;
+
+  if (!(exercices instanceof Array && exercices.length >= 1) || !target) {
+    return res.status(400).json({ error: "parameters missing" });
+  }
+  if (!(!isNotNumber(target) && !exercices.find(day => isNotNumber(day)))) {
+    return res.status(400).json({ error: 'malformatted parameters'});
+  }
+
+  const result = calculateExercises(exercices, target);
+  return res.json(result);
 });
 
 const PORT = 3003;
