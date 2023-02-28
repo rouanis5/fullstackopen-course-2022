@@ -1,6 +1,6 @@
-import { CourseEntry } from '../types'
+import { CoursePart } from '../types'
 
-const Total = ({ courses }: { courses: CourseEntry[] }) => {
+const Total = ({ courses }: { courses: CoursePart[] }) => {
   return (
     <p>
       Number of exercises{' '}
