@@ -24,4 +24,12 @@ patientsRoute
     }
   })
 
+patientsRoute.route('/:id').get((req, res) => {
+  const result = patientService.findById(req.params.id)
+  if (!result) {
+    return res.status(404).end()
+  }
+  return res.json(result)
+})
+
 export default patientsRoute
