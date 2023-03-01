@@ -1,29 +1,24 @@
-import React, { useState, useEffect, createContext } from 'react'
-import { NonSensitiveDiaryEntry } from './utils/types'
+import { useEffect } from 'react'
 import Diaries from './components/Diaries'
 import AddDiary from './components/AddDiary'
+import { useDiariesDispatch } from './contexts/DiaryContext'
 import diariesService from './services/diaries'
 
-export const DiaryContext = createContext<
-  | [
-      NonSensitiveDiaryEntry[],
-      React.Dispatch<React.SetStateAction<NonSensitiveDiaryEntry[]>>
-    ]
-  | []
->([])
-
 const App = () => {
-  const [diaries, setDiaries] = useState<NonSensitiveDiaryEntry[]>([])
+  const dispatch = useDiariesDispatch()
 
   useEffect(() => {
-    diariesService.getAll().then((data) => setDiaries(data))
+    diariesService
+      .getAll()
+      .then(
+        (payload) => dispatch && dispatch({ type: 'fetchDiaries', payload })
+      )
   }, [])
+
   return (
     <div>
-      <DiaryContext.Provider value={[diaries, setDiaries]}>
-        <AddDiary />
-        <Diaries />
-      </DiaryContext.Provider>
+      <AddDiary />
+      <Diaries />
     </div>
   )
 }

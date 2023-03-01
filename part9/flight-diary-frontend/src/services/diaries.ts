@@ -20,7 +20,7 @@ const getById = async ({ id }: { id: string }) => {
 }
 
 const add = async (object: NewDiaryEntry) => {
-  const result = await api.post<NonSensitiveDiaryEntry>('/', object)
+  const result = await api.post<DiaryEntry>('/', object)
   return result.data
 }
 
