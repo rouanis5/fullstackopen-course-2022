@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import patientService from '../services/patientService'
-import { toNewPatientEntry } from '../parsers'
+import { NewPatientSchema } from '../schema/Patient'
 
 const patientsRoute = Router()
 
@@ -12,8 +12,8 @@ patientsRoute
   })
   .post((req, res) => {
     try {
-      const newPatient = toNewPatientEntry(req.body)
-      const result = patientService.addPatient(newPatient)
+      const newPatient = NewPatientSchema.parse(req.body)
+      const result = patientService.add(newPatient)
       return res.json(result)
     } catch (error) {
       let msg = 'something went wrong'

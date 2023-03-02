@@ -1,27 +1,9 @@
-// export type Gender = 'male' | 'female'
-export enum Gender {
-  Male = 'male',
-  Female = 'female'
-}
+import { z } from 'zod'
+import { PatientSchema, NewPatientSchema } from './schema/Patient'
+import { DiagnoseSchema } from './schema/Diagnose'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Entry {}
-
-export interface PatientEntry {
-  id: string
-  name: string
-  dateOfBirth: string
-  ssn: string
-  gender: Gender
-  occupation: string
-  entries: Entry[]
-}
-
+export type PatientEntry = z.infer<typeof PatientSchema>
+export type NewPatientEntry = z.infer<typeof NewPatientSchema>
 export type NonSensitivePatientEntry = Omit<PatientEntry, 'ssn' | 'entries'>
-export type NewPatientEntry = Omit<PatientEntry, 'id'>
 
-export interface DiagnoseEntry {
-  code: string
-  name: string
-  latin?: string
-}
+export type DiagnoseEntry = z.infer<typeof DiagnoseSchema>
