@@ -7,9 +7,11 @@ import {
   Typography,
   TableCell,
   TableRow,
-  TableBody
+  TableBody,
+  Link
 } from '@mui/material'
 import axios from 'axios'
+import { Link as RouterLink } from 'react-router-dom'
 
 import { PatientFormValues, Patient } from '../../types'
 import AddPatientModal from '../AddPatientModal'
@@ -82,6 +84,11 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
               <TableCell>{patient.occupation}</TableCell>
               <TableCell>
                 <HealthRatingBar showText={false} rating={1} />
+              </TableCell>
+              <TableCell>
+                <Link to={`/patients/${patient.id}`} component={RouterLink}>
+                  go
+                </Link>
               </TableCell>
             </TableRow>
           ))}
