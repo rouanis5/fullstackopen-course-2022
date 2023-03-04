@@ -11,17 +11,9 @@ patientsRoute
     return res.json(data)
   })
   .post((req, res) => {
-    try {
-      const newPatient = NewPatientSchema.parse(req.body)
-      const result = patientService.add(newPatient)
-      return res.json(result)
-    } catch (error) {
-      let msg = 'something went wrong'
-      if (error instanceof Error) {
-        msg += `Error: ${error.message}`
-      }
-      return res.status(400).json({ error: msg })
-    }
+    const newPatient = NewPatientSchema.parse(req.body)
+    const result = patientService.add(newPatient)
+    res.json(result)
   })
 
 patientsRoute.route('/:id').get((req, res) => {
