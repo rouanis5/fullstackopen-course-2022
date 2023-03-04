@@ -3,7 +3,8 @@ import { z } from 'zod'
 export const BasicEntrySchema = z.object({
   id: z.string(),
   date: z.coerce.date(),
-  diagnoseCodes: z.array(z.string()).default([]),
+  specialist: z.string(),
+  diagnosisCodes: z.array(z.string()).default([]),
   description: z.string()
 })
 
@@ -17,12 +18,13 @@ export const HospitalEntrySchema = BasicEntrySchema.extend({
 
 export const OccupationalHealthcareEntrySchema = BasicEntrySchema.extend({
   type: z.literal('OccupationalHealthcare'),
-  specialist: z.string(),
-  enployerName: z.string(),
-  sickLeave: z.object({
-    startDate: z.coerce.date(),
-    endDate: z.coerce.date()
-  })
+  employerName: z.string(),
+  sickLeave: z
+    .object({
+      startDate: z.coerce.date(),
+      endDate: z.coerce.date()
+    })
+    .optional()
 })
 
 export const PatientSchema = z.object({
