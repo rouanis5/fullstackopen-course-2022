@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "rm -rf build/ && tsc && node build/index.js",
+    "start": "rm -rf build/ && tsc && node build/src/index.js",
     "dev": "ts-node-dev src/index.ts",
     "lint": "eslint --ext .ts ."
   },
