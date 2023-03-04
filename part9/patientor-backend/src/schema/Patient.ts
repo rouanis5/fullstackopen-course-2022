@@ -1,5 +1,30 @@
 import { z } from 'zod'
 
+export const BasicEntrySchema = z.object({
+  id: z.string(),
+  date: z.coerce.date(),
+  diagnoseCodes: z.array(z.string()).default([]),
+  description: z.string()
+})
+
+export const HospitalEntrySchema = BasicEntrySchema.extend({
+  type: z.literal('Hospital'),
+  discharge: z.object({
+    date: z.coerce.date(),
+    criteria: z.string()
+  })
+})
+
+export const OccupationalHealthcareEntrySchema = BasicEntrySchema.extend({
+  type: z.literal('OccupationalHealthcare'),
+  specialist: z.string(),
+  enployerName: z.string(),
+  sickLeave: z.object({
+    startDate: z.coerce.date(),
+    endDate: z.coerce.date()
+  })
+})
+
 export const PatientSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -7,7 +32,9 @@ export const PatientSchema = z.object({
   ssn: z.string(),
   gender: z.enum(['male', 'female']),
   occupation: z.string(),
-  entries: z.array(z.string()).default([])
+  entries: z
+    .array(z.union([HospitalEntrySchema, OccupationalHealthcareEntrySchema]))
+    .default([])
 })
 
 export const NewPatientSchema = PatientSchema.omit({ id: true })
