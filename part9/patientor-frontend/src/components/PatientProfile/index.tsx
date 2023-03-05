@@ -1,10 +1,9 @@
+import { Patient, Diagnosis } from '../../types'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import patientService from '../services/patients'
-import { Patient, Gender } from '../types'
-import MaleIcon from '@mui/icons-material/Male'
-import FemaleIcon from '@mui/icons-material/Female'
-import { Diagnosis } from '../types'
+
+import patientService from '../../services/patients'
+import GenderIcon from './GenderIcon'
 
 const PatientProfile = ({ diagnoses }: { diagnoses: Diagnosis[] }) => {
   const [patient, setPatient] = useState<Patient | null>(null)
@@ -16,20 +15,10 @@ const PatientProfile = ({ diagnoses }: { diagnoses: Diagnosis[] }) => {
   }, [id])
 
   if (!patient) return null
-
-  const GenderIcon = () => {
-    switch (patient.gender) {
-      case Gender.Male:
-        return <MaleIcon />
-      case Gender.Female:
-        return <FemaleIcon />
-    }
-  }
-
   return (
     <div>
       <h2>
-        {patient.name} <GenderIcon />
+        {patient.name} <GenderIcon gender={patient.gender} />
       </h2>
       <p>ssn: {patient.ssn}</p>
       <p>occupation: {patient.occupation}</p>
