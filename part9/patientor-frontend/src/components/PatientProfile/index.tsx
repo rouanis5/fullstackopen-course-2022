@@ -1,6 +1,7 @@
 import { Patient, Diagnosis } from '../../types'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import EntryDetails from './EntryDetails'
 
 import patientService from '../../services/patients'
 import GenderIcon from './GenderIcon'
@@ -24,17 +25,7 @@ const PatientProfile = ({ diagnoses }: { diagnoses: Diagnosis[] }) => {
       <p>occupation: {patient.occupation}</p>
       <h3>entries</h3>
       {patient.entries.map((entry) => (
-        <div key={entry.id}>
-          {new Date(entry.date).toLocaleDateString()} {entry.description}
-          <ul>
-            {entry.diagnosisCodes.map((code, index) => (
-              <li key={index}>
-                {code}{' '}
-                {diagnoses.find((diagnose) => diagnose.code === code)?.name}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <EntryDetails key={entry.id} entry={entry} diagnoses={diagnoses} />
       ))}
     </div>
   )

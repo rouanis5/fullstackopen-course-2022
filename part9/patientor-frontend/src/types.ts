@@ -16,7 +16,8 @@ interface BasicEntry {
   diagnosisCodes: string[]
   description: string
 }
-interface HospitalEntry extends BasicEntry {
+
+export interface HospitalEntry extends BasicEntry {
   type: 'Hospital'
   discharge: {
     date: string
@@ -24,7 +25,7 @@ interface HospitalEntry extends BasicEntry {
   }
 }
 
-interface OccupationalHealthcareEntry extends BasicEntry {
+export interface OccupationalHealthcareEntry extends BasicEntry {
   type: 'OccupationalHealthcare'
   employerName: string
   sickLeave?: {
