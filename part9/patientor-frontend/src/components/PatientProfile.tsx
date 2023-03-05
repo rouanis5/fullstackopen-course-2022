@@ -4,8 +4,9 @@ import patientService from '../services/patients'
 import { Patient, Gender } from '../types'
 import MaleIcon from '@mui/icons-material/Male'
 import FemaleIcon from '@mui/icons-material/Female'
+import { Diagnosis } from '../types'
 
-const PatientProfile = () => {
+const PatientProfile = ({ diagnoses }: { diagnoses: Diagnosis[] }) => {
   const [patient, setPatient] = useState<Patient | null>(null)
   const { id } = useParams()
 
@@ -38,7 +39,10 @@ const PatientProfile = () => {
           {new Date(entry.date).toLocaleDateString()} {entry.description}
           <ul>
             {entry.diagnosisCodes.map((code, index) => (
-              <li key={index}>{code}</li>
+              <li key={index}>
+                {code}{' '}
+                {diagnoses.find((diagnose) => diagnose.code === code)?.name}
+              </li>
             ))}
           </ul>
         </div>
