@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const BasicEntrySchema = z.object({
+const BasicEntrySchema = z.object({
   id: z.string(),
   date: z.coerce.date(),
   specialist: z.string(),
@@ -8,7 +8,7 @@ export const BasicEntrySchema = z.object({
   description: z.string()
 })
 
-export const HospitalEntrySchema = BasicEntrySchema.extend({
+const HospitalEntrySchema = BasicEntrySchema.extend({
   type: z.literal('Hospital'),
   discharge: z.object({
     date: z.coerce.date(),
@@ -16,7 +16,7 @@ export const HospitalEntrySchema = BasicEntrySchema.extend({
   })
 })
 
-export const OccupationalHealthcareEntrySchema = BasicEntrySchema.extend({
+const OccupationalHealthcareEntrySchema = BasicEntrySchema.extend({
   type: z.literal('OccupationalHealthcare'),
   employerName: z.string(),
   sickLeave: z
@@ -27,6 +27,11 @@ export const OccupationalHealthcareEntrySchema = BasicEntrySchema.extend({
     .optional()
 })
 
+export const EntrySchema = z.union([
+  HospitalEntrySchema,
+  OccupationalHealthcareEntrySchema
+])
+
 export const PatientSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -34,9 +39,7 @@ export const PatientSchema = z.object({
   ssn: z.string(),
   gender: z.enum(['male', 'female']),
   occupation: z.string(),
-  entries: z
-    .array(z.union([HospitalEntrySchema, OccupationalHealthcareEntrySchema]))
-    .default([])
+  entries: z.array(EntrySchema).default([])
 })
 
 export const NewPatientSchema = PatientSchema.omit({ id: true })

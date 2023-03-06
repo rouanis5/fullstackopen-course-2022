@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import patientService from '../services/patientService'
-import { NewPatientSchema } from '../schema/Patient'
+import { NewPatientSchema, EntrySchema } from '../schema/Patient'
 
 const patientsRoute = Router()
 
@@ -22,6 +22,18 @@ patientsRoute.route('/:id').get((req, res) => {
     return res.status(404).end()
   }
   return res.json(result)
+})
+
+patientsRoute.route('/:id/entries').post((req, res) => {
+  const patient = patientService.findById(req.params.id)
+  if (!patient) {
+    res.status(404).end()
+    return
+  }
+
+  const entry = EntrySchema.parse(req.body)
+  patient.entries.push(entry)
+  res.json({ entry })
 })
 
 export default patientsRoute

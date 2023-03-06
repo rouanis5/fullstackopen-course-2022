@@ -13,8 +13,8 @@ export const errorHandler = (
 ) => {
   console.error(error.message)
   if (error instanceof ZodError) {
-    const { message, path } = error.errors[0]
-    res.status(400).json({ error: `${message} in ${path.join(', ')}` })
+    return res.status(400).json({ error: error.issues })
   }
   next(error)
+  return
 }
