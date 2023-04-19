@@ -1,0 +1,522 @@
+Script started on 2023-04-19 16:12:25+01:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="143" LINES="16"]
+[1m[7m%[27m[1m[0m                                                                                                                                              
+ 
+]2;rouanis5@dell-imo:~/my_repos/fullstackopen-course-2022/part12/script-answers]1;..cript-answers]7;file://dell-imo/home/rouanis5/my_repos/fullstackopen-course-2022/part12/script-answers
+[0m[27m[24m[J[01;32m➜ [01;32m [36mscript-answers [01;34mgit:([31mmain[34m)[33m ✗ [00m[00m[01;34m[00m[K[?1h=[?2004hss[90mcript[39ms[39mu[39m [39m [39m [39m [90mdo docker container run -it ubuntu bash[39m[39D[39md[39mo[39md[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [36D [90m docker container run -it ubuntu bash[39m[37D[39m [39md[39mo[39mc[39mk[39me[39mr[39m [39mc[39mo[39mn[39mt[39ma[39mi[39mn[39me[39mr[39m [39ml[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [18D[90ms -a[39m[39ms[39m [39m-[39ma[?1l>[?2004l
+
+]2;sudo docker container ls -a]1;docker[sudo] password for rouanis5: 
+Sorry, try again.
+[sudo] password for rouanis5: 
+Sorry, try again.
+[sudo] password for rouanis5: 
+CONTAINER ID   IMAGE         COMMAND    CREATED          STATUS                          PORTS     NAMES
+3d11c2fbe847   ubuntu        "bash"     2 minutes ago    Exited (0) About a minute ago             laughing_bartik
+476439eebdc6   ubuntu        "bash"     25 minutes ago   Exited (0) 3 minutes ago                  exciting_boyd
+2000fdeb2641   ubuntu        "zsh"      25 minutes ago   Created                                   beautiful_cartwright
+41d0ce704db5   ubuntu        "bash"     44 minutes ago   Exited (130) 25 minutes ago               relaxed_noyce
+3e1042e1c09c   hello-world   "/hello"   2 days ago       Exited (0) 21 hours ago                   reverent_poitras
+8e4c2ced71c0   hello-world   "/hello"   2 days ago       Exited (0) 2 days ago                     suspicious_shaw
+b67a0d7c8f92   hello-world   "/hello"   3 days ago       Exited (0) 3 days ago                     quizzical_hertz
+76da5000ac64   hello-world   "/hello"   3 days ago       Exited (0) 3 days ago                     intelligent_mcnulty
+[1m[7m%[27m[1m[0m                                                                                                                                              
+ 
+]2;rouanis5@dell-imo:~/my_repos/fullstackopen-course-2022/part12/script-answers]1;..cript-answers]7;file://dell-imo/home/rouanis5/my_repos/fullstackopen-course-2022/part12/script-answers
+[0m[27m[24m[J[01;32m➜ [01;32m [36mscript-answers [01;34mgit:([31mmain[34m)[33m ✗ [00m[00m[01;34m[00m[K[?1h=[?2004hss[90mudo docker container ls -a[39m[26Ds[39mu[39md[39mo[39m [39md[39mo[39mc[39mk[39me[39mr[39m [39ms[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [14D[90mtart -i exciting_boyd[39m[21D[39mt[39ma[39mr[39mt[39m [39m-[39mi[39m [21Dl                    [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [33Dlaughing_bartik[15Dsudo docker start -i [7mlaughing_bartik[27m[15D[27ml[27ma[27mu[27mg[27mh[27mi[27mn[27mg[27m_[27mb[27ma[27mr[27mt[27mi[27mk[90mexciting_boyd[39m[13D[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [13D[?1l>[?2004l
+
+]2;sudo docker start -i laughing_bartik]1;docker[?2004h]0;root@3d11c2fbe847: /root@3d11c2fbe847:/# apt-get update
+[?2004l
+
+0% [Working]
+0% [Waiting for headers] [Waiting for headers]
+0% [Waiting for headers] [Waiting for headers]
+0% [Waiting for headers] [Waiting for headers]
+0% [Waiting for headers] [Waiting for headers]
+                                              
+Get:1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+
+0% [1 InRelease 1055 B/270 kB 0%] [Waiting for headers]
+0% [1 InRelease 109 kB/270 kB 40%] [Waiting for headers]
+                                                        
+Get:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]
+
+0% [1 InRelease 182 kB/270 kB 67%] [2 InRelease 1037 B/110 kB 1%]
+                                                                 
+0% [2 InRelease 32.0 kB/110 kB 29%]
+0% [Waiting for headers] [2 InRelease 37.4 kB/110 kB 34%]
+                                                         
+Get:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]
+
+0% [3 InRelease 1052 B/119 kB 1%] [2 InRelease 46.9 kB/110 kB 42%]
+                                                                  
+0% [2 InRelease 68.4 kB/110 kB 62%]
+0% [Waiting for headers] [2 InRelease 76.5 kB/110 kB 69%]
+                                                         
+Get:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [108 kB]
+
+0% [4 InRelease 6444 B/108 kB 6%] [2 InRelease 88.7 kB/110 kB 80%]
+                                                                  
+0% [2 InRelease 110 kB/110 kB 100%]
+                                   
+0% [Waiting for headers]
+0% [Waiting for headers]
+14% [Waiting for headers]
+                         
+Get:5 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+
+14% [5 Packages 1137 B/1792 kB 0%] [Waiting for headers]
+                                                        
+Get:6 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [911 kB]
+
+14% [5 Packages 72.6 kB/1792 kB 4%] [6 Packages 1139 B/911 kB 0%]
+15% [5 Packages 291 kB/1792 kB 16%] [6 Packages 186 kB/911 kB 20%]
+17% [5 Packages 509 kB/1792 kB 28%] [6 Packages 381 kB/911 kB 42%]
+18% [5 Packages 728 kB/1792 kB 41%] [6 Packages 598 kB/911 kB 66%]
+19% [5 Packages 916 kB/1792 kB 51%] [6 Packages 771 kB/911 kB 85%]                                                            368 kB/s 1min 6s
+20% [5 Packages 1086 kB/1792 kB 61%] [6 Packages 829 kB/911 kB 91%]                                                           368 kB/s 1min 5s
+21% [5 Packages 1310 kB/1792 kB 73%] [6 Packages 884 kB/911 kB 97%]                                                           368 kB/s 1min 5s
+21% [5 Packages 1456 kB/1792 kB 81%]                                                                                          368 kB/s 1min 4s
+21% [6 Packages store 0 B] [5 Packages 1456 kB/1792 kB 81%] [Waiting for headers]                                             368 kB/s 1min 4s
+22% [5 Packages 1456 kB/1792 kB 81%] [Waiting for headers]                                                                    368 kB/s 1min 4s
+                                                                                                                                              
+Get:7 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [1000 kB]
+
+22% [5 Packages 1518 kB/1792 kB 85%] [7 Packages 1138 B/1000 kB 0%]                                                           368 kB/s 1min 4s
+23% [5 Packages 1681 kB/1792 kB 94%] [7 Packages 145 kB/1000 kB 15%]                                                          368 kB/s 1min 3s
+23% [Waiting for headers] [7 Packages 175 kB/1000 kB 18%]                                                                     368 kB/s 1min 3s
+                                                                                                                                              
+Get:8 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+
+23% [8 Packages 203 B/17.5 MB 0%] [7 Packages 175 kB/1000 kB 18%]                                                             368 kB/s 1min 3s
+23% [5 Packages store 0 B] [8 Packages 203 B/17.5 MB 0%] [7 Packages 175 kB/1000 kB 18%]                                      368 kB/s 1min 3s
+24% [8 Packages 29.9 kB/17.5 MB 0%] [7 Packages 180 kB/1000 kB 18%]                                                           368 kB/s 1min 3s
+25% [8 Packages 248 kB/17.5 MB 1%] [7 Packages 240 kB/1000 kB 24%]                                                            368 kB/s 1min 2s
+26% [8 Packages 467 kB/17.5 MB 3%] [7 Packages 353 kB/1000 kB 35%]                                                            368 kB/s 1min 1s
+27% [8 Packages 688 kB/17.5 MB 4%] [7 Packages 415 kB/1000 kB 41%]                                                                368 kB/s 60s
+27% [8 Packages 906 kB/17.5 MB 5%] [7 Packages 482 kB/1000 kB 48%]                                                                368 kB/s 60s
+28% [8 Packages 1087 kB/17.5 MB 6%] [7 Packages 625 kB/1000 kB 63%]                                                               368 kB/s 59s
+29% [8 Packages 1286 kB/17.5 MB 7%] [7 Packages 798 kB/1000 kB 80%]                                                               368 kB/s 58s
+30% [8 Packages 1488 kB/17.5 MB 9%] [7 Packages 868 kB/1000 kB 87%]                                                               368 kB/s 57s
+31% [8 Packages 1691 kB/17.5 MB 10%] [Waiting for headers]                                                                        593 kB/s 35s
+                                                                                                                                              
+Get:9 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [23.2 kB]
+
+31% [8 Packages 1691 kB/17.5 MB 10%] [9 Packages 2357 B/23.2 kB 10%]                                                              593 kB/s 35s
+31% [7 Packages store 0 B] [8 Packages 1691 kB/17.5 MB 10%] [9 Packages 2357 B/23.2 kB 10%]                                       593 kB/s 35s
+32% [8 Packages 1707 kB/17.5 MB 10%] [9 Packages 15.8 kB/23.2 kB 68%]                                                             593 kB/s 34s
+32% [8 Packages 1707 kB/17.5 MB 10%] [Waiting for headers]                                                                        593 kB/s 34s
+                                                                                                                                              
+Get:10 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [959 kB]
+
+32% [8 Packages 1707 kB/17.5 MB 10%] [10 Packages 483 B/959 kB 0%]                                                                593 kB/s 34s
+32% [9 Packages store 0 B] [8 Packages 1707 kB/17.5 MB 10%] [10 Packages 483 B/959 kB 0%]                                         593 kB/s 34s
+32% [8 Packages 1707 kB/17.5 MB 10%] [10 Packages 483 B/959 kB 0%]                                                                593 kB/s 34s
+33% [8 Packages 1790 kB/17.5 MB 10%] [10 Packages 173 kB/959 kB 18%]                                                              593 kB/s 34s
+34% [8 Packages 1990 kB/17.5 MB 11%] [10 Packages 348 kB/959 kB 36%]                                                              593 kB/s 33s
+35% [8 Packages 2208 kB/17.5 MB 13%] [10 Packages 502 kB/959 kB 52%]                                                              593 kB/s 33s
+36% [8 Packages 2427 kB/17.5 MB 14%] [10 Packages 553 kB/959 kB 58%]                                                              593 kB/s 32s
+37% [8 Packages 2645 kB/17.5 MB 15%] [10 Packages 596 kB/959 kB 62%]                                                              593 kB/s 32s
+38% [8 Packages 2863 kB/17.5 MB 16%] [10 Packages 637 kB/959 kB 66%]                                                              593 kB/s 31s
+39% [8 Packages 3082 kB/17.5 MB 18%] [10 Packages 689 kB/959 kB 72%]                                                              593 kB/s 31s
+39% [8 Packages 3300 kB/17.5 MB 19%] [10 Packages 747 kB/959 kB 78%]                                                              593 kB/s 31s
+40% [8 Packages 3518 kB/17.5 MB 20%] [10 Packages 798 kB/959 kB 83%]                                                              593 kB/s 30s
+41% [8 Packages 3737 kB/17.5 MB 21%] [10 Packages 856 kB/959 kB 89%]                                                              593 kB/s 30s
+42% [8 Packages 3948 kB/17.5 MB 23%] [10 Packages 936 kB/959 kB 98%]                                                              593 kB/s 29s
+42% [8 Packages 4005 kB/17.5 MB 23%]                                                                                              593 kB/s 29s
+42% [10 Packages store 0 B] [8 Packages 4005 kB/17.5 MB 23%]                                                                      593 kB/s 29s
+43% [8 Packages 4028 kB/17.5 MB 23%]                                                                                              593 kB/s 29s
+43% [8 Packages 4174 kB/17.5 MB 24%]                                                                                              549 kB/s 31s
+44% [8 Packages 4392 kB/17.5 MB 25%]                                                                                              549 kB/s 31s
+45% [8 Packages 4610 kB/17.5 MB 26%]                                                                                              549 kB/s 30s
+45% [8 Packages 4829 kB/17.5 MB 28%]                                                                                              549 kB/s 30s
+46% [8 Packages 5047 kB/17.5 MB 29%]                                                                                              549 kB/s 29s
+47% [8 Packages 5265 kB/17.5 MB 30%]                                                                                              549 kB/s 29s
+47% [8 Packages 5484 kB/17.5 MB 31%]                                                                                              549 kB/s 29s
+48% [8 Packages 5702 kB/17.5 MB 33%]                                                                                              549 kB/s 28s
+48% [8 Packages 5921 kB/17.5 MB 34%]                                                                                              549 kB/s 28s
+49% [8 Packages 6139 kB/17.5 MB 35%]                                                                                              549 kB/s 27s
+50% [8 Packages 6357 kB/17.5 MB 36%]                                                                                              549 kB/s 27s
+50% [8 Packages 6576 kB/17.5 MB 38%]                                                                                              549 kB/s 27s
+51% [8 Packages 6794 kB/17.5 MB 39%]                                                                                              436 kB/s 33s
+52% [8 Packages 6976 kB/17.5 MB 40%]                                                                                              436 kB/s 33s
+52% [8 Packages 7162 kB/17.5 MB 41%]                                                                                              436 kB/s 32s
+53% [8 Packages 7382 kB/17.5 MB 42%]                                                                                              436 kB/s 32s
+53% [8 Packages 7595 kB/17.5 MB 43%]                                                                                              436 kB/s 31s
+54% [8 Packages 7813 kB/17.5 MB 45%]                                                                                              436 kB/s 31s
+55% [8 Packages 8032 kB/17.5 MB 46%]                                                                                              436 kB/s 30s
+55% [8 Packages 8250 kB/17.5 MB 47%]                                                                                              436 kB/s 30s
+56% [8 Packages 8468 kB/17.5 MB 48%]                                                                                              436 kB/s 29s
+57% [8 Packages 8687 kB/17.5 MB 50%]                                                                                              436 kB/s 29s
+57% [8 Packages 8905 kB/17.5 MB 51%]                                                                                              436 kB/s 28s
+58% [8 Packages 9123 kB/17.5 MB 52%]                                                                                              436 kB/s 28s
+59% [8 Packages 9342 kB/17.5 MB 53%]                                                                                              424 kB/s 28s
+59% [8 Packages 9560 kB/17.5 MB 55%]                                                                                              424 kB/s 28s
+60% [8 Packages 9779 kB/17.5 MB 56%]                                                                                              424 kB/s 27s
+61% [8 Packages 9997 kB/17.5 MB 57%]                                                                                              424 kB/s 27s
+61% [8 Packages 10.2 MB/17.5 MB 58%]                                                                                              424 kB/s 26s
+62% [8 Packages 10.4 MB/17.5 MB 60%]                                                                                              424 kB/s 26s
+62% [8 Packages 10.6 MB/17.5 MB 60%]                                                                                              424 kB/s 25s
+63% [8 Packages 10.8 MB/17.5 MB 62%]                                                                                              424 kB/s 25s
+64% [8 Packages 11.0 MB/17.5 MB 63%]                                                                                              424 kB/s 24s
+64% [8 Packages 11.2 MB/17.5 MB 64%]                                                                                              424 kB/s 24s
+65% [8 Packages 11.3 MB/17.5 MB 65%]                                                                                              424 kB/s 24s
+65% [8 Packages 11.4 MB/17.5 MB 66%]                                                                                              424 kB/s 23s
+66% [8 Packages 11.6 MB/17.5 MB 67%]                                                                                              382 kB/s 25s
+66% [8 Packages 11.9 MB/17.5 MB 68%]                                                                                              382 kB/s 25s
+67% [8 Packages 12.1 MB/17.5 MB 69%]                                                                                              382 kB/s 24s
+67% [8 Packages 12.2 MB/17.5 MB 70%]                                                                                              382 kB/s 24s
+68% [8 Packages 12.5 MB/17.5 MB 71%]                                                                                              382 kB/s 23s
+69% [8 Packages 12.7 MB/17.5 MB 73%]                                                                                              382 kB/s 23s
+69% [8 Packages 12.8 MB/17.5 MB 74%]                                                                                              382 kB/s 22s
+70% [8 Packages 13.0 MB/17.5 MB 74%]                                                                                              382 kB/s 22s
+70% [8 Packages 13.2 MB/17.5 MB 76%]                                                                                              382 kB/s 21s
+71% [8 Packages 13.4 MB/17.5 MB 77%]                                                                                              382 kB/s 21s
+71% [8 Packages 13.5 MB/17.5 MB 77%]                                                                                              382 kB/s 21s
+71% [8 Packages 13.6 MB/17.5 MB 78%]                                                                                              382 kB/s 20s
+71% [8 Packages 13.6 MB/17.5 MB 78%]                                                                                              332 kB/s 23s
+72% [8 Packages 13.8 MB/17.5 MB 79%]                                                                                              332 kB/s 23s
+73% [8 Packages 14.1 MB/17.5 MB 81%]                                                                                              332 kB/s 22s
+73% [8 Packages 14.3 MB/17.5 MB 82%]                                                                                              332 kB/s 21s
+74% [8 Packages 14.4 MB/17.5 MB 83%]                                                                                              332 kB/s 21s
+74% [8 Packages 14.5 MB/17.5 MB 83%]                                                                                              332 kB/s 20s
+75% [8 Packages 14.7 MB/17.5 MB 84%]                                                                                              332 kB/s 20s
+75% [8 Packages 14.8 MB/17.5 MB 85%]                                                                                              332 kB/s 20s
+76% [8 Packages 15.0 MB/17.5 MB 86%]                                                                                              332 kB/s 19s
+76% [8 Packages 15.2 MB/17.5 MB 87%]                                                                                              332 kB/s 19s
+77% [8 Packages 15.4 MB/17.5 MB 88%]                                                                                              332 kB/s 18s
+77% [8 Packages 15.5 MB/17.5 MB 89%]                                                                                              332 kB/s 18s
+78% [8 Packages 15.7 MB/17.5 MB 90%]                                                                                              345 kB/s 16s
+78% [8 Packages 15.9 MB/17.5 MB 91%]                                                                                              345 kB/s 16s
+79% [8 Packages 16.1 MB/17.5 MB 92%]                                                                                              345 kB/s 15s
+79% [8 Packages 16.2 MB/17.5 MB 93%]                                                                                              345 kB/s 15s
+79% [8 Packages 16.3 MB/17.5 MB 93%]                                                                                              345 kB/s 15s
+80% [8 Packages 16.4 MB/17.5 MB 94%]                                                                                              345 kB/s 14s
+80% [8 Packages 16.6 MB/17.5 MB 95%]                                                                                              345 kB/s 14s
+81% [8 Packages 16.8 MB/17.5 MB 96%]                                                                                              345 kB/s 13s
+81% [8 Packages 17.0 MB/17.5 MB 97%]                                                                                              345 kB/s 13s
+82% [8 Packages 17.1 MB/17.5 MB 98%]                                                                                              345 kB/s 12s
+82% [8 Packages 17.3 MB/17.5 MB 99%]                                                                                              345 kB/s 12s
+83% [Waiting for headers]                                                                                                         345 kB/s 11s
+                                                                                                                                              
+Get:11 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+
+83% [11 Packages 35 B/266 kB 0%]                                                                                                  345 kB/s 11s
+83% [8 Packages store 0 B] [11 Packages 35 B/266 kB 0%]                                                                           345 kB/s 11s
+84% [8 Packages store 0 B] [11 Packages 205 kB/266 kB 77%]                                                                        345 kB/s 11s
+84% [11 Packages 263 kB/266 kB 99%]                                                                                               330 kB/s 11s
+84% [Waiting for headers]                                                                                                         330 kB/s 11s
+                                                                                                                                              
+Get:12 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+
+84% [12 Packages 1038 B/164 kB 1%]                                                                                                330 kB/s 11s
+84% [11 Packages store 0 B] [12 Packages 1038 B/164 kB 1%]                                                                        330 kB/s 11s
+85% [12 Packages 9126 B/164 kB 6%]                                                                                                330 kB/s 11s
+85% [Working]                                                                                                                     330 kB/s 10s
+                                                                                                                                              
+Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1153 kB]
+
+85% [13 Packages 1045 B/1153 kB 0%]                                                                                               330 kB/s 10s
+85% [12 Packages store 0 B] [13 Packages 1045 B/1153 kB 0%]                                                                       330 kB/s 10s
+86% [13 Packages 1045 B/1153 kB 0%]                                                                                               330 kB/s 10s
+86% [13 Packages 166 kB/1153 kB 14%]                                                                                              330 kB/s 10s
+87% [13 Packages 365 kB/1153 kB 32%]                                                                                               330 kB/s 9s
+87% [13 Packages 529 kB/1153 kB 46%]                                                                                               330 kB/s 9s
+88% [13 Packages 729 kB/1153 kB 63%]                                                                                               330 kB/s 8s
+89% [13 Packages 876 kB/1153 kB 76%]                                                                                               330 kB/s 8s
+89% [13 Packages 1020 kB/1153 kB 88%]                                                                                              330 kB/s 7s
+89% [Waiting for headers]                                                                                                          330 kB/s 7s
+                                                                                                                                              
+Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [28.6 kB]
+
+89% [14 Packages 1812 B/28.6 kB 6%]                                                                                                330 kB/s 7s
+89% [13 Packages store 0 B] [14 Packages 1812 B/28.6 kB 6%]                                                                        330 kB/s 7s
+90% [14 Packages 15.3 kB/28.6 kB 53%]                                                                                              330 kB/s 7s
+90% [Working]                                                                                                                      330 kB/s 7s
+90% [14 Packages store 0 B] [Waiting for headers]                                                                                  330 kB/s 7s
+91% [Waiting for headers]                                                                                                          330 kB/s 7s
+                                                                                                                                              
+Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [1300 kB]
+
+91% [15 Packages 0 B/1300 kB 0%]                                                                                                   330 kB/s 7s
+91% [15 Packages 167 kB/1300 kB 13%]                                                                                               330 kB/s 6s
+91% [15 Packages 321 kB/1300 kB 25%]                                                                                               330 kB/s 6s
+92% [15 Packages 499 kB/1300 kB 38%]                                                                                               330 kB/s 5s
+93% [15 Packages 685 kB/1300 kB 53%]                                                                                               330 kB/s 5s
+93% [15 Packages 728 kB/1300 kB 56%]                                                                                               330 kB/s 5s
+93% [15 Packages 875 kB/1300 kB 67%]                                                                                               330 kB/s 4s
+94% [15 Packages 1073 kB/1300 kB 83%]                                                                                              330 kB/s 4s
+94% [15 Packages 1240 kB/1300 kB 95%]                                                                                              330 kB/s 3s
+94% [Waiting for headers]                                                                                                          330 kB/s 3s
+                                                                                                                                              
+Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [1054 kB]
+
+94% [16 Packages 958 B/1054 kB 0%]                                                                                                 330 kB/s 3s
+94% [15 Packages store 0 B] [16 Packages 958 B/1054 kB 0%]                                                                         330 kB/s 3s
+95% [16 Packages 38.7 kB/1054 kB 4%]                                                                                               330 kB/s 3s
+96% [16 Packages 210 kB/1054 kB 20%]                                                                                               330 kB/s 2s
+96% [16 Packages 385 kB/1054 kB 37%]                                                                                               330 kB/s 2s
+97% [16 Packages 571 kB/1054 kB 54%]                                                                                               330 kB/s 1s
+97% [16 Packages 741 kB/1054 kB 70%]                                                                                               330 kB/s 1s
+98% [16 Packages 849 kB/1054 kB 80%]                                                                                               330 kB/s 0s
+98% [16 Packages 1013 kB/1054 kB 96%]                                                                                              330 kB/s 0s
+98% [Working]                                                                                                                      330 kB/s 0s
+98% [16 Packages store 0 B] [Connecting to archive.ubuntu.com]                                                                     330 kB/s 0s
+99% [Connecting to archive.ubuntu.com]                                                                                             330 kB/s 0s
+99% [Waiting for headers]                                                                                                          330 kB/s 0s
+99% [Waiting for headers]                                                                                                          260 kB/s 0s
+99% [Waiting for headers]                                                                                                          260 kB/s 0s
+99% [Waiting for headers]                                                                                                          260 kB/s 0s
+99% [Waiting for headers]                                                                                                          260 kB/s 0s
+99% [Waiting for headers]                                                                                                          260 kB/s 0s
+99% [Waiting for headers]                                                                                                          260 kB/s 0s
+99% [Waiting for headers]                                                                                                          260 kB/s 0s
+                                                                                                                                              
+Get:17 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [23.3 kB]
+
+99% [17 Packages 1141 B/23.3 kB 5%]                                                                                                260 kB/s 0s
+99% [Working]                                                                                                                      260 kB/s 0s
+99% [17 Packages store 0 B] [Waiting for headers]                                                                                  260 kB/s 0s
+99% [Waiting for headers]                                                                                                          260 kB/s 0s
+                                                                                                                                              
+Get:18 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [49.4 kB]
+
+99% [18 Packages 1141 B/49.4 kB 2%]                                                                                                260 kB/s 0s
+99% [Working]                                                                                                                      260 kB/s 0s
+99% [18 Packages store 0 B]                                                                                                        260 kB/s 0s
+100% [Working]                                                                                                                     260 kB/s 0s
+                                                                                                                                              
+Fetched 26.8 MB in 1min 11s (376 kB/s)
+
+Reading package lists... 0%
+
+Reading package lists... 0%
+
+Reading package lists... 0%
+
+Reading package lists... 6%
+
+Reading package lists... 6%
+
+Reading package lists... 7%
+
+Reading package lists... 7%
+
+Reading package lists... 69%
+
+Reading package lists... 69%
+
+Reading package lists... 70%
+
+Reading package lists... 70%
+
+Reading package lists... 75%
+
+Reading package lists... 75%
+
+Reading package lists... 80%
+
+Reading package lists... 80%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 90%
+
+Reading package lists... 90%
+
+Reading package lists... 95%
+
+Reading package lists... 95%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... Done
+
+[?2004h]0;root@3d11c2fbe847: /root@3d11c2fbe847:/# [7mapt-get -y install nano[27mapt-get -y install nano
+[?2004l
+
+Reading package lists... 0%
+
+Reading package lists... 0%
+
+Reading package lists... 0%
+
+Reading package lists... 6%
+
+Reading package lists... 6%
+
+Reading package lists... 7%
+
+Reading package lists... 7%
+
+Reading package lists... 69%
+
+Reading package lists... 69%
+
+Reading package lists... 70%
+
+Reading package lists... 70%
+
+Reading package lists... 75%
+
+Reading package lists... 75%
+
+Reading package lists... 80%
+
+Reading package lists... 80%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 90%
+
+Reading package lists... 90%
+
+Reading package lists... 95%
+
+Reading package lists... 95%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... Done
+
+
+Building dependency tree... 0%
+
+Building dependency tree... 0%
+
+Building dependency tree... 50%
+
+Building dependency tree... 50%
+
+Building dependency tree... 59%
+
+Building dependency tree... Done
+
+
+Reading state information... 0% 
+
+Reading state information... 0%
+
+Reading state information... Done
+
+Suggested packages:
+  hunspell
+The following NEW packages will be installed:
+  nano
+0 upgraded, 1 newly installed, 0 to remove and 4 not upgraded.
+Need to get 280 kB of archives.
+After this operation, 881 kB of additional disk space will be used.
+
+0% [Working]
+0% [Connecting to archive.ubuntu.com (91.189.91.38)]
+                                                    
+Get:1 http://archive.ubuntu.com/ubuntu jammy/main amd64 nano amd64 6.2-1 [280 kB]
+
+                                                    
+0% [1 nano 1005 B/280 kB 0%]
+13% [1 nano 46.1 kB/280 kB 16%]
+                               
+64% [1 nano 223 kB/280 kB 80%]
+                              
+100% [Working]
+              
+Fetched 280 kB in 2s (139 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package nano.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 4395 files and directories currently installed.)
+Preparing to unpack .../archives/nano_6.2-1_amd64.deb ...
+Unpacking nano (6.2-1) ...
+Setting up nano (6.2-1) ...
+update-alternatives: using /bin/nano to provide /usr/bin/editor (editor) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/editor.1.gz because associated file /usr/share/man/man1/nano.1.gz (of link group editor) doesn't exist
+update-alternatives: using /bin/nano to provide /usr/bin/pico (pico) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/pico.1.gz because associated file /usr/share/man/man1/nano.1.gz (of link group pico) doesn't exist
+[?2004h]0;root@3d11c2fbe847: /root@3d11c2fbe847:/# nano /usr/src/app/index.js
+[?2004l
+[?2004h[?1049h[22;0;0t[1;16r(B[m[4l[?7h[39;49m[?1h=[?1h=[?25l[39;49m(B[m[H[2J[14;65H(B[0;7m[ Reading... ](B[m[14;64H(B[0;7m[ Read 0 lines ](B[m[H(B[0;7m  GNU nano 6.2 [48b/usr/src/app/index.js [57b [1;142H(B[m
+[15d(B[0;7m^G(B[m Help[15;16H(B[0;7m^O(B[m Write Out   (B[0;7m^W(B[m Where Is    (B[0;7m^K(B[m Cut[15;61H(B[0;7m^T(B[m Execute     (B[0;7m^C(B[m Location    (B[0;7mM-U(B[m Undo[106G(B[0;7mM-A(B[m Set Mark   (B[0;7mM-](B[m To Bracket
+[16d(B[0;7m^X(B[m Exit[16;16H(B[0;7m^R(B[m Read File   (B[0;7m^\(B[m Replace     (B[0;7m^U(B[m Paste[61G(B[0;7m^J(B[m Justify     (B[0;7m^/(B[m Go To Line  (B[0;7mM-E(B[m Redo[106G(B[0;7mM-6(B[m Copy[121G(B[0;7m^Q(B[m Where Was
+[2d[?12l[?25h[?25l[1;86H(B[0;7m*
+[14d(B[m[K[1;142H
+[2dconsole.log((B[0;1m[35m'Hello World'[39m(B[m)[?12l[?25h[?25l
+[14d(B[0;7mSave modified buffer? [120b [15;1H Y(B[m Yes[K
+[16d(B[0;7m N(B[m No  [16;16H (B[0;7m^C(B[m Cancel[K[14;23H[?12l[?25h[?25l
+[15d(B[0;7m^G(B[m Help[15;36H(B[0;7mM-D(B[m DOS Format[15;71H(B[0;7mM-A(B[m Append[15;106H(B[0;7mM-B(B[m Backup File
+[16d(B[0;7m^C(B[m Cancel[17G [8b[16;36H(B[0;7mM-M(B[m Mac Format[16;71H(B[0;7mM-P(B[m Prepend[16;106H(B[0;7m^T(B[m Browse
+[14d(B[0;7mFile Name to Write: /usr/src/app/index.js(B[m[?12l[?25h[?25l[14;64H[1K (B[0;7m[ Writing... ](B[m[K[1;86H(B[0;7m [142G(B[m[14;64H(B[0;7m[ Wrote 1 line ](B[m
+[J[16d[?12l[?25h[16;1H[?1049l[23;0;0t
+[?1l>[?2004l[?2004h]0;root@3d11c2fbe847: /root@3d11c2fbe847:/# [Kexit    echo /usr/src/app/index.js 
+[?2004l
+/usr/src/app/index.js
+[?2004h]0;root@3d11c2fbe847: /root@3d11c2fbe847:/# [Kecho /usr/src/app/index.js [1P[1P[1P[1P[1@c[1@a[1@t
+[?2004l
+console.log('Hello World')
+[?2004h]0;root@3d11c2fbe847: /root@3d11c2fbe847:/# [Kexit
+[?2004l
+exit
+[1m[7m%[27m[1m[0m                                                                                                                                              
+ 
+]2;rouanis5@dell-imo:~/my_repos/fullstackopen-course-2022/part12/script-answers]1;..cript-answers]7;file://dell-imo/home/rouanis5/my_repos/fullstackopen-course-2022/part12/script-answers
+[0m[27m[24m[J[01;32m➜ [01;32m [36mscript-answers [01;34mgit:([31mmain[34m)[33m ✗ [00m[00m[01;34m[00m[K[?1h=[?2004hee[90mxit[39me[39mx[39mi[39mt[?1l>[?2004l
+
+]2;exit]1;exit
+Script done on 2023-04-19 16:15:26+01:00 [COMMAND_EXIT_CODE="0"]
