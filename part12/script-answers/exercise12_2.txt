@@ -1,34 +1,25 @@
-Script started on 2023-04-16 19:45:44+01:00 [TERM="xterm-256color" TTY="/dev/pts/2" COLUMNS="146" LINES="16"]
-[1m[7m%[27m[1m[0m                                                                                                                                                  ]2;rouanis5@dell-imo:~/my_repos/fullstackopen-course-2022/part12/script-answers]1;..cript-answers]7;file://dell-imo/home/rouanis5/my_repos/fullstackopen-course-2022/part12/script-answers[0m[27m[24m[J[01;32m➜ [01;32m [36mscript-answers [01;34mgit:([31mmain[34m)[33m ✗ [00m[00m[01;34m[00m[K[?1h=[?2004hss[90mcript[39ms[39mu[39m [39m [39m [39m [90mdo mkdir -p /usr/src/app[39m[24D[39md[39mo[39m [39md[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [20D[90mocker container run hello-world[39m[31D[39mo[39mc[39mk[39me[39mr[39m [39mc[39mo[39mn[39mt[39ma[39mi[39mn[39me[39mr[39m [39mr[39mu[39mn[39m [39mh[39me[39ml[39ml[39mo[39m-[39mw[39mo[39mr[39ml[39md[?1l>[?2004l
-]2;sudo docker container run hello-world]1;docker[sudo] password for rouanis5: 
+Script started on 2023-04-19 16:09:34+01:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="143" LINES="16"]
+[1m[7m%[27m[1m[0m                                                                                                                                              
+ 
+]2;rouanis5@dell-imo:~/my_repos/fullstackopen-course-2022/part12/script-answers]1;..cript-answers]7;file://dell-imo/home/rouanis5/my_repos/fullstackopen-course-2022/part12/script-answers
+[0m[27m[24m[J[01;32m➜ [01;32m [36mscript-answers [01;34mgit:([31mmain[34m)[33m ✗ [00m[00m[01;34m[00m[K[?1h=[?2004hss[90mcript[39ms[39mu[39m [39m [39m [39m [90mdo docker start -i exciting_boyd[39m[32D[39md[39mo[39m [39md[39mo[39mc[39mk[39me[39mr[39m [39ms[39mt[39ma[39mr[39mt[39m [39m-[39mi[39m [39me[39mx[39mc[39mi[39mt[39mi[39mn[39mg[39m_[39mb[39mo[39my[39md[22Dcontainer ls -a       run -it ubuntu bashzsh bash[?1l>[?2004l
+
+]2;sudo docker container run -it ubuntu bash]1;docker[sudo] password for rouanis5: 
 Sorry, try again.
 [sudo] password for rouanis5: 
+Sorry, try again.
+[sudo] password for rouanis5: 
+[?2004h]0;root@3d11c2fbe847: /root@3d11c2fbe847:/# mkdir -p [7m/usr/src/app[27m/usr/src/app
+[?2004l
+[?2004h]0;root@3d11c2fbe847: /root@3d11c2fbe847:/# touch [7m/usr/src/app/index.js[27m/usr/src/app/index.js
+[?2004l
+[?2004h]0;root@3d11c2fbe847: /root@3d11c2fbe847:/# [Kexit
+[?2004l
+exit
+[1m[7m%[27m[1m[0m                                                                                                                                              
+ 
+]2;rouanis5@dell-imo:~/my_repos/fullstackopen-course-2022/part12/script-answers]1;..cript-answers]7;file://dell-imo/home/rouanis5/my_repos/fullstackopen-course-2022/part12/script-answers
+[0m[27m[24m[J[01;32m➜ [01;32m [36mscript-answers [01;34mgit:([31mmain[34m)[33m ✗ [00m[00m[01;34m[00m[K[?1h=[?2004hee[90mxit[39me[39mx[39mi[39mt[?1l>[?2004l
 
-Hello from Docker!
-This message shows that your installation appears to be working correctly.
-
-To generate this message, Docker took the following steps:
- 1. The Docker client contacted the Docker daemon.
- 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
-    (amd64)
- 3. The Docker daemon created a new container from that image which runs the
-    executable that produces the output you are currently reading.
- 4. The Docker daemon streamed that output to the Docker client, which sent it
-    to your terminal.
-
-To try something more ambitious, you can run an Ubuntu container with:
- $ docker run -it ubuntu bash
-
-Share images, automate workflows, and more with a free Docker ID:
- https://hub.docker.com/
-
-For more examples and ideas, visit:
- https://docs.docker.com/get-started/
-
-[1m[7m%[27m[1m[0m                                                                                                                                                  ]2;rouanis5@dell-imo:~/my_repos/fullstackopen-course-2022/part12/script-answers]1;..cript-answers]7;file://dell-imo/home/rouanis5/my_repos/fullstackopen-course-2022/part12/script-answers[0m[27m[24m[J[01;32m➜ [01;32m [36mscript-answers [01;34mgit:([31mmain[34m)[33m ✗ [00m[00m[01;34m[00m[K[?1h=[?2004heecho "hello"[12D[7me[7mc[7mh[7mo[7m [7m"[7mh[7me[7ml[7ml[7mo[7m"[27m[12D[27me[27mc[27mh[27mo[27m [27m"[27mh[27me[27ml[27ml[27mo[27m"[?1l>[?2004l
-]2;echo "hello"]1;echohello
-[1m[7m%[27m[1m[0m                                                                                                                                                  ]2;rouanis5@dell-imo:~/my_repos/fullstackopen-course-2022/part12/script-answers]1;..cript-answers]7;file://dell-imo/home/rouanis5/my_repos/fullstackopen-course-2022/part12/script-answers[0m[27m[24m[J[01;32m➜ [01;32m [36mscript-answers [01;34mgit:([31mmain[34m)[33m ✗ [00m[00m[01;34m[00m[K[?1h=[?2004hmm[90mkdir -p ./usr/src/app[39m[21Dm[39mk[39md[39mi[39mr[39m [39m-[39mp[39m [39m.[39m/[39mu[39ms[39mr[39m/[39ms[39mr[39mc[39m/[39ma[39mp[39mp[?1l>[?2004l
-]2;mkdir -p ./usr/src/app]1;mkdir[1m[7m%[27m[1m[0m                                                                                                                                                  ]2;rouanis5@dell-imo:~/my_repos/fullstackopen-course-2022/part12/script-answers]1;..cript-answers]7;file://dell-imo/home/rouanis5/my_repos/fullstackopen-course-2022/part12/script-answers[0m[27m[24m[J[01;32m➜ [01;32m [36mscript-answers [01;34mgit:([31mmain[34m)[33m ✗ [00m[00m[01;34m[00m[K[?1h=[?2004htt[90mouch ./usr/src/app/index.js[39m[27Dt[39mo[39mu[39mc[39mh[39m [39m.[39m/[39mu[39ms[39mr[39m/[39ms[39mr[39mc[39m/[39ma[39mp[39mp[39m/[39mi[39mn[39md[39me[39mx[39m.[39mj[39ms[?1l>[?2004l
-]2;touch ./usr/src/app/index.js]1;touch[1m[7m%[27m[1m[0m                                                                                                                                                  ]2;rouanis5@dell-imo:~/my_repos/fullstackopen-course-2022/part12/script-answers]1;..cript-answers]7;file://dell-imo/home/rouanis5/my_repos/fullstackopen-course-2022/part12/script-answers[0m[27m[24m[J[01;32m➜ [01;32m [36mscript-answers [01;34mgit:([31mmain[34m)[33m ✗ [00m[00m[01;34m[00m[K[?1h=[?2004hee[90mcho "hello"[39m[11De[39mx[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [10D[90mit[39m[39mi[39mt[?1l>[?2004l
 ]2;exit]1;exit
-Script done on 2023-04-16 19:47:10+01:00 [COMMAND_EXIT_CODE="0"]
+Script done on 2023-04-19 16:10:57+01:00 [COMMAND_EXIT_CODE="0"]
