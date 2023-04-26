@@ -1,0 +1,348 @@
+Script started on 2023-04-26 19:13:17+01:00 [TERM="xterm-256color" TTY="/dev/pts/11" COLUMNS="154" LINES="10"]
+[1m[7m%[27m[1m[0m                                                                                                                                                         
+ 
+]2;rouanis5@fedora:~/Repositories/fullstackopen-course-2022/part12]1;..e-2022/part12]7;file://fedora/home/rouanis5/Repositories/fullstackopen-course-2022/part12
+[0m[27m[24m[J[01;32m➜  [36mpart12[00m [01;34mgit:([31mmain[34m) [33m✗[00m [K[?1h=[?2004hddocker ps -a[?1l>[?2004l
+
+]2;docker ps -a]1;dockerCONTAINER ID   IMAGE            COMMAND                  CREATED          STATUS                        PORTS     NAMES
+8baacc1f0d7c   mongo            "docker-entrypoint.s…"   57 minutes ago   Exited (137) 2 minutes ago              todo-backend-mongo-1
+cf1720457ca9   redis            "docker-entrypoint.s…"   57 minutes ago   Exited (137) 13 seconds ago             todo-backend-redis-1
+efa02bafa999   nginx            "/docker-entrypoint.…"   3 hours ago      Exited (137) 3 hours ago                focused_galileo
+a92fc3ee1f88   nginx            "/docker-entrypoint.…"   3 hours ago      Exited (127) 3 hours ago                practical_chebyshev
+af977cf7678c   nginx            "/docker-entrypoint.…"   3 hours ago      Exited (127) 3 hours ago                distracted_raman
+1b12057798d1   todo-backend     "docker-entrypoint.s…"   22 hours ago     Exited (137) 21 hours ago               todo-backend-app-1
+5fb032768e0b   express-server   "docker-entrypoint.s…"   45 hours ago     Exited (137) 45 hours ago               hardcore_napier
+14903e140b18   express-server   "docker-entrypoint.s…"   45 hours ago     Created                                 condescending_keldysh
+98a0b99eb491   0f7eef62a5c4     "docker-entrypoint.s…"   2 days ago       Exited (137) 45 hours ago               peaceful_carver
+adb9b2c30e3e   hello-world      "/hello"                 5 days ago       Exited (0) 5 days ago                   modest_lovelace
+[1m[7m%[27m[1m[0m                                                                                                                                                         
+ 
+]2;rouanis5@fedora:~/Repositories/fullstackopen-course-2022/part12]1;..e-2022/part12]7;file://fedora/home/rouanis5/Repositories/fullstackopen-course-2022/part12
+[0m[27m[24m[J[01;32m➜  [36mpart12[00m [01;34mgit:([31mmain[34m) [33m✗[00m [K[?1h=[?2004hccoc  ddocker startcstartostartnstarttstartastartistartnstartestartrstart[1C start[1C[1C[1C[1C[1C [7mtodo-backend-redis-1[27m[20D[27mt[27mo[27md[27mo[27m-[27mb[27ma[27mc[27mk[27me[27mn[27md[27m-[27mr[27me[27md[27mi[27ms[27m-[27m1[?1l>[?2004l
+
+]2;docker container start todo-backend-redis-1]1;dockertodo-backend-redis-1
+[1m[7m%[27m[1m[0m                                                                                                                                                         
+ 
+]2;rouanis5@fedora:~/Repositories/fullstackopen-course-2022/part12]1;..e-2022/part12]7;file://fedora/home/rouanis5/Repositories/fullstackopen-course-2022/part12
+[0m[27m[24m[J[01;32m➜  [36mpart12[00m [01;34mgit:([31mmain[34m) [33m✗[00m [K[?1h=[?2004hddocker exec todo-backend-redis-1 bash[1C[1C todo-backend-redis-1 bash[26D- todo-backend-redis-1 bash[26Di todo-backend-redis-1 bash[26Dt todo-backend-redis-1 bash[26D[1C[?1l>[?2004l
+
+]2;docker exec -it todo-backend-redis-1 bash]1;docker[?2004hroot@cf1720457ca9:/data# redis-cli
+[?2004l
+127.0.0.1:6379> 
+[0K127.0.0.1:6379> K
+[17C
+[0K127.0.0.1:6379> KE
+[18C
+[0K127.0.0.1:6379> KEY
+[19C
+[0K127.0.0.1:6379> KEYS[0;90;49m pattern[0m
+[20C
+[0K127.0.0.1:6379> KEYS [0;90;49mpattern[0m
+[21C
+[0K127.0.0.1:6379> KEYS *[0;90;49m [0m
+[22C
+[0K127.0.0.1:6379> KEYS *
+[22C
+1) "redis-added-todos-151641"
+2) "redis-visits-counter-156452"
+127.0.0.1:6379> 
+[0K127.0.0.1:6379> s
+[17C
+[0K127.0.0.1:6379> se
+[18C
+[0K127.0.0.1:6379> set[0;90;49m key value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[19C
+[0K127.0.0.1:6379> set [0;90;49mkey value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[20C
+[0K127.0.0.1:6379> set r[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[21C
+[0K127.0.0.1:6379> set re[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[22C
+[0K127.0.0.1:6379> set red[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[23C
+[0K127.0.0.1:6379> set redi[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[24C
+[0K127.0.0.1:6379> set redis[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[25C
+[0K127.0.0.1:6379> set redis-[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[26C
+[0K127.0.0.1:6379> set redis-v[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[27C
+[0K127.0.0.1:6379> set redis-vi[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[28C
+[0K127.0.0.1:6379> set redis-vis[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[29C
+[0K127.0.0.1:6379> set redis-visi[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[30C
+[0K127.0.0.1:6379> set redis-visit[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[31C
+[0K127.0.0.1:6379> set redis-visits[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[32C
+[0K127.0.0.1:6379> set redis-visits-[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[33C
+[0K127.0.0.1:6379> set redis-visits-c[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[34C
+[0K127.0.0.1:6379> set redis-visits-co[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[35C
+[0K127.0.0.1:6379> set redis-visits-cou[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[36C
+[0K127.0.0.1:6379> set redis-visits-coun[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[37C
+[0K127.0.0.1:6379> set redis-visits-count[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[38C
+[0K127.0.0.1:6379> set redis-visits-counte[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[39C
+[0K127.0.0.1:6379> set redis-visits-counter[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[40C
+[0K127.0.0.1:6379> set redis-visits-counter-[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[41C
+[0K127.0.0.1:6379> set redis-visits-counter-1[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[42C
+[0K127.0.0.1:6379> set redis-visits-counter-15[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[43C
+[0K127.0.0.1:6379> set redis-visits-counter-156[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[44C
+[0K127.0.0.1:6379> set redis-visits-counter-1564[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[45C
+[0K127.0.0.1:6379> set redis-visits-counter-15645[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[46C
+[0K127.0.0.1:6379> set redis-visits-counter-156452[0;90;49m value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL[0m
+[47C
+[0K127.0.0.1:6379> set redis-visits-counter-156452 [0;90;49mvalue [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL[0m
+[48C
+[0K127.0.0.1:6379> set redis-visits-counter-156452 9[0;90;49m [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[49C
+[0K127.0.0.1:6379> set redis-visits-counter-156452 90[0;90;49m [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[50C
+[0K127.0.0.1:6379> set redis-visits-counter-156452 900[0;90;49m [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[51C
+[0K127.0.0.1:6379> set redis-visits-counter-156452 9001[0;90;49m [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL][0m
+[52C
+[0K127.0.0.1:6379> set redis-visits-counter-156452 9001
+[52C
+OK
+127.0.0.1:6379> 
+[0K127.0.0.1:6379> g
+[17C
+[0K127.0.0.1:6379> ge
+[18C
+[0K127.0.0.1:6379> get[0;90;49m key[0m
+[19C
+[0K127.0.0.1:6379> get [0;90;49mkey[0m
+[20C
+[0K127.0.0.1:6379> get r[0;90;49m [0m
+[21C
+[0K127.0.0.1:6379> get re[0;90;49m [0m
+[22C
+[0K127.0.0.1:6379> get red[0;90;49m [0m
+[23C
+[0K127.0.0.1:6379> get redi[0;90;49m [0m
+[24C
+[0K127.0.0.1:6379> get redis[0;90;49m [0m
+[25C
+[0K127.0.0.1:6379> get redis-[0;90;49m [0m
+[26C
+[0K127.0.0.1:6379> get redis-v[0;90;49m [0m
+[27C
+[0K127.0.0.1:6379> get redis-vi[0;90;49m [0m
+[28C
+[0K127.0.0.1:6379> get redis-vis[0;90;49m [0m
+[29C
+[0K127.0.0.1:6379> get redis-visi[0;90;49m [0m
+[30C
+[0K127.0.0.1:6379> get redis-visit[0;90;49m [0m
+[31C
+[0K127.0.0.1:6379> get redis-visits[0;90;49m [0m
+[32C
+[0K127.0.0.1:6379> get redis-visits-[0;90;49m [0m
+[33C
+[0K127.0.0.1:6379> get redis-visits-c[0;90;49m [0m
+[34C
+[0K127.0.0.1:6379> get redis-visits-co[0;90;49m [0m
+[35C
+[0K127.0.0.1:6379> get redis-visits-cou[0;90;49m [0m
+[36C
+[0K127.0.0.1:6379> get redis-visits-coun[0;90;49m [0m
+[37C
+[0K127.0.0.1:6379> get redis-visits-count[0;90;49m [0m
+[38C
+[0K127.0.0.1:6379> get redis-visits-counte[0;90;49m [0m
+[39C
+[0K127.0.0.1:6379> get redis-visits-counter[0;90;49m [0m
+[40C
+[0K127.0.0.1:6379> get redis-visits-counter-[0;90;49m [0m
+[41C
+[0K127.0.0.1:6379> get redis-visits-counter-1[0;90;49m [0m
+[42C
+[0K127.0.0.1:6379> get redis-visits-counter-15[0;90;49m [0m
+[43C
+[0K127.0.0.1:6379> get redis-visits-counter-156[0;90;49m [0m
+[44C
+[0K127.0.0.1:6379> get redis-visits-counter-1564[0;90;49m [0m
+[45C
+[0K127.0.0.1:6379> get redis-visits-counter-15645[0;90;49m [0m
+[46C
+[0K127.0.0.1:6379> get redis-visits-counter-156452[0;90;49m [0m
+[47C
+[0K127.0.0.1:6379> get redis-visits-counter-156452
+[47C
+"9001"
+127.0.0.1:6379> 
+[0K127.0.0.1:6379> g
+[17C
+[0K127.0.0.1:6379> ge
+[18C
+[0K127.0.0.1:6379> get[0;90;49m key[0m
+[19C
+[0K127.0.0.1:6379> get [0;90;49mkey[0m
+[20C
+[0K127.0.0.1:6379> get r[0;90;49m [0m
+[21C
+[0K127.0.0.1:6379> get re[0;90;49m [0m
+[22C
+[0K127.0.0.1:6379> get red[0;90;49m [0m
+[23C
+[0K127.0.0.1:6379> get redi[0;90;49m [0m
+[24C
+[0K127.0.0.1:6379> get redis[0;90;49m [0m
+[25C
+[0K127.0.0.1:6379> get redis-[0;90;49m [0m
+[26C
+[0K127.0.0.1:6379> get redis-a[0;90;49m [0m
+[27C
+[0K127.0.0.1:6379> get redis-ad[0;90;49m [0m
+[28C
+[0K127.0.0.1:6379> get redis-add[0;90;49m [0m
+[29C
+[0K127.0.0.1:6379> get redis-adde[0;90;49m [0m
+[30C
+[0K127.0.0.1:6379> get redis-added[0;90;49m [0m
+[31C
+[0K127.0.0.1:6379> get redis-added-[0;90;49m [0m
+[32C
+[0K127.0.0.1:6379> get redis-added-t[0;90;49m [0m
+[33C
+[0K127.0.0.1:6379> get redis-added-to[0;90;49m [0m
+[34C
+[0K127.0.0.1:6379> get redis-added-tod[0;90;49m [0m
+[35C
+[0K127.0.0.1:6379> get redis-added-todo[0;90;49m [0m
+[36C
+[0K127.0.0.1:6379> get redis-added-todos[0;90;49m [0m
+[37C
+[0K127.0.0.1:6379> get redis-added-todos-[0;90;49m [0m
+[38C
+[0K127.0.0.1:6379> get redis-added-todos-1[0;90;49m [0m
+[39C
+[0K127.0.0.1:6379> get redis-added-todos-15[0;90;49m [0m
+[40C
+[0K127.0.0.1:6379> get redis-added-todos-151[0;90;49m [0m
+[41C
+[0K127.0.0.1:6379> get redis-added-todos-1516[0;90;49m [0m
+[42C
+[0K127.0.0.1:6379> get redis-added-todos-15164[0;90;49m [0m
+[43C
+[0K127.0.0.1:6379> get redis-added-todos-151641[0;90;49m [0m
+[44C
+[0K127.0.0.1:6379> get redis-added-todos-151641
+[44C
+"3"
+127.0.0.1:6379> 
+[0K127.0.0.1:6379> get redis-added-todos-151641[0;90;49m [0m
+[44C
+[0K127.0.0.1:6379> get redis-added-todos-151641
+[44C
+"4"
+127.0.0.1:6379> 
+[0K127.0.0.1:6379> d
+[17C
+[0K127.0.0.1:6379> de
+[18C
+[0K127.0.0.1:6379> det
+[19C
+[0K127.0.0.1:6379> de
+[18C
+[0K127.0.0.1:6379> del[0;90;49m key [key ...][0m
+[19C
+[0K127.0.0.1:6379> del [0;90;49mkey [key ...][0m
+[20C
+[0K127.0.0.1:6379> del r[0;90;49m [key ...][0m
+[21C
+[0K127.0.0.1:6379> del re[0;90;49m [key ...][0m
+[22C
+[0K127.0.0.1:6379> del red[0;90;49m [key ...][0m
+[23C
+[0K127.0.0.1:6379> del redi[0;90;49m [key ...][0m
+[24C
+[0K127.0.0.1:6379> del redis[0;90;49m [key ...][0m
+[25C
+[0K127.0.0.1:6379> del redis-[0;90;49m [key ...][0m
+[26C
+[0K127.0.0.1:6379> del redis-a[0;90;49m [key ...][0m
+[27C
+[0K127.0.0.1:6379> del redis-ad[0;90;49m [key ...][0m
+[28C
+[0K127.0.0.1:6379> del redis-add[0;90;49m [key ...][0m
+[29C
+[0K127.0.0.1:6379> del redis-adde[0;90;49m [key ...][0m
+[30C
+[0K127.0.0.1:6379> del redis-added[0;90;49m [key ...][0m
+[31C
+[0K127.0.0.1:6379> del redis-added-[0;90;49m [key ...][0m
+[32C
+[0K127.0.0.1:6379> del redis-added-t[0;90;49m [key ...][0m
+[33C
+[0K127.0.0.1:6379> del redis-added-to[0;90;49m [key ...][0m
+[34C
+[0K127.0.0.1:6379> del redis-added-tod[0;90;49m [key ...][0m
+[35C
+[0K127.0.0.1:6379> del redis-added-todo[0;90;49m [key ...][0m
+[36C
+[0K127.0.0.1:6379> del redis-added-todos[0;90;49m [key ...][0m
+[37C
+[0K127.0.0.1:6379> del redis-added-todos-[0;90;49m [key ...][0m
+[38C
+[0K127.0.0.1:6379> del redis-added-todos-1[0;90;49m [key ...][0m
+[39C
+[0K127.0.0.1:6379> del redis-added-todos-15[0;90;49m [key ...][0m
+[40C
+[0K127.0.0.1:6379> del redis-added-todos-151[0;90;49m [key ...][0m
+[41C
+[0K127.0.0.1:6379> del redis-added-todos-1516[0;90;49m [key ...][0m
+[42C
+[0K127.0.0.1:6379> del redis-added-todos-15164[0;90;49m [key ...][0m
+[43C
+[0K127.0.0.1:6379> del redis-added-todos-151641[0;90;49m [key ...][0m
+[44C
+[0K127.0.0.1:6379> del redis-added-todos-151641
+[44C
+(integer) 1
+127.0.0.1:6379> 
+[0K127.0.0.1:6379> del redis-added-todos-151641[0;90;49m [key ...][0m
+[44C
+[0K127.0.0.1:6379> get redis-added-todos-151641[0;90;49m [0m
+[44C
+[0K127.0.0.1:6379> get redis-added-todos-151641
+[44C
+(nil)
+127.0.0.1:6379> 
+[0K127.0.0.1:6379> e
+[17C
+[0K127.0.0.1:6379> ex
+[18C
+[0K127.0.0.1:6379> exi
+[19C
+[0K127.0.0.1:6379> exit
+[20C
+[0K127.0.0.1:6379> exit
+[20C
+[?2004hroot@cf1720457ca9:/data# exit
+[?2004l
+exit
+[1m[7m%[27m[1m[0m                                                                                                                                                     
+ 
+]2;rouanis5@fedora:~/Repositories/fullstackopen-course-2022/part12]1;..e-2022/part12]7;file://fedora/home/rouanis5/Repositories/fullstackopen-course-2022/part12
+[0m[27m[24m[J[01;32m➜  [36mpart12[00m [01;34mgit:([31mmain[34m) [33m✗[00m [K[?1h=[?2004heexit[?1l>[?2004l
+
+]2;exit]1;exit
+Script done on 2023-04-26 19:20:39+01:00 [COMMAND_EXIT_CODE="0"]
