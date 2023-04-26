@@ -22,6 +22,7 @@ const singleRouter = express.Router();
 const findByIdMiddleware = async (req, res, next) => {
   const { id } = req.params
   req.todo = await Todo.findById(id)
+  req.id = id
   if (!req.todo) return res.sendStatus(404)
 
   next()
@@ -35,13 +36,23 @@ singleRouter.delete('/', async (req, res) => {
 
 /* GET todo. */
 singleRouter.get('/', async (req, res) => {
-  res.sendStatus(405); // Implement this
+  res.json(req.todo)
 });
 
 /* PUT todo. */
 singleRouter.put('/', async (req, res) => {
-  res.sendStatus(405); // Implement this
-});
+  const { text, done } = req.body
+  if (!text || !done) {
+    return res.status(400).json({ error: 'missing parameters' })
+  }
+  const result = await Todo.findByIdAndUpdate(req.id, req.body, {
+    new: true,
+    runValidators: true,
+    context: 'query',
+  })
+
+  return res.json(result)
+})
 
 router.use('/:id', findByIdMiddleware, singleRouter)
 
