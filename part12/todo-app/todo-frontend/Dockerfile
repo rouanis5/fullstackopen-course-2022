@@ -1,14 +1,21 @@
-# The first FROM is now a stage called build-stage
-FROM node:16 AS build-stage
+# first stage
+FROM node:16 AS base
 WORKDIR /usr/src/app
 
 COPY . .
 
 RUN npm ci
 
-ENV REACT_APP_BACKEND_URL=http://localhost:3000/
-RUN npm run build
+ENV CI=true
+RUN [ "npm", "run", "test" ]
 
+# second stage
+FROM base as build-stage
+
+ENV REACT_APP_BACKEND_URL=http://localhost:3000/
+RUN ["npm", "run", "build"]
+
+# third stage
 # This is a new stage, everything before this is gone, except the files we want to COPY
 FROM nginx:1.20-alpine
 # COPY the directory build from build-stage to /usr/share/nginx/html
