@@ -12,7 +12,7 @@ RUN [ "npm", "run", "test" ]
 # second stage
 FROM base as build-stage
 
-ENV REACT_APP_BACKEND_URL=http://localhost:3000/
+ENV REACT_APP_BACKEND_URL=http://localhost:3001
 RUN ["npm", "run", "build"]
 
 # third stage
