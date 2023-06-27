@@ -8,5 +8,5 @@ COPY . .
 RUN npm install
 
 # npm start is the command to start the application in development mode
-ENV REACT_APP_BACKEND_URL=http://localhost:3001
+# ENV REACT_APP_BACKEND_URL=http://localhost:3001
 CMD ["npm", "start"]
