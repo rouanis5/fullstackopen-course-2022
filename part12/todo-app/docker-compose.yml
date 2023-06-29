@@ -18,7 +18,7 @@ services:
       - redis_data:/data
 
   server:
-    image: todo-backend-dev
+    image: todo-backend
     build:
       context: ./todo-backend
       dockerfile: Dockerfile
@@ -28,14 +28,14 @@ services:
     depends_on:
       - redis
       - mongo
-    container_name: todo-backend-dev
+    container_name: todo-backend
 
   app:
     build:
       context: ./todo-frontend
       dockerfile: Dockerfile
-    environment:
-      - REACT_APP_BACKEND_URL=/api
+      args:
+        - REACT_APP_BACKEND_URL=/api
     depends_on:
       - server
 

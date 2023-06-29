@@ -13,7 +13,8 @@ RUN [ "npm", "run", "test" ]
 FROM base as build-stage
 RUN npm i serve
 
-# ENV REACT_APP_BACKEND_URL=http://localhost:3001
+ARG REACT_APP_BACKEND_URL
+ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
 RUN npm run build
 
 CMD ["npx", "serve", "./build", "-l", "3000"]
